@@ -1,4 +1,4 @@
-package musicpractice.com.coeeter.clicktoeat
+package musicpractice.com.coeeter.clicktoeat.login
 
 import android.app.Activity
 import android.app.ActivityOptions
@@ -7,14 +7,16 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.view.inputmethod.InputMethod
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -23,6 +25,8 @@ import com.android.volley.RequestQueue
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import musicpractice.com.coeeter.clicktoeat.MainActivity
+import musicpractice.com.coeeter.clicktoeat.R
 import org.json.JSONObject
 import android.util.Pair as UtilPair
 
@@ -33,12 +37,14 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var errorView: TextView
     private lateinit var forgetPass: TextView
     private lateinit var signUp: TextView
-    private val logInLink: String = "http://10.0.2.2:8080/users/login"
+    private lateinit var logInLink: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         supportActionBar?.hide()
+
+        logInLink = "${getString(R.string.base_url)}/users/login"
 
         errorView = findViewById(R.id.error)
         usernameInput = findViewById(R.id.username)
@@ -60,8 +66,15 @@ class LoginActivity : AppCompatActivity() {
             )
         }
 
-        errorView.setOnClickListener{
-            animateErrorView(this, errorView, R.anim.slide_up, View.INVISIBLE)
+        val accountCreated = intent.getStringExtra("username")
+        if (accountCreated != null) {
+            animateErrorView(
+                this,
+                errorView,
+                R.anim.slide_down,
+                View.VISIBLE,
+                "Created account with username $accountCreated"
+            )
         }
 
         submitBtn.setOnClickListener {
@@ -123,31 +136,49 @@ class LoginActivity : AppCompatActivity() {
         }
 
         signUp.setOnClickListener {
-            startSignUpPage(this, findViewById(R.id.brand), submitBtn)
+            startSignUpPage(this, findViewById(R.id.brand), submitBtn, usernameInput)
         }
     }
 
     companion object {
-        fun animateErrorView(context: Context, errorView: TextView, anim: Int, visible: Int, errorMsg: String="") {
+        fun animateErrorView(context: Context, errorView: TextView, anim: Int, visible: Int, errorMsg: String="", scrollParent: ScrollView?=null) {
             if (visible != View.INVISIBLE) errorView.text = errorMsg
             if (errorView.isVisible && visible != View.INVISIBLE) return
             val animation = AnimationUtils.loadAnimation(context, anim)
             animation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationRepeat(animation: Animation?) {}
-                override fun onAnimationStart(animation: Animation?) {}
+                override fun onAnimationStart(animation: Animation?) {
+                    scrollParent?.smoothScrollTo(0, 0)
+                }
                 override fun onAnimationEnd(animation: Animation?) {
                     errorView.visibility = visible
+                    if (anim == R.anim.slide_up) return
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        val animationInverse = AnimationUtils.loadAnimation(
+                            context,
+                            R.anim.slide_up
+                        )
+                        animationInverse.setAnimationListener(object: Animation.AnimationListener {
+                            override fun onAnimationStart(animation: Animation?) {}
+                            override fun onAnimationRepeat(animation: Animation?) {}
+                            override fun onAnimationEnd(animation: Animation?) {
+                                errorView.visibility = View.INVISIBLE
+                            }
+                        })
+                        errorView.startAnimation(animationInverse)
+                    }, 2500)
                 }
             })
             errorView.startAnimation(animation)
         }
 
-        fun startSignUpPage(context: Activity, logo: TextView, button: Button) {
+        fun startSignUpPage(context: Activity, logo: TextView, button: Button, field: EditText) {
             val intent = Intent(context, SignUpActivity::class.java)
             val options = ActivityOptions.makeSceneTransitionAnimation(
                 context,
                 UtilPair.create(logo, "brand"),
-                UtilPair.create(button, "button")
+                UtilPair.create(button, "button"),
+                UtilPair.create(field, "field")
             )
             context.startActivity(intent, options.toBundle())
         }

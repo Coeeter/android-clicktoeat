@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         changeTitle("Home")
+        findViewById<NavigationBarView>(R.id.bottomNav).selectedItemId = R.id.miHome
 
         replaceFragment(FragmentHome())
 

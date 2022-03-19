@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import musicpractice.com.coeeter.clicktoeat.LoginActivity
+import musicpractice.com.coeeter.clicktoeat.login.LoginActivity
 import musicpractice.com.coeeter.clicktoeat.R
 
 class FragmentSettings : Fragment() {

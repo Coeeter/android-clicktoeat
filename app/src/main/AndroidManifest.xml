@@ -3,6 +3,7 @@
     package="musicpractice.com.coeeter.clicktoeat">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -13,13 +14,13 @@
         android:theme="@style/Theme.ClickToEat"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".SignUpActivity"
+            android:name=".login.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".ForgetPassword"
+            android:name=".login.ForgetPassword"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".SplashScreen"

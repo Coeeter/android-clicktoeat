@@ -1,4 +1,4 @@
-package musicpractice.com.coeeter.clicktoeat
+package musicpractice.com.coeeter.clicktoeat.login
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -15,9 +15,9 @@ import com.android.volley.Request
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import musicpractice.com.coeeter.clicktoeat.R
 import org.json.JSONArray
 import org.json.JSONObject
-import java.lang.Error
 import android.util.Pair as UtilPair
 
 class ForgetPassword : AppCompatActivity() {
@@ -25,21 +25,19 @@ class ForgetPassword : AppCompatActivity() {
     private lateinit var emailInput: EditText
     private lateinit var errorView: TextView
     private lateinit var signUp: TextView
-    private val forgetPasswordLink = "http://10.0.2.2:8080/users/forgotPassword"
+    private lateinit var forgetPasswordLink: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forget_password)
         supportActionBar?.hide()
 
+        forgetPasswordLink = "${getString(R.string.base_url)}/users/forgotPassword"
+
         submitBtn = findViewById(R.id.submitBtn)
         emailInput = findViewById(R.id.email)
         errorView = findViewById(R.id.error)
         signUp = findViewById(R.id.signup)
-
-        errorView.setOnClickListener {
-            LoginActivity.animateErrorView(this, errorView, R.anim.slide_up, View.INVISIBLE)
-        }
 
         submitBtn.setOnClickListener {
             LoginActivity.hideKeyboard(this)
@@ -115,8 +113,13 @@ class ForgetPassword : AppCompatActivity() {
         }
 
         signUp.setOnClickListener {
-            LoginActivity.startSignUpPage(this, findViewById(R.id.brand), submitBtn)
+            LoginActivity.startSignUpPage(this, findViewById(R.id.brand), submitBtn, emailInput)
         }
 
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(0, 0)
     }
 }

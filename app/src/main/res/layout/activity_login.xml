@@ -9,7 +9,7 @@
     android:clickable="true"
     android:focusable="true"
     android:background="@color/grey"
-    tools:context=".LoginActivity">
+    tools:context=".login.LoginActivity">
 
     <TextView
         android:id="@+id/error"
@@ -19,7 +19,8 @@
         android:padding="20sp"
         android:textColor="@color/white"
         android:textSize="25sp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:layout_alignParentTop="true"/>
 
     <TextView
         android:id="@+id/brand"

@@ -5,13 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".fragments.FragmentHome">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Home"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="50sp"
-        android:textColor="@color/orange"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:overScrollMode="never"
+        android:scrollbars="vertical"/>
 
 </RelativeLayout>

@@ -4,7 +4,6 @@
         <item name="colorPrimaryVariant">@color/orange</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorAccent">@color/orange</item>
-
         <item name="android:statusBarColor" tools:targetApi="l">@color/TransparentBlue</item>
         <item name="android:navigationBarColor" tools:targetApi="l">@color/darkBlue</item>
         <item name="actionBarTheme" tools:targetApi="l">@style/ThemeOverlay.ActionBar</item>

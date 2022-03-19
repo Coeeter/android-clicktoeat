@@ -4,7 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#ECECEC</color>
     <color name="orange">#fa4614</color>
-    <color name="darkOrange">#b63a18</color>
     <color name="darkBlue">#041b3f</color>
     <color name="TransparentBlue">#E8041B3F</color>
 </resources>

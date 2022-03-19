@@ -1,9 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUpActivity">
+    android:background="@color/grey"
+    tools:context=".login.SignUpActivity">
 
-</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView
+                android:id="@+id/error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/orange"
+                android:padding="20sp"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:visibility="invisible"
+                android:layout_alignParentTop="true"
+                android:translationZ="100dp"/>
+
+            <TextView
+                android:id="@+id/brand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textColor="@color/orange"
+                android:textSize="50sp"
+                android:textAlignment="center"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:transitionName="brand" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10sp"
+                android:id="@+id/form"
+                android:orientation="vertical"
+                android:transitionName="field"
+                android:layout_below="@+id/brand">
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/custom_name_icon"
+                    android:drawablePadding="12dp"
+                    android:inputType="textAutoComplete"
+                    android:maxLength="100"
+                    android:hint="Name"
+                    android:padding="20sp"
+                    android:textSize="24sp"
+                    android:background="@drawable/custom_input"
+                    android:autofillHints="name"
+                    android:layout_marginBottom="10sp"/>
+
+                <EditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/custom_username_icon"
+                    android:drawablePadding="12dp"
+                    android:inputType="textAutoComplete"
+                    android:maxLength="30"
+                    android:hint="Username"
+                    android:padding="20sp"
+                    android:textSize="24sp"
+                    android:background="@drawable/custom_input"
+                    android:autofillHints="username"
+                    android:layout_marginBottom="10sp"/>
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/custom_password_icon"
+                    android:drawablePadding="12dp"
+                    android:inputType="textPassword"
+                    android:maxLength="30"
+                    android:hint="Password"
+                    android:padding="20sp"
+                    android:textSize="24sp"
+                    android:background="@drawable/custom_input"
+                    android:autofillHints="password"
+                    android:layout_marginBottom="10sp"/>
+
+                <EditText
+                    android:id="@+id/confirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/custom_confirm_password_icon"
+                    android:drawablePadding="12dp"
+                    android:inputType="textPassword"
+                    android:maxLength="30"
+                    android:hint="Confirm Password"
+                    android:padding="20sp"
+                    android:textSize="24sp"
+                    android:background="@drawable/custom_input"
+                    android:autofillHints="password"
+                    android:layout_marginBottom="10sp"/>
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/custom_email_icon"
+                    android:drawablePadding="12dp"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="30"
+                    android:hint="Email"
+                    android:padding="20sp"
+                    android:textSize="24sp"
+                    android:background="@drawable/custom_input"
+                    android:autofillHints="password"
+                    android:layout_marginBottom="10sp"/>
+
+                <EditText
+                    android:id="@+id/phoneNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/custom_phone_icon"
+                    android:drawablePadding="12dp"
+                    android:inputType="phone"
+                    android:maxLength="30"
+                    android:hint="Phone Number"
+                    android:padding="20sp"
+                    android:textSize="24sp"
+                    android:background="@drawable/custom_input"
+                    android:autofillHints="password"
+                    android:layout_marginBottom="10sp"/>
+
+                <EditText
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/custom_address_icon"
+                    android:drawablePadding="12dp"
+                    android:inputType="textAutoComplete"
+                    android:maxLength="30"
+                    android:hint="Address"
+                    android:padding="20sp"
+                    android:textSize="24sp"
+                    android:background="@drawable/custom_input"
+                    android:autofillHints="postalAddress"
+                    android:layout_marginBottom="10sp"/>
+
+                <RadioGroup
+                    android:id="@+id/gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:id="@+id/male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:text="Male"
+                        android:layout_weight="1"
+                        android:textSize="24sp"/>
+                    <RadioButton
+                        android:id="@+id/female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:text="Female"
+                        android:layout_weight="1"
+                        android:textSize="24sp"/>
+                </RadioGroup>
+
+                <Button
+                    android:id="@+id/submitBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Register"
+                    android:textAllCaps="false"
+                    android:textSize="20sp"
+                    android:padding="15sp"
+                    android:transitionName="button"
+                    android:layout_marginTop="15sp"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+</ScrollView>
