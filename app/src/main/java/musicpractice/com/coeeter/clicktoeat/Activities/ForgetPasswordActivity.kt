@@ -1,4 +1,4 @@
-package musicpractice.com.coeeter.clicktoeat.login
+package musicpractice.com.coeeter.clicktoeat.Activities
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -14,13 +14,13 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import musicpractice.com.coeeter.clicktoeat.R
+import musicpractice.com.coeeter.clicktoeat.Api.VolleySingleton
 import org.json.JSONArray
 import org.json.JSONObject
 import android.util.Pair as UtilPair
 
-class ForgetPassword : AppCompatActivity() {
+class ForgetPasswordActivity : AppCompatActivity() {
     private lateinit var submitBtn: Button
     private lateinit var emailInput: EditText
     private lateinit var errorView: TextView
@@ -41,7 +41,6 @@ class ForgetPassword : AppCompatActivity() {
 
         submitBtn.setOnClickListener {
             LoginActivity.hideKeyboard(this)
-            val queue = Volley.newRequestQueue(this.applicationContext)
             val email = emailInput.text.toString().trim()
 
             if (email.isEmpty()) {
@@ -80,7 +79,7 @@ class ForgetPassword : AppCompatActivity() {
                             submitBtn.isEnabled = true
                             emailInput.isEnabled = true
                             if (!errorView.isInvisible) LoginActivity.animateErrorView(
-                                this@ForgetPassword,
+                                this@ForgetPasswordActivity,
                                 errorView,
                                 R.anim.slide_up,
                                 View.INVISIBLE
@@ -109,7 +108,7 @@ class ForgetPassword : AppCompatActivity() {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
             )
-            queue.add(request)
+            VolleySingleton.getInstance(this).addToQueue(request)
         }
 
         signUp.setOnClickListener {

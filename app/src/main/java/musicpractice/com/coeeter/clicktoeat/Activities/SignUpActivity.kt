@@ -1,4 +1,4 @@
-package musicpractice.com.coeeter.clicktoeat.login
+package musicpractice.com.coeeter.clicktoeat.Activities
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import musicpractice.com.coeeter.clicktoeat.R
+import musicpractice.com.coeeter.clicktoeat.Api.VolleySingleton
 import org.json.JSONObject
 
 class SignUpActivity : AppCompatActivity() {
@@ -102,8 +102,6 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val queue = Volley.newRequestQueue(this.applicationContext)
-
             val payload = JSONObject()
             payload.put("username", username)
             payload.put("password", password)
@@ -153,7 +151,7 @@ class SignUpActivity : AppCompatActivity() {
                 }
             )
 
-            queue.add(request)
+            VolleySingleton.getInstance(this).addToQueue(request)
         }
     }
 

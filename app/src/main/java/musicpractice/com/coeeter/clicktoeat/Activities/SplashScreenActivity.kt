@@ -1,13 +1,13 @@
-package musicpractice.com.coeeter.clicktoeat
+package musicpractice.com.coeeter.clicktoeat.Activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import musicpractice.com.coeeter.clicktoeat.login.LoginActivity
+import musicpractice.com.coeeter.clicktoeat.R
 
-class SplashScreen : AppCompatActivity() {
+class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)

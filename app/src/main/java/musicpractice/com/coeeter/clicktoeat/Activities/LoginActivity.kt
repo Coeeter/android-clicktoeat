@@ -1,4 +1,4 @@
-package musicpractice.com.coeeter.clicktoeat.login
+package musicpractice.com.coeeter.clicktoeat.Activities
 
 import android.app.Activity
 import android.app.ActivityOptions
@@ -21,12 +21,10 @@ import android.widget.TextView
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.android.volley.Request
-import com.android.volley.RequestQueue
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
-import musicpractice.com.coeeter.clicktoeat.MainActivity
 import musicpractice.com.coeeter.clicktoeat.R
+import musicpractice.com.coeeter.clicktoeat.Api.VolleySingleton
 import org.json.JSONObject
 import android.util.Pair as UtilPair
 
@@ -79,7 +77,6 @@ class LoginActivity : AppCompatActivity() {
 
         submitBtn.setOnClickListener {
             hideKeyboard(this)
-            val queue : RequestQueue = Volley.newRequestQueue(this.applicationContext)
             val username = usernameInput.text.toString().trim()
             val password = passwordInput.text.toString().trim()
 
@@ -119,11 +116,11 @@ class LoginActivity : AppCompatActivity() {
                 {
                     error : VolleyError -> Log.d("error", error.toString())
                 })
-            queue.add(request)
+            VolleySingleton.getInstance(this).addToQueue(request)
         }
 
         forgetPass.setOnClickListener {
-            val intent = Intent(this, ForgetPassword::class.java)
+            val intent = Intent(this, ForgetPasswordActivity::class.java)
             val options = ActivityOptions.makeSceneTransitionAnimation(this,
                 UtilPair.create(findViewById<View>(R.id.brand), "brand"),
                 UtilPair.create(usernameInput, "field"),

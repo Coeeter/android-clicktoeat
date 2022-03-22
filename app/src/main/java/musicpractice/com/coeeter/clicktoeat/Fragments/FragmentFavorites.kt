@@ -1,4 +1,4 @@
-package musicpractice.com.coeeter.clicktoeat.fragments
+package musicpractice.com.coeeter.clicktoeat.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

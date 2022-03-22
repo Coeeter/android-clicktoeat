@@ -24,10 +24,15 @@
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_edit_focused.xml" value="0.148" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_email.xml" value="0.143" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_email_focused.xml" value="0.143" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_favorite.xml" value="0.2335" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_favorite_border.xml" value="0.2335" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_filter_off.xml" value="0.163" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_home.xml" value="0.143" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_location_focused.xml" value="0.216" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_phone_focused.xml" value="0.148" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_star.xml" value="0.164" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/image_view_background.xml" value="0.165" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/nav_menu_btn_bg.xml" value="0.164" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/restaurant_card_layout.xml" value="0.162" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout-v28/restaurant_card.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.21171875" />
@@ -47,6 +52,8 @@
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/restaurant_card.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/restaurant_card_layout.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/menu/menu.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/menu/restaurant_menu.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/menu/search_menu.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.196" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.196" />
       </map>

@@ -14,16 +14,20 @@
         android:theme="@style/Theme.ClickToEat"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".login.SignUpActivity"
+            android:name=".Activities.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".login.ForgetPassword"
+            android:name=".Activities.ForgetPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".Activities.MainActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,9 +35,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
     </application>
 
 </manifest>
