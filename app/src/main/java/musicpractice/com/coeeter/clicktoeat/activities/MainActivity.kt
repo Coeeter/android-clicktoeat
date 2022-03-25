@@ -1,13 +1,13 @@
-package musicpractice.com.coeeter.clicktoeat.Activities
+package musicpractice.com.coeeter.clicktoeat.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationBarView
-import musicpractice.com.coeeter.clicktoeat.Fragments.FragmentFavorites
-import musicpractice.com.coeeter.clicktoeat.Fragments.FragmentHome
+import musicpractice.com.coeeter.clicktoeat.fragments.FragmentFavorites
+import musicpractice.com.coeeter.clicktoeat.fragments.FragmentHome
+import musicpractice.com.coeeter.clicktoeat.fragments.FragmentSettings
 import musicpractice.com.coeeter.clicktoeat.R
-import musicpractice.com.coeeter.clicktoeat.Fragments.FragmentSettings
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         replaceFragment(FragmentHome())
 
         navbar.setOnItemSelectedListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.miHome -> replaceFragment(FragmentHome())
                 R.id.miFavorites -> replaceFragment(FragmentFavorites())
                 R.id.miSettings -> replaceFragment(FragmentSettings())
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun replaceFragment(fragment : Fragment) {
+    private fun replaceFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.apply {
             replace(R.id.frameLayout, fragment)

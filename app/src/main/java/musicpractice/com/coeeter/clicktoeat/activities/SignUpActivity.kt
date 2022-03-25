@@ -1,4 +1,4 @@
-package musicpractice.com.coeeter.clicktoeat.Activities
+package musicpractice.com.coeeter.clicktoeat.activities
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -8,12 +8,14 @@ import android.util.Pair
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Request
-import com.android.volley.VolleyError
-import com.android.volley.toolbox.JsonObjectRequest
 import musicpractice.com.coeeter.clicktoeat.R
-import musicpractice.com.coeeter.clicktoeat.Api.VolleySingleton
+import musicpractice.com.coeeter.clicktoeat.webservices.RetrofitClient
+import musicpractice.com.coeeter.clicktoeat.models.DefaultResponseModel
+import okhttp3.RequestBody
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var userCreationLink: String
@@ -112,25 +114,29 @@ class SignUpActivity : AppCompatActivity() {
             payload.put("gender", gender)
             payload.put("address", address)
 
-            val request = JsonObjectRequest(
-                Request.Method.POST,
-                userCreationLink,
-                payload,
-                {
-                    request: JSONObject ->
-                    run {
-                        if (request.has("result")) {
+            val requestBody = RequestBody.create(
+                okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                payload.toString()
+            )
+
+            RetrofitClient.userService.createUser(requestBody)
+                .enqueue(object : Callback<DefaultResponseModel?> {
+                    override fun onResponse(
+                        call: Call<DefaultResponseModel?>,
+                        response: Response<DefaultResponseModel?>
+                    ) {
+                        if (response.body()!!.result != null) {
                             LoginActivity.animateErrorView(
                                 this@SignUpActivity,
                                 error,
                                 R.anim.slide_down,
                                 View.VISIBLE,
-                                request.getString("result"),
+                                response.body()!!.result!!,
                                 parent
                             )
-                            return@JsonObjectRequest
+                            return
                         }
-                        if (request.has("affectedRows") && request.getInt("affectedRows") == 1) {
+                        if (response.body()!!.affectedRows != null && response.body()!!.affectedRows == 1) {
                             val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
                             intent.putExtra("username", username)
                             val options = ActivityOptions
@@ -142,16 +148,14 @@ class SignUpActivity : AppCompatActivity() {
                                 )
                             startActivity(intent, options.toBundle())
                             finish()
-                            return@JsonObjectRequest
+                            return
                         }
                     }
-                },
-                {
-                    error: VolleyError -> Log.d("error", error.toString())
-                }
-            )
 
-            VolleySingleton.getInstance(this).addToQueue(request)
+                    override fun onFailure(call: Call<DefaultResponseModel?>, t: Throwable) {
+                        Log.d("poly", t.message.toString())
+                    }
+                })
         }
     }
 

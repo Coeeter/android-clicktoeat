@@ -1,11 +1,10 @@
-package musicpractice.com.coeeter.clicktoeat.Activities
+package musicpractice.com.coeeter.clicktoeat.activities
 
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -18,14 +17,17 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import com.android.volley.Request
-import com.android.volley.VolleyError
-import com.android.volley.toolbox.JsonObjectRequest
 import musicpractice.com.coeeter.clicktoeat.R
-import musicpractice.com.coeeter.clicktoeat.Api.VolleySingleton
+import musicpractice.com.coeeter.clicktoeat.webservices.RetrofitClient
+import musicpractice.com.coeeter.clicktoeat.models.DefaultResponseModel
+import okhttp3.RequestBody
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import android.util.Pair as UtilPair
 
 class LoginActivity : AppCompatActivity() {
@@ -51,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
         forgetPass = findViewById(R.id.forgetPass)
         signUp = findViewById(R.id.signup)
 
-        val editor : SharedPreferences.Editor = getSharedPreferences("memory", MODE_PRIVATE).edit()
+        val editor: SharedPreferences.Editor = getSharedPreferences("memory", MODE_PRIVATE).edit()
 
         val email = intent.getStringExtra("email")
         if (email != null) {
@@ -95,40 +97,60 @@ class LoginActivity : AppCompatActivity() {
             payload.put("username", username)
             payload.put("password", password)
 
-            val request = JsonObjectRequest(Request.Method.POST, logInLink, payload,
-                {
-                    response : JSONObject ->
-                    run {
-                        val result: String = response.getString("result") ?: return@JsonObjectRequest
-                        if (result == "Invalid Password" || result == "Invalid Username") {
-                            animateErrorView(this@LoginActivity, errorView, R.anim.slide_down, View.VISIBLE, result)
-                            return@JsonObjectRequest
-                        }
-                        editor.putString("token", result)
-                        editor.apply()
+            val requestBody = RequestBody.create(
+                okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                payload.toString()
+            )
 
-                        val intent = Intent(this, MainActivity::class.java)
+            RetrofitClient.userService.login(requestBody)
+                .enqueue(object : Callback<DefaultResponseModel?> {
+                    override fun onResponse(
+                        call: Call<DefaultResponseModel?>,
+                        response: Response<DefaultResponseModel?>
+                    ) {
+                        if (response.body() == null || response.body()!!.result == null) return
+                        val result = response.body()!!.result!!
+                        if (result.contains("Invalid")) {
+                            animateErrorView(
+                                this@LoginActivity,
+                                errorView,
+                                R.anim.slide_down,
+                                View.VISIBLE,
+                                result
+                            )
+                            return
+                        }
+                        editor.putString("token", result).apply()
+
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(intent)
                         overridePendingTransition(0, 0)
                         finish()
                     }
-                },
-                {
-                    error : VolleyError -> Log.d("error", error.toString())
+
+                    override fun onFailure(call: Call<DefaultResponseModel?>, t: Throwable) {
+                        Log.d("poly", t.message.toString())
+                    }
                 })
-            VolleySingleton.getInstance(this).addToQueue(request)
+
         }
 
         forgetPass.setOnClickListener {
             val intent = Intent(this, ForgetPasswordActivity::class.java)
-            val options = ActivityOptions.makeSceneTransitionAnimation(this,
+            val options = ActivityOptions.makeSceneTransitionAnimation(
+                this,
                 UtilPair.create(findViewById<View>(R.id.brand), "brand"),
                 UtilPair.create(usernameInput, "field"),
                 UtilPair.create(submitBtn, "button")
             )
             usernameInput.setText("")
             passwordInput.setText("")
-            if (!errorView.isInvisible) animateErrorView(this, errorView, R.anim.slide_up, View.INVISIBLE)
+            if (!errorView.isInvisible) animateErrorView(
+                this,
+                errorView,
+                R.anim.slide_up,
+                View.INVISIBLE
+            )
             startActivity(intent, options.toBundle())
         }
 
@@ -138,7 +160,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun animateErrorView(context: Context, errorView: TextView, anim: Int, visible: Int, errorMsg: String="", scrollParent: ScrollView?=null) {
+        fun animateErrorView(
+            context: Context,
+            errorView: TextView,
+            anim: Int,
+            visible: Int,
+            errorMsg: String = "",
+            scrollParent: ScrollView? = null
+        ) {
             if (visible != View.INVISIBLE) errorView.text = errorMsg
             if (errorView.isVisible && visible != View.INVISIBLE) return
             val animation = AnimationUtils.loadAnimation(context, anim)
@@ -147,6 +176,7 @@ class LoginActivity : AppCompatActivity() {
                 override fun onAnimationStart(animation: Animation?) {
                     scrollParent?.smoothScrollTo(0, 0)
                 }
+
                 override fun onAnimationEnd(animation: Animation?) {
                     errorView.visibility = visible
                     if (anim == R.anim.slide_up) return
@@ -155,7 +185,7 @@ class LoginActivity : AppCompatActivity() {
                             context,
                             R.anim.slide_up
                         )
-                        animationInverse.setAnimationListener(object: Animation.AnimationListener {
+                        animationInverse.setAnimationListener(object : Animation.AnimationListener {
                             override fun onAnimationStart(animation: Animation?) {}
                             override fun onAnimationRepeat(animation: Animation?) {}
                             override fun onAnimationEnd(animation: Animation?) {
@@ -182,9 +212,11 @@ class LoginActivity : AppCompatActivity() {
 
         fun hideKeyboard(context: Activity) {
             try {
-                val imm : InputMethodManager = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                val imm: InputMethodManager =
+                    context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(context.currentFocus?.windowToken, 0)
-            } catch (e: Exception) {}
+            } catch (e: Exception) {
+            }
         }
 
     }

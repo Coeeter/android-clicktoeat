@@ -1,4 +1,4 @@
-package musicpractice.com.coeeter.clicktoeat.Activities
+package musicpractice.com.coeeter.clicktoeat.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,7 +13,7 @@ class SplashScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
         supportActionBar?.hide()
         val sharedPreferences = getSharedPreferences("memory", MODE_PRIVATE)
-        val token : String = sharedPreferences.getString("token", "") as String
+        val token: String = sharedPreferences.getString("token", "") as String
         var intent = Intent(this, MainActivity::class.java)
         if (token.isEmpty()) {
             intent = Intent(this, LoginActivity::class.java)

@@ -1,4 +1,4 @@
-package musicpractice.com.coeeter.clicktoeat.Activities
+package musicpractice.com.coeeter.clicktoeat.activities
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -9,15 +9,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isInvisible
-import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Request
-import com.android.volley.VolleyError
-import com.android.volley.toolbox.JsonObjectRequest
+import androidx.core.view.isVisible
 import musicpractice.com.coeeter.clicktoeat.R
-import musicpractice.com.coeeter.clicktoeat.Api.VolleySingleton
-import org.json.JSONArray
+import musicpractice.com.coeeter.clicktoeat.webservices.RetrofitClient
+import musicpractice.com.coeeter.clicktoeat.models.DefaultResponseModel
+import okhttp3.RequestBody
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import android.util.Pair as UtilPair
 
 class ForgetPasswordActivity : AppCompatActivity() {
@@ -60,17 +60,24 @@ class ForgetPasswordActivity : AppCompatActivity() {
             val payload = JSONObject()
             payload.put("email", email)
 
-            val request = JsonObjectRequest(Request.Method.POST, forgetPasswordLink, payload,
-                {
-                    response: JSONObject ->
-                    run {
-//                        Log.d("poly", "Hello")
-                        if(response.has("accepted")) {
-                            val emailArray: JSONArray = response.get("accepted") as JSONArray
-                            val intent = Intent(this, LoginActivity::class.java)
-                            intent.putExtra("email", emailArray.get(0).toString())
+            val requestBody: RequestBody = RequestBody.create(
+                okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                payload.toString()
+            )
+
+            RetrofitClient.userService.forgotPassword(requestBody)
+                .enqueue(object : Callback<DefaultResponseModel?> {
+                    override fun onResponse(
+                        call: Call<DefaultResponseModel?>,
+                        response: Response<DefaultResponseModel?>
+                    ) {
+                        if (response.body() != null && response.body()!!.accepted != null) {
+                            val sentEmail = response.body()!!.accepted!![0]
+                            val intent =
+                                Intent(this@ForgetPasswordActivity, LoginActivity::class.java)
+                            intent.putExtra("email", sentEmail)
                             val options = ActivityOptions.makeSceneTransitionAnimation(
-                                this,
+                                this@ForgetPasswordActivity,
                                 UtilPair.create(findViewById(R.id.brand), "brand"),
                                 UtilPair.create(emailInput, "field"),
                                 UtilPair.create(submitBtn, "button")
@@ -78,7 +85,7 @@ class ForgetPasswordActivity : AppCompatActivity() {
                             emailInput.setText("")
                             submitBtn.isEnabled = true
                             emailInput.isEnabled = true
-                            if (!errorView.isInvisible) LoginActivity.animateErrorView(
+                            if (errorView.isVisible) LoginActivity.animateErrorView(
                                 this@ForgetPasswordActivity,
                                 errorView,
                                 R.anim.slide_up,
@@ -86,29 +93,24 @@ class ForgetPasswordActivity : AppCompatActivity() {
                             )
                             startActivity(intent, options.toBundle())
                             finish()
-                            return@JsonObjectRequest
+                            return
                         }
 
                         submitBtn.isEnabled = true
                         emailInput.isEnabled = true
                         LoginActivity.animateErrorView(
-                            this,
+                            this@ForgetPasswordActivity,
                             errorView,
                             R.anim.slide_down,
                             View.VISIBLE,
                             "Invalid Email"
                         )
                     }
-                },
-                {
-                    error : VolleyError -> Log.d("error", error.toString())
+
+                    override fun onFailure(call: Call<DefaultResponseModel?>, t: Throwable) {
+                        Log.d("poly", t.message.toString())
+                    }
                 })
-            request.retryPolicy = DefaultRetryPolicy(
-                0,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-            )
-            VolleySingleton.getInstance(this).addToQueue(request)
         }
 
         signUp.setOnClickListener {
