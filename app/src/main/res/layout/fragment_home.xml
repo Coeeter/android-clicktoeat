@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorOnBackground"
     tools:context=".fragments.FragmentHome">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -34,7 +35,7 @@
         android:layout_below="@id/appbarContainer"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="50dp"
-        android:background="@color/white"
+        android:background="?attr/colorContainer"
         android:elevation="10dp"
         android:orientation="vertical"
         android:padding="20dp"
@@ -45,8 +46,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-medium"
             android:text="@string/missingValues1"
-            android:textColor="@color/black"
-            android:textSize="22sp" />
+            android:textColor="?attr/textFillColor"
+            android:textSize="24sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -54,7 +55,8 @@
             android:layout_marginTop="10dp"
             android:fontFamily="sans-serif-condensed"
             android:text="@string/missingValues2"
-            android:textSize="18sp" />
+            android:textColor="?attr/textFillColor"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -63,6 +65,6 @@
         android:layout_height="match_parent"
         android:layout_below="@id/appbarContainer"
         android:layout_centerInParent="true"
-        android:overScrollMode="never"/>
+        android:overScrollMode="never" />
 
 </RelativeLayout>

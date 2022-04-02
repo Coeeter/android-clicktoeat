@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationBarView
+import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.fragments.FragmentFavorites
 import musicpractice.com.coeeter.clicktoeat.fragments.FragmentHome
 import musicpractice.com.coeeter.clicktoeat.fragments.FragmentSettings
-import musicpractice.com.coeeter.clicktoeat.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -16,17 +16,16 @@ import androidx.recyclerview.widget.RecyclerView
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.activities.LoginActivity
 import musicpractice.com.coeeter.clicktoeat.adapters.RestaurantCardAdapter
-import musicpractice.com.coeeter.clicktoeat.webservices.RetrofitClient
-import musicpractice.com.coeeter.clicktoeat.models.CommentModel
-import musicpractice.com.coeeter.clicktoeat.models.FavoriteModel
-import musicpractice.com.coeeter.clicktoeat.models.RestaurantModel
+import musicpractice.com.coeeter.clicktoeat.apiClient.RetrofitClient
+import musicpractice.com.coeeter.clicktoeat.apiClient.models.CommentModel
+import musicpractice.com.coeeter.clicktoeat.apiClient.models.FavoriteModel
+import musicpractice.com.coeeter.clicktoeat.apiClient.models.RestaurantModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.collections.ArrayList
 
 class FragmentHome : Fragment() {
-    private lateinit var adapter: RestaurantCardAdapter
+    private lateinit var restaurantCardAdapter: RestaurantCardAdapter
     private lateinit var searchView: SearchView
     private lateinit var restaurantList: ArrayList<RestaurantModel>
     private lateinit var recyclerView: RecyclerView
@@ -120,7 +119,7 @@ class FragmentHome : Fragment() {
                     }
 
                     override fun onQueryTextChange(newText: String?): Boolean {
-                        adapter.filter.filter(newText)
+                        restaurantCardAdapter.filter.filter(newText)
                         return true
                     }
                 })
@@ -145,8 +144,9 @@ class FragmentHome : Fragment() {
         favoriteList: ArrayList<FavoriteModel>
     ) {
         try {
-            val token = activity?.getSharedPreferences("memory", Context.MODE_PRIVATE)?.getString("token", "")!!
-            adapter = RestaurantCardAdapter(
+            val token = activity?.getSharedPreferences("memory", Context.MODE_PRIVATE)
+                ?.getString("token", "")!!
+            restaurantCardAdapter = RestaurantCardAdapter(
                 restaurantList,
                 commentList,
                 favoriteList,
@@ -154,13 +154,15 @@ class FragmentHome : Fragment() {
                 view.findViewById<LinearLayout>(R.id.nothingDisplay),
                 token
             )
-            recyclerView.adapter = adapter
-            recyclerView.layoutManager = GridLayoutManager(view.context, 2)
+            recyclerView.apply {
+                adapter = restaurantCardAdapter
+                layoutManager = GridLayoutManager(view.context, 2)
+                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+                    layoutManager = GridLayoutManager(view.context, 4)
+                setHasFixedSize(true)
+                setItemViewCacheSize(10)
+            }
             view.findViewById<ProgressBar>(R.id.progress).visibility = View.GONE
-            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) recyclerView.layoutManager =
-                GridLayoutManager(view.context, 4)
-            recyclerView.setHasFixedSize(true)
-            recyclerView.setItemViewCacheSize(10)
         } catch (e: Exception) {
             e.stackTraceToString()
         }

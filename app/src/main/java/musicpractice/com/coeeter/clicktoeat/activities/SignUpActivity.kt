@@ -1,49 +1,92 @@
 package musicpractice.com.coeeter.clicktoeat.activities
 
+import android.Manifest
+import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.util.Pair
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import musicpractice.com.coeeter.clicktoeat.R
-import musicpractice.com.coeeter.clicktoeat.webservices.RetrofitClient
-import musicpractice.com.coeeter.clicktoeat.models.DefaultResponseModel
+import musicpractice.com.coeeter.clicktoeat.apiClient.RetrofitClient
+import musicpractice.com.coeeter.clicktoeat.apiClient.models.DefaultResponseModel
+import okhttp3.MediaType
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+
 
 class SignUpActivity : AppCompatActivity() {
-    private lateinit var userCreationLink: String
+    private val requestCodeToGetImage = 10
+    private var profileUri: Uri? = null
+    private lateinit var error: TextView
+    private lateinit var submitBtn: Button
+    private lateinit var nameInput: EditText
+    private lateinit var usernameInput: EditText
+    private lateinit var passwordInput: EditText
+    private lateinit var confirmPasswordInput: EditText
+    private lateinit var emailInput: EditText
+    private lateinit var phoneNumInput: EditText
+    private lateinit var addressInput: EditText
+    private lateinit var genderInput: RadioGroup
+    private lateinit var parent: ScrollView
+    private lateinit var profilePic: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
         supportActionBar?.hide()
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ),
+            0
+        )
 
-        userCreationLink = "${getString(R.string.base_url)}/users?d=mobile"
+        error = findViewById<TextView>(R.id.error)
+        submitBtn = findViewById<Button>(R.id.submitBtn)
 
-        val error = findViewById<TextView>(R.id.error)
-        val submitBtn = findViewById<Button>(R.id.submitBtn)
-
-        val nameInput = findViewById<EditText>(R.id.name)
-        val usernameInput = findViewById<EditText>(R.id.username)
-        val passwordInput = findViewById<EditText>(R.id.password)
-        val confirmPasswordInput = findViewById<EditText>(R.id.confirmPassword)
-        val emailInput = findViewById<EditText>(R.id.email)
-        val phoneNumInput = findViewById<EditText>(R.id.phoneNum)
-        val addressInput = findViewById<EditText>(R.id.address)
-        val genderInput = findViewById<RadioGroup>(R.id.gender)
-        val parent = findViewById<ScrollView>(R.id.parent)
+        nameInput = findViewById<EditText>(R.id.name)
+        usernameInput = findViewById<EditText>(R.id.username)
+        passwordInput = findViewById<EditText>(R.id.password)
+        confirmPasswordInput = findViewById<EditText>(R.id.confirmPassword)
+        emailInput = findViewById<EditText>(R.id.email)
+        phoneNumInput = findViewById<EditText>(R.id.phoneNum)
+        addressInput = findViewById<EditText>(R.id.address)
+        genderInput = findViewById<RadioGroup>(R.id.gender)
+        parent = findViewById<ScrollView>(R.id.parent)
+        profilePic = findViewById(R.id.profileImage)
 
         findViewById<RadioButton>(R.id.male).isChecked = true
 
+        profilePic.setOnClickListener {
+            LoginActivity.hideKeyboard(this)
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, requestCodeToGetImage)
+        }
+
         submitBtn.setOnClickListener {
             LoginActivity.hideKeyboard(this)
+
+            nameInput.clearFocus()
+            usernameInput.clearFocus()
+            passwordInput.clearFocus()
+            confirmPasswordInput.clearFocus()
+            emailInput.clearFocus()
+            phoneNumInput.clearFocus()
+            addressInput.clearFocus()
 
             val name = nameInput.text.toString()
             val username = usernameInput.text.toString()
@@ -104,59 +147,85 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val payload = JSONObject()
-            payload.put("username", username)
-            payload.put("password", password)
-            payload.put("email", email)
-            payload.put("phoneNum", phoneNum)
-            payload.put("firstName", firstName)
-            payload.put("lastName", lastName)
-            payload.put("gender", gender)
-            payload.put("address", address)
+            var uploadFile: MultipartBody.Part? = null
+            if (profileUri != null) {
+                val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
 
-            val requestBody = RequestBody.create(
-                okhttp3.MediaType.parse("application/json; charset=utf-8"),
-                payload.toString()
-            )
+                val cursor = contentResolver.query(profileUri!!, filePathColumn, null, null, null)
+                assert(cursor != null)
+                cursor!!.moveToFirst()
 
-            RetrofitClient.userService.createUser(requestBody)
-                .enqueue(object : Callback<DefaultResponseModel?> {
-                    override fun onResponse(
-                        call: Call<DefaultResponseModel?>,
-                        response: Response<DefaultResponseModel?>
-                    ) {
-                        if (response.body()!!.result != null) {
-                            LoginActivity.animateErrorView(
+                val columnIndex = cursor.getColumnIndex(filePathColumn[0])
+                val imageFile = File(cursor.getString(columnIndex))
+                val requestFile = RequestBody.create(
+                    MediaType.parse(contentResolver.getType(profileUri!!)!!),
+                    imageFile
+                )
+                uploadFile =
+                    MultipartBody.Part.createFormData("uploadFile", imageFile.name, requestFile)
+                cursor.close()
+            }
+
+            RetrofitClient.userService.createUser(
+                RequestBody.create(MediaType.parse("multipart/form-data"), username),
+                RequestBody.create(MediaType.parse("multipart/form-data"), password),
+                RequestBody.create(MediaType.parse("multipart/form-data"), email),
+                RequestBody.create(MediaType.parse("multipart/form-data"), phoneNum),
+                RequestBody.create(MediaType.parse("multipart/form-data"), firstName),
+                RequestBody.create(MediaType.parse("multipart/form-data"), lastName),
+                RequestBody.create(MediaType.parse("multipart/form-data"), gender),
+                RequestBody.create(MediaType.parse("multipart/form-data"), address),
+                uploadFile
+            ).enqueue(object : Callback<DefaultResponseModel?> {
+                override fun onResponse(
+                    call: Call<DefaultResponseModel?>,
+                    response: Response<DefaultResponseModel?>
+                ) {
+                    if (response.body()!!.result != null) {
+                        LoginActivity.animateErrorView(
+                            this@SignUpActivity,
+                            error,
+                            R.anim.slide_down,
+                            View.VISIBLE,
+                            response.body()!!.result!!,
+                            parent
+                        )
+                        return
+                    }
+                    if (response.body()!!.affectedRows != null && response.body()!!.affectedRows == 1) {
+                        val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
+                        intent.putExtra("username", username)
+                        val options = ActivityOptions
+                            .makeSceneTransitionAnimation(
                                 this@SignUpActivity,
-                                error,
-                                R.anim.slide_down,
-                                View.VISIBLE,
-                                response.body()!!.result!!,
-                                parent
+                                Pair.create(findViewById(R.id.brand), "brand"),
+                                Pair.create(findViewById(R.id.form), "field"),
+                                Pair.create(submitBtn, "button")
                             )
-                            return
-                        }
-                        if (response.body()!!.affectedRows != null && response.body()!!.affectedRows == 1) {
-                            val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
-                            intent.putExtra("username", username)
-                            val options = ActivityOptions
-                                .makeSceneTransitionAnimation(
-                                    this@SignUpActivity,
-                                    Pair.create(findViewById(R.id.brand), "brand"),
-                                    Pair.create(findViewById(R.id.form), "field"),
-                                    Pair.create(submitBtn, "button")
-                                )
-                            startActivity(intent, options.toBundle())
-                            finish()
-                            return
-                        }
+                        startActivity(intent, options.toBundle())
+                        finish()
+                        return
                     }
+                }
 
-                    override fun onFailure(call: Call<DefaultResponseModel?>, t: Throwable) {
-                        Log.d("poly", t.message.toString())
-                    }
-                })
+                override fun onFailure(call: Call<DefaultResponseModel?>, t: Throwable) {
+                    Log.d("poly", t.message.toString())
+                }
+            })
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == requestCodeToGetImage && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
+            profilePic.setImageURI(data.data)
+            profileUri = data.data
+        }
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.stay_still, R.anim.slide_out_right)
     }
 
 }

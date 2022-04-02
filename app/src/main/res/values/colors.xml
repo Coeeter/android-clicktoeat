@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="transparent">#00000000</color>
     <color name="black">#FF000000</color>
+    <color name="dark">#2B2B2B</color>
+    <color name="lighterDark">#474747</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#ECECEC</color>
     <color name="orange">#fa4614</color>
     <color name="orangeAlt">#b63a18</color>
     <color name="darkBlue">#041b3f</color>
     <color name="TransparentBlue">#E8041B3F</color>
+    <color name="ic_launcher_background">#F84517</color>
 </resources>

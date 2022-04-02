@@ -11,10 +11,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import musicpractice.com.coeeter.clicktoeat.R
-import musicpractice.com.coeeter.clicktoeat.webservices.RetrofitClient
-import musicpractice.com.coeeter.clicktoeat.models.DefaultResponseModel
-import okhttp3.RequestBody
-import org.json.JSONObject
+import musicpractice.com.coeeter.clicktoeat.apiClient.RetrofitClient
+import musicpractice.com.coeeter.clicktoeat.apiClient.models.DefaultResponseModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,6 +39,7 @@ class ForgetPasswordActivity : AppCompatActivity() {
 
         submitBtn.setOnClickListener {
             LoginActivity.hideKeyboard(this)
+            emailInput.clearFocus()
             val email = emailInput.text.toString().trim()
 
             if (email.isEmpty()) {
@@ -57,15 +56,7 @@ class ForgetPasswordActivity : AppCompatActivity() {
             submitBtn.isEnabled = false
             emailInput.isEnabled = false
 
-            val payload = JSONObject()
-            payload.put("email", email)
-
-            val requestBody: RequestBody = RequestBody.create(
-                okhttp3.MediaType.parse("application/json; charset=utf-8"),
-                payload.toString()
-            )
-
-            RetrofitClient.userService.forgotPassword(requestBody)
+            RetrofitClient.userService.forgotPassword(email)
                 .enqueue(object : Callback<DefaultResponseModel?> {
                     override fun onResponse(
                         call: Call<DefaultResponseModel?>,
@@ -114,7 +105,9 @@ class ForgetPasswordActivity : AppCompatActivity() {
         }
 
         signUp.setOnClickListener {
-            LoginActivity.startSignUpPage(this, findViewById(R.id.brand), submitBtn, emailInput)
+            val intent = Intent(this, SignUpActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.stay_still)
         }
 
     }

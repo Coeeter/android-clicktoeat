@@ -21,10 +21,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import musicpractice.com.coeeter.clicktoeat.R
-import musicpractice.com.coeeter.clicktoeat.webservices.RetrofitClient
-import musicpractice.com.coeeter.clicktoeat.models.DefaultResponseModel
-import okhttp3.RequestBody
-import org.json.JSONObject
+import musicpractice.com.coeeter.clicktoeat.apiClient.RetrofitClient
+import musicpractice.com.coeeter.clicktoeat.apiClient.models.DefaultResponseModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -79,6 +77,9 @@ class LoginActivity : AppCompatActivity() {
 
         submitBtn.setOnClickListener {
             hideKeyboard(this)
+            usernameInput.clearFocus()
+            passwordInput.clearFocus()
+
             val username = usernameInput.text.toString().trim()
             val password = passwordInput.text.toString().trim()
 
@@ -93,16 +94,7 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val payload = JSONObject()
-            payload.put("username", username)
-            payload.put("password", password)
-
-            val requestBody = RequestBody.create(
-                okhttp3.MediaType.parse("application/json; charset=utf-8"),
-                payload.toString()
-            )
-
-            RetrofitClient.userService.login(requestBody)
+            RetrofitClient.userService.login(username, password)
                 .enqueue(object : Callback<DefaultResponseModel?> {
                     override fun onResponse(
                         call: Call<DefaultResponseModel?>,
@@ -155,7 +147,9 @@ class LoginActivity : AppCompatActivity() {
         }
 
         signUp.setOnClickListener {
-            startSignUpPage(this, findViewById(R.id.brand), submitBtn, usernameInput)
+            val intent = Intent(this, SignUpActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.stay_still)
         }
     }
 
@@ -197,17 +191,6 @@ class LoginActivity : AppCompatActivity() {
                 }
             })
             errorView.startAnimation(animation)
-        }
-
-        fun startSignUpPage(context: Activity, logo: TextView, button: Button, field: EditText) {
-            val intent = Intent(context, SignUpActivity::class.java)
-            val options = ActivityOptions.makeSceneTransitionAnimation(
-                context,
-                UtilPair.create(logo, "brand"),
-                UtilPair.create(button, "button"),
-                UtilPair.create(field, "field")
-            )
-            context.startActivity(intent, options.toBundle())
         }
 
         fun hideKeyboard(context: Activity) {

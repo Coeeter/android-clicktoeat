@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import musicpractice.com.coeeter.clicktoeat.activities.LoginActivity
 import musicpractice.com.coeeter.clicktoeat.R
+import musicpractice.com.coeeter.clicktoeat.activities.LoginActivity
 
 class FragmentSettings : Fragment() {
     override fun onCreateView(

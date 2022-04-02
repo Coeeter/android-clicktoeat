@@ -1,4 +1,4 @@
-package musicpractice.com.coeeter.clicktoeat.models
+package musicpractice.com.coeeter.clicktoeat.apiClient.models
 
 import com.google.gson.annotations.SerializedName
 

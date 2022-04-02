@@ -5,184 +5,214 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="?attr/colorOnBackground"
     tools:context=".activities.SignUpActivity">
 
-        <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            android:id="@+id/error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
-            android:clickable="true"
-            android:focusable="true">
-            <TextView
-                android:id="@+id/error"
+            android:background="@color/orange"
+            android:padding="20sp"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:translationZ="100dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/brand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textAlignment="center"
+            android:textColor="@color/orange"
+            android:textSize="50sp"
+            android:transitionName="brand"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/profileContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="100dp"
+            app:cardCornerRadius="999dp"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/brand">
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_person" />
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:transitionName="field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileContainer">
+
+            <EditText
+                android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/orange"
+                android:layout_marginBottom="10sp"
+                android:autofillHints="name"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/custom_name_icon"
+                android:drawablePadding="12dp"
+                android:hint="Name"
+                android:inputType="textAutoComplete"
+                android:maxLength="100"
                 android:padding="20sp"
-                android:textColor="@color/white"
-                android:textSize="25sp"
-                android:visibility="invisible"
-                android:layout_alignParentTop="true"
-                android:translationZ="100dp"/>
+                android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/brand"
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10sp"
+                android:autofillHints="username"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/custom_username_icon"
+                android:drawablePadding="12dp"
+                android:hint="Username"
+                android:inputType="textAutoComplete"
+                android:maxLength="30"
+                android:padding="20sp"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10sp"
+                android:autofillHints="password"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/custom_password_icon"
+                android:drawablePadding="12dp"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:maxLength="30"
+                android:padding="20sp"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/confirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10sp"
+                android:autofillHints="password"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/custom_confirm_password_icon"
+                android:drawablePadding="12dp"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:maxLength="30"
+                android:padding="20sp"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10sp"
+                android:autofillHints="password"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/custom_email_icon"
+                android:drawablePadding="12dp"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:maxLength="30"
+                android:padding="20sp"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/phoneNum"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10sp"
+                android:autofillHints="password"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/custom_phone_icon"
+                android:drawablePadding="12dp"
+                android:hint="Phone Number"
+                android:inputType="phone"
+                android:maxLength="30"
+                android:padding="20sp"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10sp"
+                android:autofillHints="postalAddress"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/custom_address_icon"
+                android:drawablePadding="12dp"
+                android:hint="Address"
+                android:inputType="textAutoComplete"
+                android:maxLength="30"
+                android:padding="20sp"
+                android:textSize="24sp" />
+
+            <RadioGroup
+                android:id="@+id/gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="Male"
+                    android:textSize="24sp" />
+
+                <RadioButton
+                    android:id="@+id/female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="Female"
+                    android:textSize="24sp" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/submitBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:textColor="@color/orange"
-                android:textSize="50sp"
-                android:textAlignment="center"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:transitionName="brand" />
+                android:layout_marginTop="15sp"
+                android:padding="15sp"
+                android:text="Register"
+                android:textAllCaps="false"
+                android:textSize="20sp"
+                android:transitionName="button" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10sp"
-                android:id="@+id/form"
-                android:orientation="vertical"
-                android:transitionName="field"
-                android:layout_below="@+id/brand">
-                <EditText
-                    android:id="@+id/name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/custom_name_icon"
-                    android:drawablePadding="12dp"
-                    android:inputType="textAutoComplete"
-                    android:maxLength="100"
-                    android:hint="Name"
-                    android:padding="20sp"
-                    android:textSize="24sp"
-                    android:background="@drawable/custom_input"
-                    android:autofillHints="name"
-                    android:layout_marginBottom="10sp"/>
-
-                <EditText
-                    android:id="@+id/username"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:drawableStart="@drawable/custom_username_icon"
-                    android:drawablePadding="12dp"
-                    android:inputType="textAutoComplete"
-                    android:maxLength="30"
-                    android:hint="Username"
-                    android:padding="20sp"
-                    android:textSize="24sp"
-                    android:background="@drawable/custom_input"
-                    android:autofillHints="username"
-                    android:layout_marginBottom="10sp"/>
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:drawableStart="@drawable/custom_password_icon"
-                    android:drawablePadding="12dp"
-                    android:inputType="textPassword"
-                    android:maxLength="30"
-                    android:hint="Password"
-                    android:padding="20sp"
-                    android:textSize="24sp"
-                    android:background="@drawable/custom_input"
-                    android:autofillHints="password"
-                    android:layout_marginBottom="10sp"/>
-
-                <EditText
-                    android:id="@+id/confirmPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:drawableStart="@drawable/custom_confirm_password_icon"
-                    android:drawablePadding="12dp"
-                    android:inputType="textPassword"
-                    android:maxLength="30"
-                    android:hint="Confirm Password"
-                    android:padding="20sp"
-                    android:textSize="24sp"
-                    android:background="@drawable/custom_input"
-                    android:autofillHints="password"
-                    android:layout_marginBottom="10sp"/>
-
-                <EditText
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:drawableStart="@drawable/custom_email_icon"
-                    android:drawablePadding="12dp"
-                    android:inputType="textEmailAddress"
-                    android:maxLength="30"
-                    android:hint="Email"
-                    android:padding="20sp"
-                    android:textSize="24sp"
-                    android:background="@drawable/custom_input"
-                    android:autofillHints="password"
-                    android:layout_marginBottom="10sp"/>
-
-                <EditText
-                    android:id="@+id/phoneNum"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:drawableStart="@drawable/custom_phone_icon"
-                    android:drawablePadding="12dp"
-                    android:inputType="phone"
-                    android:maxLength="30"
-                    android:hint="Phone Number"
-                    android:padding="20sp"
-                    android:textSize="24sp"
-                    android:background="@drawable/custom_input"
-                    android:autofillHints="password"
-                    android:layout_marginBottom="10sp"/>
-
-                <EditText
-                    android:id="@+id/address"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:drawableStart="@drawable/custom_address_icon"
-                    android:drawablePadding="12dp"
-                    android:inputType="textAutoComplete"
-                    android:maxLength="30"
-                    android:hint="Address"
-                    android:padding="20sp"
-                    android:textSize="24sp"
-                    android:background="@drawable/custom_input"
-                    android:autofillHints="postalAddress"
-                    android:layout_marginBottom="10sp"/>
-
-                <RadioGroup
-                    android:id="@+id/gender"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <RadioButton
-                        android:id="@+id/male"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:text="Male"
-                        android:layout_weight="1"
-                        android:textSize="24sp"/>
-                    <RadioButton
-                        android:id="@+id/female"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:text="Female"
-                        android:layout_weight="1"
-                        android:textSize="24sp"/>
-                </RadioGroup>
-
-                <Button
-                    android:id="@+id/submitBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Register"
-                    android:textAllCaps="false"
-                    android:textSize="20sp"
-                    android:padding="15sp"
-                    android:transitionName="button"
-                    android:layout_marginTop="15sp"/>
-
-            </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

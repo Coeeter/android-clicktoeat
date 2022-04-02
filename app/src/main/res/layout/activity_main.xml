@@ -4,21 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity"
-    android:background="@color/grey">
+    android:background="?attr/colorOnBackground"
+    tools:context=".activities.MainActivity">
 
 
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottomNav"/>
+        android:layout_above="@+id/bottomNav" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:elevation="10dp"
         app:menu="@menu/bottom_nav_menu"
-        android:elevation="10dp"/>
+        app:itemIconTint="@color/custom_menu_item_color"
+        app:itemTextColor="@color/custom_menu_item_color"/>
 </RelativeLayout>

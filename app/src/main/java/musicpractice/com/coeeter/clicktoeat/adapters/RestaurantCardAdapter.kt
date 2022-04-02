@@ -9,19 +9,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import musicpractice.com.coeeter.clicktoeat.R
-import musicpractice.com.coeeter.clicktoeat.webservices.RetrofitClient
-import musicpractice.com.coeeter.clicktoeat.models.CommentModel
-import musicpractice.com.coeeter.clicktoeat.models.DefaultResponseModel
-import musicpractice.com.coeeter.clicktoeat.models.FavoriteModel
-import musicpractice.com.coeeter.clicktoeat.models.RestaurantModel
-import okhttp3.MediaType
-import okhttp3.RequestBody
-import org.json.JSONObject
+import musicpractice.com.coeeter.clicktoeat.apiClient.RetrofitClient
+import musicpractice.com.coeeter.clicktoeat.apiClient.models.CommentModel
+import musicpractice.com.coeeter.clicktoeat.apiClient.models.DefaultResponseModel
+import musicpractice.com.coeeter.clicktoeat.apiClient.models.FavoriteModel
+import musicpractice.com.coeeter.clicktoeat.apiClient.models.RestaurantModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,6 +44,7 @@ class RestaurantCardAdapter(
         val avgRating: TextView = view.findViewById(R.id.avgRating)
         val reviewCount: TextView = view.findViewById(R.id.totalRating)
         val distance: TextView = view.findViewById(R.id.distance)
+        val tags: RecyclerView = view.findViewById(R.id.recycler)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -82,11 +82,17 @@ class RestaurantCardAdapter(
 
         val location = getLocation()
         val distance =
-            if(location == null) null
+            if (location == null) null
             else getDistance(getLocation()!!, restaurant)
         holder.distance.text = distance
         holder.distance.visibility = View.VISIBLE
         if (distance == null) holder.distance.visibility = View.GONE
+
+        holder.tags.apply {
+            adapter = TagAdapter(restaurant.tags)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -104,10 +110,10 @@ class RestaurantCardAdapter(
         }
         var averageRating = 0.0
         if (reviewCount > 0) {
-            averageRating += totalRating/reviewCount
+            averageRating += totalRating / reviewCount
         }
         val hashMap = HashMap<String, String>()
-        if (averageRating.toString().substring(averageRating.toString().length - 2) == ".0"){
+        if (averageRating.toString().substring(averageRating.toString().length - 2) == ".0") {
             hashMap["average"] = averageRating.toInt().toString()
         } else {
             hashMap["average"] = ((averageRating * 100).roundToInt() / 100.0).toString()
@@ -117,19 +123,20 @@ class RestaurantCardAdapter(
     }
 
     private fun updateFav() {
-        RetrofitClient.favoriteService.getUserFavorites(token).enqueue(object : Callback<ArrayList<FavoriteModel>?> {
-            override fun onResponse(
-                call: Call<ArrayList<FavoriteModel>?>,
-                response: Response<ArrayList<FavoriteModel>?>
-            ) {
-                if (response.body() == null) return
-                favoriteList = response.body()!!
-            }
+        RetrofitClient.favoriteService.getUserFavorites(token)
+            .enqueue(object : Callback<ArrayList<FavoriteModel>?> {
+                override fun onResponse(
+                    call: Call<ArrayList<FavoriteModel>?>,
+                    response: Response<ArrayList<FavoriteModel>?>
+                ) {
+                    if (response.body() == null) return
+                    favoriteList = response.body()!!
+                }
 
-            override fun onFailure(call: Call<ArrayList<FavoriteModel>?>, t: Throwable) {
-                Log.d("poly", t.message.toString())
-            }
-        })
+                override fun onFailure(call: Call<ArrayList<FavoriteModel>?>, t: Throwable) {
+                    Log.d("poly", t.message.toString())
+                }
+            })
     }
 
     private fun getFavoriteIndex(restaurant: RestaurantModel): Int {
@@ -142,58 +149,57 @@ class RestaurantCardAdapter(
     }
 
     private fun addToFav(favBtn: ImageView, restaurantId: Int) {
-        val requestBody =
-            RequestBody.create(
-                MediaType.parse("application/json; charset=utf-8"),
-                JSONObject().put("restaurantId", restaurantId).toString()
-            )
-        RetrofitClient.favoriteService.createFavorites(token, requestBody).enqueue(object : Callback<DefaultResponseModel?> {
-            override fun onResponse(
-                call: Call<DefaultResponseModel?>,
-                response: Response<DefaultResponseModel?>
-            ) {
-                if (response.body() != null && response.body()!!.affectedRows == 1) {
-                    favBtn.tag = "fav ${response.body()!!.insertId}"
-                    favBtn.setImageResource(R.drawable.ic_favorite)
-                    updateFav()
+        RetrofitClient.favoriteService.createFavorites(token, restaurantId)
+            .enqueue(object : Callback<DefaultResponseModel?> {
+                override fun onResponse(
+                    call: Call<DefaultResponseModel?>,
+                    response: Response<DefaultResponseModel?>
+                ) {
+                    if (response.body() != null && response.body()!!.affectedRows == 1) {
+                        favBtn.tag = "fav ${response.body()!!.insertId}"
+                        favBtn.setImageResource(R.drawable.ic_favorite)
+                        val animation =
+                            AnimationUtils.loadAnimation(context, R.anim.heart_animation)
+                        favBtn.startAnimation(animation)
+                        updateFav()
+                        return
+                    }
+                    if (response.body()!!.result!!.contains("Invalid")) {
+                        Toast.makeText(context, response.body()!!.result, Toast.LENGTH_LONG).show()
+                    }
                     return
                 }
-                if (response.body()!!.result!!.contains("Invalid")) {
-                    Toast.makeText(context, response.body()!!.result, Toast.LENGTH_LONG).show()
-                }
-            }
 
-            override fun onFailure(call: Call<DefaultResponseModel?>, t: Throwable) {
-                Log.d("poly", t.message.toString())
-            }
-        })
+                override fun onFailure(call: Call<DefaultResponseModel?>, t: Throwable) {
+                    Log.d("poly", t.message.toString())
+                }
+            })
     }
 
     private fun removeFromFav(favBtn: ImageView) {
-        val payload = JSONObject()
-        payload.put("favoriteId", favBtn.tag.toString().split(" ")[1])
-        val requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), payload.toString())
-
-        RetrofitClient.favoriteService.deleteFavorites(token, requestBody).enqueue(object : Callback<DefaultResponseModel?> {
-            override fun onResponse(
-                call: Call<DefaultResponseModel?>,
-                response: Response<DefaultResponseModel?>
-            ) {
-                if (response.body() != null && response.body()!!.affectedRows == 1) {
-                    favBtn.tag = "notFav"
-                    favBtn.setImageResource(R.drawable.ic_favorite_border)
-                    updateFav()
+        val favoriteId = favBtn.tag.toString().split(" ")[1].toInt()
+        RetrofitClient.favoriteService.deleteFavorites(token, favoriteId)
+            .enqueue(object : Callback<DefaultResponseModel?> {
+                override fun onResponse(
+                    call: Call<DefaultResponseModel?>,
+                    response: Response<DefaultResponseModel?>
+                ) {
+                    if (response.body() != null && response.body()!!.affectedRows == 1) {
+                        favBtn.tag = "notFav"
+                        favBtn.setImageResource(R.drawable.ic_favorite_border)
+                        updateFav()
+                        return
+                    }
+                    if (response.body()?.result?.contains("Invalid") == true) {
+                        Toast.makeText(context, response.body()!!.result, Toast.LENGTH_LONG).show()
+                    }
                     return
                 }
-                if (response.body()!!.result!!.contains("Invalid")) {
-                    Toast.makeText(context, response.body()!!.result, Toast.LENGTH_LONG).show()
-                }
-            }
 
-            override fun onFailure(call: Call<DefaultResponseModel?>, t: Throwable) {
-                Log.d("poly", t.message.toString())
-            }
-        })
+                override fun onFailure(call: Call<DefaultResponseModel?>, t: Throwable) {
+                    Log.d("poly", t.message.toString())
+                }
+            })
     }
 
     private fun getLocation(): HashMap<String, Double?>? {
@@ -213,10 +219,9 @@ class RestaurantCardAdapter(
             )
         }
         try {
-            var longitude =
-                locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.longitude
-            var latitude =
-                locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.latitude
+            val userLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            var longitude = userLocation?.longitude
+            var latitude = userLocation?.latitude
             locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
                 2000,
@@ -235,13 +240,18 @@ class RestaurantCardAdapter(
         return null
     }
 
-    private fun getDistance(userLocation: HashMap<String, Double?>, restaurant: RestaurantModel): String? {
+    private fun getDistance(
+        userLocation: HashMap<String, Double?>,
+        restaurant: RestaurantModel
+    ): String? {
         val userLongitude = userLocation["longitude"]
         val userLatitude = userLocation["latitude"]
         if (userLongitude == null || userLatitude == null) return null
 
-        val differenceInLatitude = restaurant.latitude * (Math.PI / 180) - userLatitude * (Math.PI / 180)
-        val differenceInLongitude = restaurant.longitude * (Math.PI / 180) - userLongitude * (Math.PI / 180)
+        val differenceInLatitude =
+            restaurant.latitude * (Math.PI / 180) - userLatitude * (Math.PI / 180)
+        val differenceInLongitude =
+            restaurant.longitude * (Math.PI / 180) - userLongitude * (Math.PI / 180)
 
         val a = sin(differenceInLatitude / 2).pow(2.0) +
                 cos(restaurant.latitude * (Math.PI / 180)) *
@@ -278,8 +288,8 @@ class RestaurantCardAdapter(
                 return filterResults
             }
 
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                restaurantList = results?.values as ArrayList<RestaurantModel>
+            override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+                restaurantList = results.values as ArrayList<RestaurantModel>
                 nothingToDisplayView.visibility = View.GONE
                 if (restaurantList.size == 0) {
                     nothingToDisplayView.visibility = View.VISIBLE
