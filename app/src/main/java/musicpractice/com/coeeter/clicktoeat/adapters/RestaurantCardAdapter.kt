@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,19 +16,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.activities.RestaurantActivity
-import musicpractice.com.coeeter.clicktoeat.repository.RetrofitClient
 import musicpractice.com.coeeter.clicktoeat.repository.models.CommentModel
-import musicpractice.com.coeeter.clicktoeat.repository.models.DefaultResponseModel
 import musicpractice.com.coeeter.clicktoeat.repository.models.FavoriteModel
 import musicpractice.com.coeeter.clicktoeat.repository.models.RestaurantModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.FavoriteViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class RestaurantCardAdapter(
     private val context: Context,

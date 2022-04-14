@@ -1,25 +1,17 @@
 package musicpractice.com.coeeter.clicktoeat.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import musicpractice.com.coeeter.clicktoeat.R
-import musicpractice.com.coeeter.clicktoeat.repository.RetrofitClient
-import musicpractice.com.coeeter.clicktoeat.repository.models.DefaultResponseModel
 import musicpractice.com.coeeter.clicktoeat.repository.models.RestaurantModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.FavoriteViewModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.RestaurantViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class RestaurantActivity : AppCompatActivity() {
     private lateinit var restaurant: RestaurantModel

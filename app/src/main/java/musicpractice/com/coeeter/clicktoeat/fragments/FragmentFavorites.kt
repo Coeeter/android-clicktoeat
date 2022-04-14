@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -14,21 +13,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.activities.LoginActivity
 import musicpractice.com.coeeter.clicktoeat.adapters.RestaurantCardAdapter
-import musicpractice.com.coeeter.clicktoeat.repository.RetrofitClient
-import musicpractice.com.coeeter.clicktoeat.repository.models.CommentModel
-import musicpractice.com.coeeter.clicktoeat.repository.models.FavoriteModel
 import musicpractice.com.coeeter.clicktoeat.repository.models.RestaurantModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.CommentViewModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.FavoriteViewModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.RestaurantViewModel
-import org.json.JSONArray
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class FragmentFavorites : Fragment() {
     private lateinit var restaurantCardAdapter: RestaurantCardAdapter

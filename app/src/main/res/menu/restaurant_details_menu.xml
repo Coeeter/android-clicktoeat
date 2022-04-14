@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/miFav"
-        android:title="@string/add_to_favorites"
         android:icon="@drawable/ic_favorite_border_menu"
+        android:title="@string/add_to_favorites"
         app:showAsAction="always" />
 </menu>

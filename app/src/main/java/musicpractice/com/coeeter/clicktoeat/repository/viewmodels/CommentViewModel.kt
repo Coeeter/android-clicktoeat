@@ -10,23 +10,24 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-object CommentViewModel: ViewModel() {
+object CommentViewModel : ViewModel() {
     private val commentList = MutableLiveData<ArrayList<CommentModel>>()
 
     fun getAllComments(): LiveData<ArrayList<CommentModel>> {
-        RetrofitClient.commentService.getAllComments().enqueue(object : Callback<ArrayList<CommentModel>?> {
-            override fun onResponse(
-                call: Call<ArrayList<CommentModel>?>,
-                response: Response<ArrayList<CommentModel>?>
-            ) {
-                if (response.body() == null) return
-                commentList.postValue(response.body()!!)
-            }
+        RetrofitClient.commentService.getAllComments()
+            .enqueue(object : Callback<ArrayList<CommentModel>?> {
+                override fun onResponse(
+                    call: Call<ArrayList<CommentModel>?>,
+                    response: Response<ArrayList<CommentModel>?>
+                ) {
+                    if (response.body() == null) return
+                    commentList.postValue(response.body()!!)
+                }
 
-            override fun onFailure(call: Call<ArrayList<CommentModel>?>, t: Throwable) {
-                Log.d("poly", t.message.toString())
-            }
-        })
+                override fun onFailure(call: Call<ArrayList<CommentModel>?>, t: Throwable) {
+                    Log.d("poly", t.message.toString())
+                }
+            })
         return commentList
     }
 }

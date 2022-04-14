@@ -52,18 +52,19 @@ object FavoriteViewModel : ViewModel() {
     }
 
     fun deleteFavorite(token: String, favoriteId: Int) {
-        RetrofitClient.favoriteService.deleteFavorites(token, favoriteId).enqueue(object : Callback<DefaultResponseModel?> {
-            override fun onResponse(
-                call: Call<DefaultResponseModel?>,
-                response: Response<DefaultResponseModel?>
-            ) {
-                if (response.body() == null || response.body()!!.affectedRows != 1) return
-                getAllFavorites(token)
-            }
+        RetrofitClient.favoriteService.deleteFavorites(token, favoriteId)
+            .enqueue(object : Callback<DefaultResponseModel?> {
+                override fun onResponse(
+                    call: Call<DefaultResponseModel?>,
+                    response: Response<DefaultResponseModel?>
+                ) {
+                    if (response.body() == null || response.body()!!.affectedRows != 1) return
+                    getAllFavorites(token)
+                }
 
-            override fun onFailure(call: Call<DefaultResponseModel?>, t: Throwable) {
-                Log.d("poly", t.message.toString())
-            }
-        })
+                override fun onFailure(call: Call<DefaultResponseModel?>, t: Throwable) {
+                    Log.d("poly", t.message.toString())
+                }
+            })
     }
 }
