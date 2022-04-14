@@ -11,22 +11,28 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.JsonArray
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.activities.LoginActivity
 import musicpractice.com.coeeter.clicktoeat.adapters.RestaurantCardAdapter
-import musicpractice.com.coeeter.clicktoeat.apiClient.RetrofitClient
-import musicpractice.com.coeeter.clicktoeat.apiClient.models.CommentModel
-import musicpractice.com.coeeter.clicktoeat.apiClient.models.FavoriteModel
-import musicpractice.com.coeeter.clicktoeat.apiClient.models.RestaurantModel
+import musicpractice.com.coeeter.clicktoeat.repository.RetrofitClient
+import musicpractice.com.coeeter.clicktoeat.repository.models.CommentModel
+import musicpractice.com.coeeter.clicktoeat.repository.models.FavoriteModel
+import musicpractice.com.coeeter.clicktoeat.repository.models.RestaurantModel
+import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.CommentViewModel
+import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.FavoriteViewModel
+import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.RestaurantViewModel
+import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class FragmentHome : Fragment() {
     private lateinit var restaurantCardAdapter: RestaurantCardAdapter
-    private lateinit var searchView: SearchView
     private lateinit var restaurantList: ArrayList<RestaurantModel>
     private lateinit var recyclerView: RecyclerView
 
@@ -42,60 +48,39 @@ class FragmentHome : Fragment() {
         (activity as AppCompatActivity).setSupportActionBar(view.findViewById(R.id.toolbar))
         recyclerView = view.findViewById<RecyclerView>(R.id.homeLayout)
 
-        val getAllRestaurantLink = "${getString(R.string.base_url)}/restaurants?d=mobile"
+        restaurantCardAdapter = RestaurantCardAdapter(
+            activity as Context,
+            view.findViewById<LinearLayout>(R.id.nothingDisplay),
+            token,
+            RestaurantCardAdapter.HOME_PAGE
+        )
 
-        RetrofitClient.restaurantService.getRestaurants()
-            .enqueue(object : Callback<ArrayList<RestaurantModel>?> {
-                override fun onResponse(
-                    call: Call<ArrayList<RestaurantModel>?>,
-                    restaurantresponse: Response<ArrayList<RestaurantModel>?>
-                ) {
-                    if (restaurantresponse.body() == null) return
-                    RetrofitClient.commentService.getAllComments()
-                        .enqueue(object : Callback<ArrayList<CommentModel>?> {
-                            override fun onResponse(
-                                call: Call<ArrayList<CommentModel>?>,
-                                commentresponse: Response<ArrayList<CommentModel>?>
-                            ) {
-                                if (commentresponse.body() == null) return
-                                RetrofitClient.favoriteService.getUserFavorites(token)
-                                    .enqueue(object : Callback<ArrayList<FavoriteModel>?> {
-                                        override fun onResponse(
-                                            call: Call<ArrayList<FavoriteModel>?>,
-                                            favoriteResponse: Response<ArrayList<FavoriteModel>?>
-                                        ) {
-                                            if (favoriteResponse.body() == null) return
-                                            setUpRecyclerView(
-                                                view,
-                                                recyclerView,
-                                                restaurantresponse.body()!!,
-                                                commentresponse.body()!!,
-                                                favoriteResponse.body()!!
-                                            )
-                                        }
+        val restaurantList = RestaurantViewModel.getAllRestaurants()
+        val commentList = CommentViewModel.getAllComments()
+        val favoriteList = FavoriteViewModel.getAllFavorites(token)
 
-                                        override fun onFailure(
-                                            call: Call<ArrayList<FavoriteModel>?>,
-                                            t: Throwable
-                                        ) {
-                                            Log.d("poly", t.message.toString())
-                                        }
-                                    })
-                            }
+        restaurantList.observe(viewLifecycleOwner, Observer {
+            restaurantCardAdapter.setRestaurantList(it)
+        })
 
-                            override fun onFailure(
-                                call: Call<ArrayList<CommentModel>?>,
-                                t: Throwable
-                            ) {
-                                Log.d("poly", t.message.toString())
-                            }
-                        })
-                }
+        commentList.observe(viewLifecycleOwner, Observer {
+            restaurantCardAdapter.setCommentList(it)
+        })
 
-                override fun onFailure(call: Call<ArrayList<RestaurantModel>?>, t: Throwable) {
-                    Log.d("poly", t.message.toString())
-                }
-            })
+        favoriteList.observe(viewLifecycleOwner, Observer {
+            restaurantCardAdapter.setFavoriteList(it)
+        })
+
+        recyclerView.apply {
+            adapter = restaurantCardAdapter
+            layoutManager = GridLayoutManager(view.context, 2)
+            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+                layoutManager = GridLayoutManager(view.context, 4)
+            setHasFixedSize(true)
+            setItemViewCacheSize(10)
+        }
+        view.findViewById<ProgressBar>(R.id.progress).visibility = View.GONE
+
         return view
     }
 
@@ -109,7 +94,7 @@ class FragmentHome : Fragment() {
         val searchItem = menu.findItem(R.id.miSearch)
         searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
-                searchView = item!!.actionView as SearchView
+                val searchView = item!!.actionView as SearchView
                 searchView.queryHint = "Search for restaurants"
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
@@ -128,7 +113,6 @@ class FragmentHome : Fragment() {
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                recyclerView.adapter!!.notifyDataSetChanged()
                 return true
             }
         })
@@ -136,35 +120,4 @@ class FragmentHome : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    private fun setUpRecyclerView(
-        view: View,
-        recyclerView: RecyclerView,
-        restaurantList: ArrayList<RestaurantModel>,
-        commentList: ArrayList<CommentModel>,
-        favoriteList: ArrayList<FavoriteModel>
-    ) {
-        try {
-            val token = activity?.getSharedPreferences("memory", Context.MODE_PRIVATE)
-                ?.getString("token", "")!!
-            restaurantCardAdapter = RestaurantCardAdapter(
-                restaurantList,
-                commentList,
-                favoriteList,
-                activity as Context,
-                view.findViewById<LinearLayout>(R.id.nothingDisplay),
-                token
-            )
-            recyclerView.apply {
-                adapter = restaurantCardAdapter
-                layoutManager = GridLayoutManager(view.context, 2)
-                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
-                    layoutManager = GridLayoutManager(view.context, 4)
-                setHasFixedSize(true)
-                setItemViewCacheSize(10)
-            }
-            view.findViewById<ProgressBar>(R.id.progress).visibility = View.GONE
-        } catch (e: Exception) {
-            e.stackTraceToString()
-        }
-    }
 }

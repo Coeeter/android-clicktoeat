@@ -11,8 +11,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import musicpractice.com.coeeter.clicktoeat.R
-import musicpractice.com.coeeter.clicktoeat.apiClient.RetrofitClient
-import musicpractice.com.coeeter.clicktoeat.apiClient.models.DefaultResponseModel
+import musicpractice.com.coeeter.clicktoeat.repository.RetrofitClient
+import musicpractice.com.coeeter.clicktoeat.repository.models.DefaultResponseModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

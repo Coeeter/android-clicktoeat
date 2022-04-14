@@ -1,4 +1,4 @@
-package musicpractice.com.coeeter.clicktoeat.apiClient.models
+package musicpractice.com.coeeter.clicktoeat.repository.models
 
 data class UserModel(
     val _id: Int,

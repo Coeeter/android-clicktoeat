@@ -1,6 +1,6 @@
-package musicpractice.com.coeeter.clicktoeat.apiClient
+package musicpractice.com.coeeter.clicktoeat.repository
 
-import musicpractice.com.coeeter.clicktoeat.apiClient.services.*
+import musicpractice.com.coeeter.clicktoeat.repository.services.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

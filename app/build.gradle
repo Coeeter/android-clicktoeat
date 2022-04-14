@@ -52,9 +52,6 @@ dependencies {
     //gson
     implementation 'com.google.code.gson:gson:2.9.0'
 
-    //volley
-    implementation 'com.android.volley:volley:1.2.1'
-
     //picasso
     implementation 'com.squareup.picasso:picasso:2.5.2'
 

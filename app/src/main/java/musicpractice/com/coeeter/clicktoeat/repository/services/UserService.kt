@@ -1,7 +1,7 @@
-package musicpractice.com.coeeter.clicktoeat.apiClient.services
+package musicpractice.com.coeeter.clicktoeat.repository.services
 
-import musicpractice.com.coeeter.clicktoeat.apiClient.models.DefaultResponseModel
-import musicpractice.com.coeeter.clicktoeat.apiClient.models.UserModel
+import musicpractice.com.coeeter.clicktoeat.repository.models.DefaultResponseModel
+import musicpractice.com.coeeter.clicktoeat.repository.models.UserModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call

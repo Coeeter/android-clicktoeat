@@ -14,8 +14,8 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import musicpractice.com.coeeter.clicktoeat.R
-import musicpractice.com.coeeter.clicktoeat.apiClient.RetrofitClient
-import musicpractice.com.coeeter.clicktoeat.apiClient.models.DefaultResponseModel
+import musicpractice.com.coeeter.clicktoeat.repository.RetrofitClient
+import musicpractice.com.coeeter.clicktoeat.repository.models.DefaultResponseModel
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -55,18 +55,18 @@ class SignUpActivity : AppCompatActivity() {
             0
         )
 
-        error = findViewById<TextView>(R.id.error)
-        submitBtn = findViewById<Button>(R.id.submitBtn)
+        error = findViewById(R.id.error)
+        submitBtn = findViewById(R.id.submitBtn)
 
-        nameInput = findViewById<EditText>(R.id.name)
-        usernameInput = findViewById<EditText>(R.id.username)
-        passwordInput = findViewById<EditText>(R.id.password)
-        confirmPasswordInput = findViewById<EditText>(R.id.confirmPassword)
-        emailInput = findViewById<EditText>(R.id.email)
-        phoneNumInput = findViewById<EditText>(R.id.phoneNum)
-        addressInput = findViewById<EditText>(R.id.address)
-        genderInput = findViewById<RadioGroup>(R.id.gender)
-        parent = findViewById<ScrollView>(R.id.parent)
+        nameInput = findViewById(R.id.name)
+        usernameInput = findViewById(R.id.username)
+        passwordInput = findViewById(R.id.password)
+        confirmPasswordInput = findViewById(R.id.confirmPassword)
+        emailInput = findViewById(R.id.email)
+        phoneNumInput = findViewById(R.id.phoneNum)
+        addressInput = findViewById(R.id.address)
+        genderInput = findViewById(R.id.gender)
+        parent = findViewById(R.id.parent)
         profilePic = findViewById(R.id.profileImage)
 
         findViewById<RadioButton>(R.id.male).isChecked = true
@@ -80,13 +80,17 @@ class SignUpActivity : AppCompatActivity() {
         submitBtn.setOnClickListener {
             LoginActivity.hideKeyboard(this)
 
-            nameInput.clearFocus()
-            usernameInput.clearFocus()
-            passwordInput.clearFocus()
-            confirmPasswordInput.clearFocus()
-            emailInput.clearFocus()
-            phoneNumInput.clearFocus()
-            addressInput.clearFocus()
+            for (input in arrayOf(
+                nameInput,
+                usernameInput,
+                passwordInput,
+                confirmPasswordInput,
+                emailInput,
+                phoneNumInput,
+                addressInput
+            )) {
+                input.clearFocus()
+            }
 
             val name = nameInput.text.toString()
             val username = usernameInput.text.toString()
@@ -167,14 +171,14 @@ class SignUpActivity : AppCompatActivity() {
             }
 
             RetrofitClient.userService.createUser(
-                RequestBody.create(MediaType.parse("multipart/form-data"), username),
-                RequestBody.create(MediaType.parse("multipart/form-data"), password),
-                RequestBody.create(MediaType.parse("multipart/form-data"), email),
-                RequestBody.create(MediaType.parse("multipart/form-data"), phoneNum),
-                RequestBody.create(MediaType.parse("multipart/form-data"), firstName),
-                RequestBody.create(MediaType.parse("multipart/form-data"), lastName),
-                RequestBody.create(MediaType.parse("multipart/form-data"), gender),
-                RequestBody.create(MediaType.parse("multipart/form-data"), address),
+                createRequestBody(username),
+                createRequestBody(password),
+                createRequestBody(email),
+                createRequestBody(phoneNum),
+                createRequestBody(firstName),
+                createRequestBody(lastName),
+                createRequestBody(gender),
+                createRequestBody(address),
                 uploadFile
             ).enqueue(object : Callback<DefaultResponseModel?> {
                 override fun onResponse(
@@ -228,4 +232,7 @@ class SignUpActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.stay_still, R.anim.slide_out_right)
     }
 
+    private fun createRequestBody(value: String): RequestBody {
+        return RequestBody.create(MediaType.parse("multipart/form-data"), value)
+    }
 }

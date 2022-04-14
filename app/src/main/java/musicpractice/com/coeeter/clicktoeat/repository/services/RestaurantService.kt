@@ -1,6 +1,6 @@
-package musicpractice.com.coeeter.clicktoeat.apiClient.services
+package musicpractice.com.coeeter.clicktoeat.repository.services
 
-import musicpractice.com.coeeter.clicktoeat.apiClient.models.RestaurantModel
+import musicpractice.com.coeeter.clicktoeat.repository.models.RestaurantModel
 import retrofit2.Call
 import retrofit2.http.GET
 
