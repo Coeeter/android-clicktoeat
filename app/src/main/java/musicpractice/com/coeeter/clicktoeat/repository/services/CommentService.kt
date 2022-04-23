@@ -7,7 +7,7 @@ import retrofit2.http.*
 
 interface CommentService {
     //get all comments
-    @GET("comments")
+    @GET("comments?d=mobile")
     fun getAllComments(): Call<ArrayList<CommentModel>>
 
     //create Comment

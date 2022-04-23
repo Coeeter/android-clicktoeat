@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
-import android.widget.LinearLayout
-import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -16,62 +14,57 @@ import androidx.recyclerview.widget.RecyclerView
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.activities.LoginActivity
 import musicpractice.com.coeeter.clicktoeat.adapters.RestaurantCardAdapter
-import musicpractice.com.coeeter.clicktoeat.repository.models.RestaurantModel
+import musicpractice.com.coeeter.clicktoeat.databinding.FragmentHomeBinding
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.CommentViewModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.FavoriteViewModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.RestaurantViewModel
 
 class FragmentHome : Fragment() {
     private lateinit var restaurantCardAdapter: RestaurantCardAdapter
-    private lateinit var restaurantList: ArrayList<RestaurantModel>
     private lateinit var recyclerView: RecyclerView
 
+    private lateinit var binding: FragmentHomeBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
-        val token = view.context.getSharedPreferences("memory", Context.MODE_PRIVATE)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val token = requireActivity().getSharedPreferences("memory", Context.MODE_PRIVATE)
             .getString("token", "")!!
 
-        (activity as AppCompatActivity).setSupportActionBar(view.findViewById(R.id.toolbar))
-        recyclerView = view.findViewById<RecyclerView>(R.id.homeLayout)
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        recyclerView = binding.homeLayout
 
         restaurantCardAdapter = RestaurantCardAdapter(
             activity as Context,
-            view.findViewById<LinearLayout>(R.id.nothingDisplay),
+            binding.nothingDisplay,
             token,
             RestaurantCardAdapter.HOME_PAGE
         )
 
-        val restaurantList = RestaurantViewModel.getAllRestaurants()
-        val commentList = CommentViewModel.getAllComments()
-        val favoriteList = FavoriteViewModel.getAllFavorites(token)
-
-        restaurantList.observe(viewLifecycleOwner, Observer {
+        RestaurantViewModel.getAllRestaurants().observe(viewLifecycleOwner, Observer {
             restaurantCardAdapter.setRestaurantList(it)
+            binding.progress.visibility = View.GONE
         })
 
-        commentList.observe(viewLifecycleOwner, Observer {
+        CommentViewModel.getAllComments().observe(viewLifecycleOwner, Observer {
             restaurantCardAdapter.setCommentList(it)
         })
 
-        favoriteList.observe(viewLifecycleOwner, Observer {
+        FavoriteViewModel.getAllFavorites(token).observe(viewLifecycleOwner, Observer {
             restaurantCardAdapter.setFavoriteList(it)
         })
 
         recyclerView.apply {
             adapter = restaurantCardAdapter
-            layoutManager = GridLayoutManager(view.context, 2)
+            layoutManager = GridLayoutManager(context, 2)
             if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
-                layoutManager = GridLayoutManager(view.context, 4)
+                layoutManager = GridLayoutManager(context, 4)
             setHasFixedSize(true)
             setItemViewCacheSize(10)
         }
-        view.findViewById<ProgressBar>(R.id.progress).visibility = View.GONE
 
-        return view
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

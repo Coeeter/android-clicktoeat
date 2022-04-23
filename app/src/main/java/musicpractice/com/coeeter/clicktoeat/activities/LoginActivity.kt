@@ -13,43 +13,30 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
+import com.google.gson.Gson
 import musicpractice.com.coeeter.clicktoeat.R
+import musicpractice.com.coeeter.clicktoeat.databinding.ActivityLoginBinding
 import musicpractice.com.coeeter.clicktoeat.repository.RetrofitClient
 import musicpractice.com.coeeter.clicktoeat.repository.models.DefaultResponseModel
+import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.UserViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.util.Pair as UtilPair
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var usernameInput: EditText
-    private lateinit var passwordInput: EditText
-    private lateinit var submitBtn: Button
-    private lateinit var errorView: TextView
-    private lateinit var forgetPass: TextView
-    private lateinit var signUp: TextView
-    private lateinit var logInLink: String
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        supportActionBar?.hide()
-
-        logInLink = "${getString(R.string.base_url)}/users/login"
-
-        errorView = findViewById(R.id.error)
-        usernameInput = findViewById(R.id.username)
-        passwordInput = findViewById(R.id.password)
-        submitBtn = findViewById(R.id.submitBtn)
-        forgetPass = findViewById(R.id.forgetPass)
-        signUp = findViewById(R.id.signup)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val editor: SharedPreferences.Editor = getSharedPreferences("memory", MODE_PRIVATE).edit()
 
@@ -57,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
         if (email != null) {
             animateErrorView(
                 this,
-                errorView,
+                binding.error,
                 R.anim.slide_down,
                 View.VISIBLE,
                 "Email with password reset link has been sent to $email."
@@ -68,25 +55,25 @@ class LoginActivity : AppCompatActivity() {
         if (accountCreated != null) {
             animateErrorView(
                 this,
-                errorView,
+                binding.error,
                 R.anim.slide_down,
                 View.VISIBLE,
                 "Created account with username $accountCreated"
             )
         }
 
-        submitBtn.setOnClickListener {
+        binding.submitBtn.setOnClickListener {
             hideKeyboard(this)
-            usernameInput.clearFocus()
-            passwordInput.clearFocus()
+            binding.username.clearFocus()
+            binding.password.clearFocus()
 
-            val username = usernameInput.text.toString().trim()
-            val password = passwordInput.text.toString().trim()
+            val username = binding.username.text.toString().trim()
+            val password = binding.password.text.toString().trim()
 
             if (username.isEmpty() || password.isEmpty()) {
                 animateErrorView(
                     this,
-                    errorView,
+                    binding.error,
                     R.anim.slide_down,
                     View.VISIBLE,
                     "Empty Fields.\nPlease Fill up the fields below to login"
@@ -105,7 +92,7 @@ class LoginActivity : AppCompatActivity() {
                         if (result.contains("Invalid")) {
                             animateErrorView(
                                 this@LoginActivity,
-                                errorView,
+                                binding.error,
                                 R.anim.slide_down,
                                 View.VISIBLE,
                                 result
@@ -113,11 +100,13 @@ class LoginActivity : AppCompatActivity() {
                             return
                         }
                         editor.putString("token", result).apply()
-
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        startActivity(intent)
-                        overridePendingTransition(0, 0)
-                        finish()
+                        UserViewModel.getProfile(result).observe(this@LoginActivity, Observer {
+                            editor.putString("profile", Gson().toJson(it)).apply()
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            overridePendingTransition(0, 0)
+                            finish()
+                        })
                     }
 
                     override fun onFailure(call: Call<DefaultResponseModel?>, t: Throwable) {
@@ -127,26 +116,26 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
-        forgetPass.setOnClickListener {
+        binding.forgetPass.setOnClickListener {
             val intent = Intent(this, ForgetPasswordActivity::class.java)
             val options = ActivityOptions.makeSceneTransitionAnimation(
                 this,
-                UtilPair.create(findViewById<View>(R.id.brand), "brand"),
-                UtilPair.create(usernameInput, "field"),
-                UtilPair.create(submitBtn, "button")
+                UtilPair.create(binding.brand, "brand"),
+                UtilPair.create(binding.username, "field"),
+                UtilPair.create(binding.submitBtn, "button")
             )
-            usernameInput.setText("")
-            passwordInput.setText("")
-            if (!errorView.isInvisible) animateErrorView(
+            binding.username.setText("")
+            binding.password.setText("")
+            if (!binding.error.isInvisible) animateErrorView(
                 this,
-                errorView,
+                binding.error,
                 R.anim.slide_up,
                 View.INVISIBLE
             )
             startActivity(intent, options.toBundle())
         }
 
-        signUp.setOnClickListener {
+        binding.signup.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.stay_still)

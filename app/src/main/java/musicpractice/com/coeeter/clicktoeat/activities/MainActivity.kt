@@ -5,16 +5,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationBarView
 import musicpractice.com.coeeter.clicktoeat.R
+import musicpractice.com.coeeter.clicktoeat.databinding.ActivityMainBinding
 import musicpractice.com.coeeter.clicktoeat.fragments.FragmentFavorites
 import musicpractice.com.coeeter.clicktoeat.fragments.FragmentHome
 import musicpractice.com.coeeter.clicktoeat.fragments.FragmentSettings
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val navbar = findViewById<NavigationBarView>(R.id.bottomNav)
+        val navbar = binding.bottomNav
 
         navbar.selectedItemId = R.id.miHome
 

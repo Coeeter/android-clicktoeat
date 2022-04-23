@@ -5,12 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import musicpractice.com.coeeter.clicktoeat.R
+import musicpractice.com.coeeter.clicktoeat.databinding.ActivityForgetPasswordBinding
 import musicpractice.com.coeeter.clicktoeat.repository.RetrofitClient
 import musicpractice.com.coeeter.clicktoeat.repository.models.DefaultResponseModel
 import retrofit2.Call
@@ -19,33 +17,22 @@ import retrofit2.Response
 import android.util.Pair as UtilPair
 
 class ForgetPasswordActivity : AppCompatActivity() {
-    private lateinit var submitBtn: Button
-    private lateinit var emailInput: EditText
-    private lateinit var errorView: TextView
-    private lateinit var signUp: TextView
-    private lateinit var forgetPasswordLink: String
+    private lateinit var binding: ActivityForgetPasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_forget_password)
-        supportActionBar?.hide()
+        binding = ActivityForgetPasswordBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        forgetPasswordLink = "${getString(R.string.base_url)}/users/forgotPassword"
-
-        submitBtn = findViewById(R.id.submitBtn)
-        emailInput = findViewById(R.id.email)
-        errorView = findViewById(R.id.error)
-        signUp = findViewById(R.id.signup)
-
-        submitBtn.setOnClickListener {
+        binding.submitBtn.setOnClickListener {
             LoginActivity.hideKeyboard(this)
-            emailInput.clearFocus()
-            val email = emailInput.text.toString().trim()
+            binding.email.clearFocus()
+            val email = binding.email.text.toString().trim()
 
             if (email.isEmpty()) {
                 LoginActivity.animateErrorView(
                     this,
-                    errorView,
+                    binding.error,
                     R.anim.slide_down,
                     View.VISIBLE,
                     "Empty Field.\nPlease Fill up the field below to reset password"
@@ -53,8 +40,8 @@ class ForgetPasswordActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            submitBtn.isEnabled = false
-            emailInput.isEnabled = false
+            binding.submitBtn.isEnabled = false
+            binding.email.isEnabled = false
 
             RetrofitClient.userService.forgotPassword(email)
                 .enqueue(object : Callback<DefaultResponseModel?> {
@@ -69,16 +56,16 @@ class ForgetPasswordActivity : AppCompatActivity() {
                             intent.putExtra("email", sentEmail)
                             val options = ActivityOptions.makeSceneTransitionAnimation(
                                 this@ForgetPasswordActivity,
-                                UtilPair.create(findViewById(R.id.brand), "brand"),
-                                UtilPair.create(emailInput, "field"),
-                                UtilPair.create(submitBtn, "button")
+                                UtilPair.create(binding.brand, "brand"),
+                                UtilPair.create(binding.email, "field"),
+                                UtilPair.create(binding.submitBtn, "button")
                             )
-                            emailInput.setText("")
-                            submitBtn.isEnabled = true
-                            emailInput.isEnabled = true
-                            if (errorView.isVisible) LoginActivity.animateErrorView(
+                            binding.email.setText("")
+                            binding.submitBtn.isEnabled = true
+                            binding.email.isEnabled = true
+                            if (binding.error.isVisible) LoginActivity.animateErrorView(
                                 this@ForgetPasswordActivity,
-                                errorView,
+                                binding.error,
                                 R.anim.slide_up,
                                 View.INVISIBLE
                             )
@@ -87,11 +74,11 @@ class ForgetPasswordActivity : AppCompatActivity() {
                             return
                         }
 
-                        submitBtn.isEnabled = true
-                        emailInput.isEnabled = true
+                        binding.submitBtn.isEnabled = true
+                        binding.email.isEnabled = true
                         LoginActivity.animateErrorView(
                             this@ForgetPasswordActivity,
-                            errorView,
+                            binding.error,
                             R.anim.slide_down,
                             View.VISIBLE,
                             "Invalid Email"
@@ -104,7 +91,7 @@ class ForgetPasswordActivity : AppCompatActivity() {
                 })
         }
 
-        signUp.setOnClickListener {
+        binding.signup.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.stay_still)

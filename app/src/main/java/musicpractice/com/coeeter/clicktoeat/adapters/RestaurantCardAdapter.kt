@@ -1,6 +1,7 @@
 package musicpractice.com.coeeter.clicktoeat.adapters
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -10,15 +11,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.*
+import android.widget.Filter
+import android.widget.Filterable
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.activities.RestaurantActivity
+import musicpractice.com.coeeter.clicktoeat.databinding.RestaurantCardBinding
 import musicpractice.com.coeeter.clicktoeat.repository.models.CommentModel
 import musicpractice.com.coeeter.clicktoeat.repository.models.FavoriteModel
 import musicpractice.com.coeeter.clicktoeat.repository.models.RestaurantModel
@@ -70,69 +73,64 @@ class RestaurantCardAdapter(
         notifyDataSetChanged()
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView = view.findViewById(R.id.restaurantTitle)
-        val brandImage: ImageView = view.findViewById(R.id.brandImage)
-        val favBtn: ImageView = view.findViewById(R.id.addToFavs)
-        val avgRating: TextView = view.findViewById(R.id.avgRating)
-        val reviewCount: TextView = view.findViewById(R.id.totalRating)
-        val distance: TextView = view.findViewById(R.id.distance)
-        val tags: RecyclerView = view.findViewById(R.id.recycler)
-        val parent: ConstraintLayout = view.findViewById(R.id.parent)
-    }
+    class ViewHolder(val binding: RestaurantCardBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.restaurant_card, parent, false)
-        return ViewHolder(view)
+        val binding =
+            RestaurantCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val restaurant: RestaurantModel = restaurantList[position]
 
-        holder.title.text = restaurant.name
+        holder.binding.restaurantTitle.text = restaurant.name
 
         val imageUrl =
             "${context.getString(R.string.base_url)}/public/${restaurant.image}"
-        Picasso.with(context).load(imageUrl).into(holder.brandImage)
+        Picasso.with(context).load(imageUrl).into(holder.binding.brandImage)
 
         val commentMap = restaurant.getAvgRatingAndCount(commentList)
-        holder.avgRating.text = commentMap["average"]
-        holder.reviewCount.text = commentMap["count"]
+        holder.binding.avgRating.text = commentMap["average"]
+        holder.binding.totalRating.text = commentMap["count"]
 
         val favIndex = getFavoriteIndex(restaurant)
         var isFav = false
-        holder.favBtn.setImageResource(R.drawable.ic_favorite_border)
+        holder.binding.addToFavs.setImageResource(R.drawable.ic_favorite_border)
         if (favIndex != -1) {
-            holder.favBtn.setImageResource(R.drawable.ic_favorite)
+            holder.binding.addToFavs.setImageResource(R.drawable.ic_favorite)
             isFav = true
         }
 
-        holder.favBtn.setOnClickListener {
+        holder.binding.addToFavs.setOnClickListener {
             if (!isFav) {
                 FavoriteViewModel.createFavorite(token, restaurant._id)
-                holder.favBtn.setImageResource(R.drawable.ic_favorite)
+                holder.binding.addToFavs.setImageResource(R.drawable.ic_favorite)
                 val animation = AnimationUtils.loadAnimation(context, R.anim.heart_animation)
-                holder.favBtn.startAnimation(animation)
+                holder.binding.addToFavs.startAnimation(animation)
                 return@setOnClickListener
             }
             FavoriteViewModel.deleteFavorite(token, favIndex)
-            holder.favBtn.setImageResource(R.drawable.ic_favorite_border)
+            holder.binding.addToFavs.setImageResource(R.drawable.ic_favorite_border)
         }
 
         val location = getLocation()
         val distance = restaurant.getDistance(location)
-        holder.distance.text = distance
-        holder.distance.visibility = View.VISIBLE
-        if (distance == null) holder.distance.visibility = View.GONE
+        holder.binding.distance.text = distance
+        holder.binding.distance.visibility = View.VISIBLE
+        if (distance == null) holder.binding.distance.visibility = View.GONE
 
-        holder.tags.apply {
+        holder.binding.tags.apply {
             adapter = TagAdapter(restaurant.tags)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
         }
 
-        for (view in arrayOf(holder.brandImage, holder.title, holder.parent)) {
+        for (view in arrayOf(
+            holder.binding.brandImage,
+            holder.binding.restaurantTitle,
+            holder.binding.parent
+        )) {
             view.setOnClickListener(View.OnClickListener {
                 val intent = Intent(context, RestaurantActivity::class.java)
                 intent.putExtra("position", restaurant._id)
@@ -158,6 +156,7 @@ class RestaurantCardAdapter(
         return -1
     }
 
+    @SuppressLint("MissingPermission")
     private fun getLocation(): HashMap<String, Double?>? {
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (ActivityCompat.checkSelfPermission(

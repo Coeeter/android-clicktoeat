@@ -14,7 +14,7 @@ interface UserService {
 
     //get profile of logged in user
     @GET("users/{token}")
-    fun getProfile(@Path("token") token: String): Call<UserModel>
+    fun getProfile(@Path("token") token: String): Call<ArrayList<UserModel>>
 
     //create user
     @Multipart

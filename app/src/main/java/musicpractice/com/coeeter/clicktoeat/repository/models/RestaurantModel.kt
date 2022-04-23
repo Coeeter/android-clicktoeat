@@ -79,4 +79,63 @@ data class RestaurantModel(
         distance = (distance * 100).roundToInt() / 100.0
         return distance.toString() + "km"
     }
+
+    fun getOpeningAndClosingHours(): ArrayList<String> {
+        val openingAndClosingHours = ArrayList<String>()
+        openingAndClosingHours.add(
+            "${formatTime(mondayOpeningHours)} to ${
+                formatTime(
+                    mondayClosingHours
+                )
+            }"
+        )
+        openingAndClosingHours.add(
+            "${formatTime(tuesdayOpeningHours)} to ${
+                formatTime(
+                    tuesdayClosingHours
+                )
+            }"
+        )
+        openingAndClosingHours.add(
+            "${formatTime(wednesdayOpeningHours)} to ${
+                formatTime(
+                    wednesdayClosingHours
+                )
+            }"
+        )
+        openingAndClosingHours.add(
+            "${formatTime(thursdayOpeningHours)} to ${
+                formatTime(
+                    thursdayClosingHours
+                )
+            }"
+        )
+        openingAndClosingHours.add(
+            "${formatTime(fridayOpeningHours)} to ${
+                formatTime(
+                    fridayClosingHours
+                )
+            }"
+        )
+        openingAndClosingHours.add(
+            "${formatTime(saturdayOpeningHours)} to ${
+                formatTime(
+                    saturdayClosingHours
+                )
+            }"
+        )
+        openingAndClosingHours.add(
+            "${formatTime(sundayOpeningHours)} to ${
+                formatTime(
+                    sundayClosingHours
+                )
+            }"
+        )
+        return openingAndClosingHours
+    }
+
+    private fun formatTime(time: String): String {
+        val timeList = time.split(":")
+        return "${timeList[0].toInt() % 12}:${timeList[1]} ${if (timeList[0].toInt() >= 12) "pm" else "am"}"
+    }
 }

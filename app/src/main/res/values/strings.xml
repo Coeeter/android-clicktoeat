@@ -1,28 +1,27 @@
 <resources>
     <string name="app_name">ClickToEat</string>
-    <string name="base_url">http://10.0.2.2:8080</string>
+    <string name="base_url">http://192.168.2.248:8080</string>
     <string name="missingValues1">We could not find any matches for your searched term</string>
     <string name="missingValues2">Please double check your search for any spelling mistakes or you could try again with a different search item.</string>
     <string name="noFav1">There are no favorite restaurants to display here</string>
     <string name="noFav2">Try adding a restaurant to favorites in the home page.</string>
-    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Volutpat commodo sed egestas egestas fringilla. Quis commodo odio aenean sed adipiscing. Id ornare arcu odio ut sem nulla pharetra diam. Et ultrices neque ornare aenean. At tellus at urna condimentum mattis. Lacus laoreet non curabitur gravida arcu. Lorem mollis aliquam ut porttitor leo a diam. Purus sit amet volutpat consequat mauris. Nibh ipsum consequat nisl vel. Sit amet justo donec enim diam. Erat pellentesque adipiscing commodo elit. Interdum posuere lorem ipsum dolor sit. Facilisi nullam vehicula ipsum a arcu cursus vitae congue. Dictum fusce ut placerat orci nulla pellentesque dignissim enim. Vehicula ipsum a arcu cursus vitae congue mauris rhoncus. Tellus pellentesque eu tincidunt tortor.
-
-Lorem donec massa sapien faucibus et molestie ac feugiat sed. Feugiat nibh sed pulvinar proin gravida hendrerit lectus. Malesuada fames ac turpis egestas maecenas pharetra convallis posuere. Tincidunt augue interdum velit euismod in. Sem integer vitae justo eget magna fermentum iaculis eu non. Eget dolor morbi non arcu. Malesuada bibendum arcu vitae elementum curabitur vitae nunc. Cras tincidunt lobortis feugiat vivamus at augue. Sagittis eu volutpat odio facilisis mauris sit amet. Id interdum velit laoreet id donec.
-
-Imperdiet sed euismod nisi porta lorem. Eu volutpat odio facilisis mauris sit amet massa vitae tortor. Consectetur adipiscing elit ut aliquam purus sit amet luctus. Diam volutpat commodo sed egestas egestas. Pretium lectus quam id leo in vitae. Hac habitasse platea dictumst vestibulum rhoncus est. Viverra adipiscing at in tellus. Viverra ipsum nunc aliquet bibendum enim facilisis gravida neque convallis. Sollicitudin aliquam ultrices sagittis orci a scelerisque purus semper eget. Vitae purus faucibus ornare suspendisse sed. Phasellus vestibulum lorem sed risus ultricies tristique nulla aliquet enim. Turpis egestas maecenas pharetra convallis posuere morbi leo urna molestie. Viverra aliquet eget sit amet.
-
-Volutpat diam ut venenatis tellus in metus vulputate eu. Lacinia at quis risus sed vulputate odio. Aliquam id diam maecenas ultricies. Mauris pharetra et ultrices neque ornare aenean. Mollis nunc sed id semper risus in hendrerit gravida. Et ultrices neque ornare aenean. Enim neque volutpat ac tincidunt vitae semper quis lectus. Quisque sagittis purus sit amet. Neque vitae tempus quam pellentesque nec. Porttitor massa id neque aliquam vestibulum morbi blandit cursus. Convallis a cras semper auctor neque vitae tempus. Posuere sollicitudin aliquam ultrices sagittis orci. Nec sagittis aliquam malesuada bibendum. Nec sagittis aliquam malesuada bibendum arcu. Sem fringilla ut morbi tincidunt augue interdum velit. Vulputate dignissim suspendisse in est. Tincidunt augue interdum velit euismod in pellentesque. Dictum at tempor commodo ullamcorper a lacus vestibulum. Cras sed felis eget velit aliquet sagittis id consectetur. Lacus luctus accumsan tortor posuere ac ut.
-
-Fames ac turpis egestas integer eget aliquet nibh. Auctor neque vitae tempus quam pellentesque nec. Sed augue lacus viverra vitae congue eu consequat. Ultrices in iaculis nunc sed augue lacus viverra. Sollicitudin tempor id eu nisl nunc mi ipsum faucibus vitae. Mauris rhoncus aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque. Mi eget mauris pharetra et ultrices neque ornare. Sed vulputate odio ut enim blandit volutpat maecenas volutpat blandit. Fusce ut placerat orci nulla. Imperdiet proin fermentum leo vel orci. Ut ornare lectus sit amet est placerat. Pellentesque id nibh tortor id aliquet. Rhoncus aenean vel elit scelerisque mauris. Nisl nunc mi ipsum faucibus vitae. Viverra nam libero justo laoreet sit amet cursus sit amet. Non arcu risus quis varius quam quisque id. Amet facilisis magna etiam tempor orci eu lobortis elementum. Sit amet commodo nulla facilisi nullam vehicula ipsum a. Congue nisi vitae suscipit tellus mauris a diam. Cras tincidunt lobortis feugiat vivamus.
-
-Placerat vestibulum lectus mauris ultrices eros in cursus turpis. Et netus et malesuada fames. A cras semper auctor neque vitae tempus quam pellentesque. Molestie at elementum eu facilisis sed odio morbi. Lorem dolor sed viverra ipsum nunc aliquet bibendum. Sollicitudin ac orci phasellus egestas tellus rutrum tellus. Purus sit amet luctus venenatis. Viverra aliquet eget sit amet tellus. Molestie ac feugiat sed lectus vestibulum mattis. Ornare arcu dui vivamus arcu felis bibendum ut tristique. Ornare arcu odio ut sem. Enim blandit volutpat maecenas volutpat blandit aliquam etiam erat. Porttitor rhoncus dolor purus non enim praesent.
-
-Amet nulla facilisi morbi tempus iaculis. Auctor elit sed vulputate mi sit amet. Nibh sit amet commodo nulla. Tincidunt dui ut ornare lectus sit amet est placerat. Laoreet suspendisse interdum consectetur libero id faucibus nisl. Dictumst vestibulum rhoncus est pellentesque. In hac habitasse platea dictumst vestibulum rhoncus est. Id venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Sit amet cursus sit amet. Mauris a diam maecenas sed enim ut sem viverra aliquet. Tempor orci dapibus ultrices in iaculis nunc sed. Volutpat ac tincidunt vitae semper. Leo duis ut diam quam. Eu non diam phasellus vestibulum lorem sed risus ultricies tristique.
-
-At consectetur lorem donec massa sapien faucibus. Sed egestas egestas fringilla phasellus faucibus scelerisque eleifend donec pretium. Nibh mauris cursus mattis molestie. Pretium aenean pharetra magna ac placerat vestibulum lectus mauris. Et ligula ullamcorper malesuada proin. Blandit turpis cursus in hac habitasse platea dictumst quisque sagittis. Dui vivamus arcu felis bibendum ut. Tincidunt augue interdum velit euismod in pellentesque massa. Non pulvinar neque laoreet suspendisse interdum consectetur libero. Nulla facilisi nullam vehicula ipsum a arcu. Ut eu sem integer vitae.
-
-Condimentum mattis pellentesque id nibh tortor id aliquet. Dui vivamus arcu felis bibendum ut tristique et egestas. Nisi porta lorem mollis aliquam. Egestas quis ipsum suspendisse ultrices gravida. Eu lobortis elementum nibh tellus molestie nunc non blandit massa. Nunc scelerisque viverra mauris in aliquam sem fringilla. Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Eget egestas purus viverra accumsan in nisl. Odio ut enim blandit volutpat maecenas volutpat. Quam quisque id diam vel quam elementum. Augue ut lectus arcu bibendum at varius vel pharetra. Ornare massa eget egestas purus viverra accumsan in. Pretium vulputate sapien nec sagittis aliquam malesuada bibendum arcu. Est ultricies integer quis auctor. Vulputate sapien nec sagittis aliquam malesuada bibendum. Aenean pharetra magna ac placerat. Eu augue ut lectus arcu bibendum. Nec feugiat nisl pretium fusce id velit ut tortor pretium.
-
-Dolor sed viverra ipsum nunc aliquet bibendum enim facilisis gravida. Ut aliquam purus sit amet. Sed enim ut sem viverra aliquet. Morbi tristique senectus et netus et malesuada fames. Sit amet mauris commodo quis imperdiet. Elementum nibh tellus molestie nunc non blandit. Pulvinar mattis nunc sed blandit libero volutpat sed cras ornare. Gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas erat imperdiet sed euismod. Ut sem nulla pharetra diam. Risus sed vulputate odio ut enim blandit volutpat maecenas. Posuere sollicitudin aliquam ultrices sagittis orci a scelerisque purus. Urna molestie at elementum eu facilisis sed odio. Cras sed felis eget velit. Venenatis cras sed felis eget velit aliquet sagittis id. Praesent semper feugiat nibh sed pulvinar proin gravida hendrerit lectus.</string>
     <string name="add_to_favorites">Add to Favorites</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="daysString">Monday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\nSunday</string>
+    <string name="opening_hours">Opening Hours</string>
+    <string name="description">Description</string>
+    <string name="contact_information">Contact Information</string>
+    <string name="website">Website</string>
+    <string name="facebook">Facebook</string>
+    <string name="twitter">Twitter</string>
+    <string name="tags">Tags</string>
+    <string name="read_more">Read More</string>
+    <string name="collapse">Collapse</string>
+    <string name="average_rating">Average Rating</string>
+    <string name="comments">Comments</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit_comment">Edit Comment</string>
+    <string name="view_the_map">View the map</string>
 </resources>

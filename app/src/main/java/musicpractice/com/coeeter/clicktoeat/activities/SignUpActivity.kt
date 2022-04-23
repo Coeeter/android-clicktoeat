@@ -10,41 +10,33 @@ import android.provider.MediaStore
 import android.util.Log
 import android.util.Pair
 import android.view.View
-import android.widget.*
+import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import musicpractice.com.coeeter.clicktoeat.R
+import musicpractice.com.coeeter.clicktoeat.databinding.ActivitySignUpBinding
 import musicpractice.com.coeeter.clicktoeat.repository.RetrofitClient
 import musicpractice.com.coeeter.clicktoeat.repository.models.DefaultResponseModel
+import musicpractice.com.coeeter.clicktoeat.utils.getFile
+import musicpractice.com.coeeter.clicktoeat.utils.getFileType
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 
 
 class SignUpActivity : AppCompatActivity() {
     private val requestCodeToGetImage = 10
     private var profileUri: Uri? = null
-    private lateinit var error: TextView
-    private lateinit var submitBtn: Button
-    private lateinit var nameInput: EditText
-    private lateinit var usernameInput: EditText
-    private lateinit var passwordInput: EditText
-    private lateinit var confirmPasswordInput: EditText
-    private lateinit var emailInput: EditText
-    private lateinit var phoneNumInput: EditText
-    private lateinit var addressInput: EditText
-    private lateinit var genderInput: RadioGroup
-    private lateinit var parent: ScrollView
-    private lateinit var profilePic: ImageView
 
+    private lateinit var binding: ActivitySignUpBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
-        supportActionBar?.hide()
+        binding = ActivitySignUpBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         ActivityCompat.requestPermissions(
             this,
             arrayOf(
@@ -55,52 +47,38 @@ class SignUpActivity : AppCompatActivity() {
             0
         )
 
-        error = findViewById(R.id.error)
-        submitBtn = findViewById(R.id.submitBtn)
-
-        nameInput = findViewById(R.id.name)
-        usernameInput = findViewById(R.id.username)
-        passwordInput = findViewById(R.id.password)
-        confirmPasswordInput = findViewById(R.id.confirmPassword)
-        emailInput = findViewById(R.id.email)
-        phoneNumInput = findViewById(R.id.phoneNum)
-        addressInput = findViewById(R.id.address)
-        genderInput = findViewById(R.id.gender)
-        parent = findViewById(R.id.parent)
-        profilePic = findViewById(R.id.profileImage)
-
         findViewById<RadioButton>(R.id.male).isChecked = true
 
-        profilePic.setOnClickListener {
+        binding.profileImage.setOnClickListener {
             LoginActivity.hideKeyboard(this)
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, requestCodeToGetImage)
         }
 
-        submitBtn.setOnClickListener {
+        binding.submitBtn.setOnClickListener {
             LoginActivity.hideKeyboard(this)
 
             for (input in arrayOf(
-                nameInput,
-                usernameInput,
-                passwordInput,
-                confirmPasswordInput,
-                emailInput,
-                phoneNumInput,
-                addressInput
+                binding.name,
+                binding.username,
+                binding.password,
+                binding.confirmPassword,
+                binding.email,
+                binding.phoneNum,
+                binding.address
             )) {
                 input.clearFocus()
             }
 
-            val name = nameInput.text.toString()
-            val username = usernameInput.text.toString()
-            val password = passwordInput.text.toString()
-            val confirmPassword = confirmPasswordInput.text.toString()
-            val email = emailInput.text.toString()
-            val phoneNum = phoneNumInput.text.toString()
-            val address = addressInput.text.toString()
+            val name = binding.name.text.toString()
+            val username = binding.username.text.toString()
+            val password = binding.password.text.toString()
+            val confirmPassword = binding.confirmPassword.text.toString()
+            val email = binding.email.text.toString()
+            val phoneNum = binding.phoneNum.text.toString()
+            val address = binding.address.text.toString()
             var gender = ""
-            when (genderInput.checkedRadioButtonId) {
+            when (binding.gender.checkedRadioButtonId) {
                 R.id.male -> gender = "M"
                 R.id.female -> gender = "F"
             }
@@ -117,12 +95,12 @@ class SignUpActivity : AppCompatActivity() {
                 if (item.isEmpty()) {
                     LoginActivity.animateErrorView(
                         this,
-                        error,
+                        binding.error,
                         R.anim.slide_down,
                         View.VISIBLE,
                         "Empty Field.\nPlease fill up " +
                                 "the fields below to register",
-                        parent
+                        binding.parent
                     )
                     return@setOnClickListener
                 }
@@ -141,33 +119,26 @@ class SignUpActivity : AppCompatActivity() {
             if (password != confirmPassword) {
                 LoginActivity.animateErrorView(
                     this,
-                    error,
+                    binding.error,
                     R.anim.slide_down,
                     View.VISIBLE,
                     "Wrong confirm password " +
                             "entered.\nPlease input correct password",
-                    parent
+                    binding.parent
                 )
                 return@setOnClickListener
             }
 
             var uploadFile: MultipartBody.Part? = null
             if (profileUri != null) {
-                val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+                val imageFile = profileUri!!.getFile(contentResolver)
 
-                val cursor = contentResolver.query(profileUri!!, filePathColumn, null, null, null)
-                assert(cursor != null)
-                cursor!!.moveToFirst()
-
-                val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-                val imageFile = File(cursor.getString(columnIndex))
                 val requestFile = RequestBody.create(
-                    MediaType.parse(contentResolver.getType(profileUri!!)!!),
+                    MediaType.parse(profileUri!!.getFileType(contentResolver)),
                     imageFile
                 )
                 uploadFile =
                     MultipartBody.Part.createFormData("uploadFile", imageFile.name, requestFile)
-                cursor.close()
             }
 
             RetrofitClient.userService.createUser(
@@ -188,11 +159,11 @@ class SignUpActivity : AppCompatActivity() {
                     if (response.body()!!.result != null) {
                         LoginActivity.animateErrorView(
                             this@SignUpActivity,
-                            error,
+                            binding.error,
                             R.anim.slide_down,
                             View.VISIBLE,
                             response.body()!!.result!!,
-                            parent
+                            binding.parent
                         )
                         return
                     }
@@ -202,9 +173,9 @@ class SignUpActivity : AppCompatActivity() {
                         val options = ActivityOptions
                             .makeSceneTransitionAnimation(
                                 this@SignUpActivity,
-                                Pair.create(findViewById(R.id.brand), "brand"),
-                                Pair.create(findViewById(R.id.form), "field"),
-                                Pair.create(submitBtn, "button")
+                                Pair.create(binding.brand, "brand"),
+                                Pair.create(binding.form, "field"),
+                                Pair.create(binding.submitBtn, "button")
                             )
                         startActivity(intent, options.toBundle())
                         finish()
@@ -222,7 +193,7 @@ class SignUpActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == requestCodeToGetImage && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-            profilePic.setImageURI(data.data)
+            binding.profileImage.setImageURI(data.data)
             profileUri = data.data
         }
     }

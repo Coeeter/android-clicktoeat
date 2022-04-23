@@ -10,24 +10,28 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.activities.LoginActivity
+import musicpractice.com.coeeter.clicktoeat.databinding.FragmentSettingsBinding
 
 class FragmentSettings : Fragment() {
+    private lateinit var binding: FragmentSettingsBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_settings, container, false)
-        view.findViewById<Button>(R.id.logout).setOnClickListener {
-            val editor = this.activity?.getSharedPreferences("memory", Context.MODE_PRIVATE)?.edit()
-            editor?.putString("token", "")
-            editor?.apply()
-            val intent: Intent = Intent(this.activity, LoginActivity::class.java)
-            this.activity?.startActivity(intent)
-            this.activity?.overridePendingTransition(0, 0)
-            this.activity?.finish()
+        binding = FragmentSettingsBinding.inflate(inflater, container, false)
+
+        binding.logout.setOnClickListener {
+            val editor = requireActivity().getSharedPreferences("memory", Context.MODE_PRIVATE).edit()
+            editor.remove("token").apply()
+            editor.remove("profile").apply()
+            requireActivity().apply {
+                startActivity(Intent(this, LoginActivity::class.java))
+                overridePendingTransition(0, 0)
+                finish()
+            }
         }
-        return view
+        return binding.root
     }
 
 }

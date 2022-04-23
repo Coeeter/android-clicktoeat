@@ -2,13 +2,18 @@ package musicpractice.com.coeeter.clicktoeat.activities
 
 import android.os.Bundle
 import android.view.Menu
-import android.widget.ImageView
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.squareup.picasso.Picasso
 import musicpractice.com.coeeter.clicktoeat.R
+import musicpractice.com.coeeter.clicktoeat.databinding.ActivityRestaurantBinding
+import musicpractice.com.coeeter.clicktoeat.fragments.FragmentRestaurantDetails
+import musicpractice.com.coeeter.clicktoeat.fragments.FragmentRestaurantReviews
 import musicpractice.com.coeeter.clicktoeat.repository.models.RestaurantModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.FavoriteViewModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.RestaurantViewModel
@@ -18,12 +23,14 @@ class RestaurantActivity : AppCompatActivity() {
     private lateinit var token: String
     private var favoriteId = -1
     private var isFavLivedata = MutableLiveData(false)
+
+    private lateinit var binding: ActivityRestaurantBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_restaurant)
+        binding = ActivityRestaurantBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
 
         token = getSharedPreferences("memory", MODE_PRIVATE).getString("token", "").toString()
 
@@ -38,15 +45,21 @@ class RestaurantActivity : AppCompatActivity() {
                     break
                 }
             }
-            toolbar.title = restaurant.name
+            binding.toolbar.title = restaurant.name
             Picasso.with(this)
                 .load("${getString(R.string.base_url)}/public/${restaurant.image}")
-                .into(findViewById<ImageView>(R.id.restaurantBrand))
+                .into(binding.restaurantBrand)
+
+            val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
+            viewPagerAdapter.addFragment(FragmentRestaurantDetails(restaurant), "Details")
+            viewPagerAdapter.addFragment(FragmentRestaurantReviews(restaurant), "Reviews")
+            binding.viewPager.adapter = viewPagerAdapter
+
+            binding.tabs.setupWithViewPager(binding.viewPager)
         })
 
         val favoriteList = FavoriteViewModel.getAllFavorites(token)
         favoriteList.observe(this, Observer {
-            if (it.size == 0) return@Observer
             isFavLivedata.value = false
             for (favorite in it) {
                 if (favorite.restaurantID == restaurant._id) {
@@ -57,7 +70,7 @@ class RestaurantActivity : AppCompatActivity() {
             }
         })
 
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             finish()
         }
     }
@@ -71,19 +84,48 @@ class RestaurantActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.restaurant_details_menu, menu)
         val addToFavItem = menu.findItem(R.id.miFav)
         isFavLivedata.observe(this, Observer { isFav ->
-            if (isFav) addToFavItem.setIcon(R.drawable.ic_favorite_menu)
-            else addToFavItem.setIcon(R.drawable.ic_favorite_border_menu)
+            if (isFav) addToFavItem.setIcon(R.drawable.ic_favorite)
+            else addToFavItem.setIcon(R.drawable.ic_favorite_border)
         })
-        addToFavItem.setOnMenuItemClickListener {
-            if (!isFavLivedata.value!!) {
-                FavoriteViewModel.createFavorite(token, restaurant._id)
-                addToFavItem.setIcon(R.drawable.ic_favorite_menu)
-                return@setOnMenuItemClickListener true
-            }
-            FavoriteViewModel.deleteFavorite(token, favoriteId)
-            addToFavItem.setIcon(R.drawable.ic_favorite_border_menu)
-            return@setOnMenuItemClickListener true
-        }
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.miFav -> {
+                if (!isFavLivedata.value!!) {
+                    FavoriteViewModel.createFavorite(token, restaurant._id)
+                    item.setIcon(R.drawable.ic_favorite)
+                    return true
+                }
+                FavoriteViewModel.deleteFavorite(token, favoriteId)
+                item.setIcon(R.drawable.ic_favorite_border)
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private class ViewPagerAdapter(manager: FragmentManager) :
+        FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+        private val fragmentList = ArrayList<Fragment>()
+        private val fragmentTitleList = ArrayList<String>()
+
+        fun addFragment(fragment: Fragment, title: String) {
+            fragmentList.add(fragment)
+            fragmentTitleList.add(title)
+        }
+
+        override fun getCount(): Int {
+            return fragmentList.size
+        }
+
+        override fun getItem(position: Int): Fragment {
+            return fragmentList[position]
+        }
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            return fragmentTitleList[position]
+        }
     }
 }

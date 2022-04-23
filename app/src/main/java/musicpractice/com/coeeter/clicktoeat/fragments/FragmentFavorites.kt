@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.activities.LoginActivity
 import musicpractice.com.coeeter.clicktoeat.adapters.RestaurantCardAdapter
+import musicpractice.com.coeeter.clicktoeat.databinding.FragmentFavoritesBinding
 import musicpractice.com.coeeter.clicktoeat.repository.models.RestaurantModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.CommentViewModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.FavoriteViewModel
@@ -27,21 +28,21 @@ class FragmentFavorites : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var searchable = false
 
+    private lateinit var binding: FragmentFavoritesBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_favorites, container, false)
-        val token = view.context.getSharedPreferences("memory", Context.MODE_PRIVATE)
+        binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        val token = requireActivity().getSharedPreferences("memory", Context.MODE_PRIVATE)
             .getString("token", "")!!
 
-        (activity as AppCompatActivity).setSupportActionBar(view.findViewById(R.id.toolbar))
-        recyclerView = view.findViewById<RecyclerView>(R.id.homeLayout)
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        recyclerView = binding.homeLayout
 
         restaurantCardAdapter = RestaurantCardAdapter(
             activity as Context,
-            view.findViewById<LinearLayout>(R.id.nothingDisplay),
+            binding.nothingDisplay,
             token,
             RestaurantCardAdapter.FAVORITE_PAGE
         )
@@ -52,6 +53,7 @@ class FragmentFavorites : Fragment() {
 
         restaurantList.observe(viewLifecycleOwner, Observer {
             restaurantCardAdapter.setRestaurantList(it)
+            binding.progress.visibility = View.GONE
         })
 
         commentList.observe(viewLifecycleOwner, Observer {
@@ -63,7 +65,7 @@ class FragmentFavorites : Fragment() {
             searchable = true
             if (it.size == 0) {
                 restaurantCardAdapter.setRestaurantList(ArrayList())
-                view.findViewById<LinearLayout>(R.id.noFavs).visibility =
+                binding.noFavs.visibility =
                     View.VISIBLE
                 searchable = false
             }
@@ -71,14 +73,13 @@ class FragmentFavorites : Fragment() {
 
         recyclerView.apply {
             adapter = restaurantCardAdapter
-            layoutManager = GridLayoutManager(view.context, 2)
+            layoutManager = GridLayoutManager(context, 2)
             if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
-                layoutManager = GridLayoutManager(view.context, 4)
+                layoutManager = GridLayoutManager(context, 4)
             setHasFixedSize(true)
             setItemViewCacheSize(10)
         }
-        view.findViewById<ProgressBar>(R.id.progress).visibility = View.GONE
-        return view
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
