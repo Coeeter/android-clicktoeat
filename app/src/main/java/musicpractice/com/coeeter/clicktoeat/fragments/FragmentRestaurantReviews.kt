@@ -10,13 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import musicpractice.com.coeeter.clicktoeat.R
-import musicpractice.com.coeeter.clicktoeat.activities.LoginActivity
 import musicpractice.com.coeeter.clicktoeat.adapters.CommentAdapter
 import musicpractice.com.coeeter.clicktoeat.databinding.FragmentRestaurantReviewsBinding
 import musicpractice.com.coeeter.clicktoeat.repository.models.CommentModel
 import musicpractice.com.coeeter.clicktoeat.repository.models.RestaurantModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.CommentViewModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.UserViewModel
+import musicpractice.com.coeeter.clicktoeat.utils.hideKeyboard
 
 class FragmentRestaurantReviews(private val restaurant: RestaurantModel) : Fragment() {
     private lateinit var binding: FragmentRestaurantReviewsBinding
@@ -74,6 +74,7 @@ class FragmentRestaurantReviews(private val restaurant: RestaurantModel) : Fragm
         for (star in starArray) {
             star.tag = "Unchecked"
             star.setOnClickListener {
+                requireActivity().hideKeyboard()
                 for (i in starArray.indices) {
                     starArray[i].setImageResource(R.drawable.ic_star_outline)
                     starArray[i].tag = "Unchecked"
@@ -95,7 +96,7 @@ class FragmentRestaurantReviews(private val restaurant: RestaurantModel) : Fragm
         }
 
         binding.createCommentBtn.setOnClickListener {
-            LoginActivity.hideKeyboard(requireActivity())
+            requireActivity().hideKeyboard()
             val review = binding.commentReview.text.toString()
             var rating = 0
             for (star in starArray) {

@@ -1,6 +1,5 @@
 package musicpractice.com.coeeter.clicktoeat.fragments
 
-import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
@@ -12,13 +11,13 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import musicpractice.com.coeeter.clicktoeat.R
-import musicpractice.com.coeeter.clicktoeat.activities.LoginActivity
 import musicpractice.com.coeeter.clicktoeat.adapters.RestaurantCardAdapter
 import musicpractice.com.coeeter.clicktoeat.databinding.FragmentFavoritesBinding
 import musicpractice.com.coeeter.clicktoeat.repository.models.RestaurantModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.CommentViewModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.FavoriteViewModel
 import musicpractice.com.coeeter.clicktoeat.repository.viewmodels.RestaurantViewModel
+import musicpractice.com.coeeter.clicktoeat.utils.hideKeyboard
 
 class FragmentFavorites : Fragment() {
     private lateinit var restaurantCardAdapter: RestaurantCardAdapter
@@ -95,7 +94,7 @@ class FragmentFavorites : Fragment() {
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         if (!searchable) return false
-                        LoginActivity.hideKeyboard(activity as Activity)
+                        requireActivity().hideKeyboard()
                         searchView.clearFocus()
                         return false
                     }

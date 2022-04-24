@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.util.Pair
-import android.view.View
 import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -17,8 +16,10 @@ import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.databinding.ActivitySignUpBinding
 import musicpractice.com.coeeter.clicktoeat.repository.RetrofitClient
 import musicpractice.com.coeeter.clicktoeat.repository.models.DefaultResponseModel
+import musicpractice.com.coeeter.clicktoeat.utils.createSnackBar
 import musicpractice.com.coeeter.clicktoeat.utils.getFile
 import musicpractice.com.coeeter.clicktoeat.utils.getFileType
+import musicpractice.com.coeeter.clicktoeat.utils.hideKeyboard
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -50,13 +51,13 @@ class SignUpActivity : AppCompatActivity() {
         findViewById<RadioButton>(R.id.male).isChecked = true
 
         binding.profileImage.setOnClickListener {
-            LoginActivity.hideKeyboard(this)
+            hideKeyboard()
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, requestCodeToGetImage)
         }
 
         binding.submitBtn.setOnClickListener {
-            LoginActivity.hideKeyboard(this)
+            hideKeyboard()
 
             for (input in arrayOf(
                 binding.name,
@@ -93,16 +94,8 @@ class SignUpActivity : AppCompatActivity() {
                 address
             )) {
                 if (item.isEmpty()) {
-                    LoginActivity.animateErrorView(
-                        this,
-                        binding.error,
-                        R.anim.slide_down,
-                        View.VISIBLE,
-                        "Empty Field.\nPlease fill up " +
-                                "the fields below to register",
-                        binding.parent
-                    )
-                    return@setOnClickListener
+                    return@setOnClickListener binding.root
+                        .createSnackBar("Empty field.\nPlease fill up the fields below to register.")
                 }
             }
 
@@ -117,16 +110,8 @@ class SignUpActivity : AppCompatActivity() {
                 else ""
 
             if (password != confirmPassword) {
-                LoginActivity.animateErrorView(
-                    this,
-                    binding.error,
-                    R.anim.slide_down,
-                    View.VISIBLE,
-                    "Wrong confirm password " +
-                            "entered.\nPlease input correct password",
-                    binding.parent
-                )
-                return@setOnClickListener
+                return@setOnClickListener binding.root
+                    .createSnackBar("Wrong confirm password entered.\nPlease input correct password.")
             }
 
             var uploadFile: MultipartBody.Part? = null
@@ -157,15 +142,7 @@ class SignUpActivity : AppCompatActivity() {
                     response: Response<DefaultResponseModel?>
                 ) {
                     if (response.body()!!.result != null) {
-                        LoginActivity.animateErrorView(
-                            this@SignUpActivity,
-                            binding.error,
-                            R.anim.slide_down,
-                            View.VISIBLE,
-                            response.body()!!.result!!,
-                            binding.parent
-                        )
-                        return
+                        return binding.submitBtn.createSnackBar(response.body()!!.result!!)
                     }
                     if (response.body()!!.affectedRows != null && response.body()!!.affectedRows == 1) {
                         val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
