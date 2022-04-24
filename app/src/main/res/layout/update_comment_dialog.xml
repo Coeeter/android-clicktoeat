@@ -36,12 +36,12 @@
         android:id="@+id/starContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="@id/editComment"
+        android:layout_marginEnd="175dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@id/editComment"
-        app:layout_constraintTop_toBottomOf="@id/editComment"
-        android:layout_marginEnd="175dp">
+        app:layout_constraintStart_toStartOf="@id/editComment"
+        app:layout_constraintTop_toBottomOf="@id/editComment">
 
         <ImageView
             android:id="@+id/star1"

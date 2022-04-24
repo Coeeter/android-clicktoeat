@@ -69,7 +69,8 @@ class FragmentRestaurantReviews(private val restaurant: RestaurantModel) : Fragm
             binding.createCommentBtn.isEnabled = true
         }
 
-        val starArray = arrayOf(binding.star1, binding.star2, binding.star3, binding.star4, binding.star5)
+        val starArray =
+            arrayOf(binding.star1, binding.star2, binding.star3, binding.star4, binding.star5)
         for (star in starArray) {
             star.tag = "Unchecked"
             star.setOnClickListener {
@@ -86,7 +87,7 @@ class FragmentRestaurantReviews(private val restaurant: RestaurantModel) : Fragm
                     else -> -1
                 }
                 if (index == -1) return@setOnClickListener
-                for (i in 0 until index+1) {
+                for (i in 0 until index + 1) {
                     starArray[i].setImageResource(R.drawable.ic_star)
                     starArray[i].tag = "Checked"
                 }
