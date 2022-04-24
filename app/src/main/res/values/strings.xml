@@ -24,4 +24,5 @@
     <string name="cancel">Cancel</string>
     <string name="edit_comment">Edit Comment</string>
     <string name="view_the_map">View the map</string>
+    <string name="create_comment">Create Comment</string>
 </resources>
