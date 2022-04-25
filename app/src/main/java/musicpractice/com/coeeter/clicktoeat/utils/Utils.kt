@@ -9,6 +9,8 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.google.android.material.snackbar.Snackbar
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import java.io.File
 
 fun Uri.getFile(contentResolver: ContentResolver): File {
@@ -23,9 +25,7 @@ fun Uri.getFile(contentResolver: ContentResolver): File {
 
 }
 
-fun Uri.getFileType(contentResolver: ContentResolver): String {
-    return contentResolver.getType(this)!!
-}
+fun Uri.getFileType(contentResolver: ContentResolver) = contentResolver.getType(this)!!
 
 fun Activity.hideKeyboard() {
     try {
@@ -38,7 +38,7 @@ fun Activity.hideKeyboard() {
 }
 
 fun View.isVisible(isVisible: Boolean) {
-    this.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
+    this.visibility = if (isVisible) View.VISIBLE else View.GONE
 }
 
 fun View.createSnackBar(message: String) {
@@ -47,3 +47,6 @@ fun View.createSnackBar(message: String) {
         snackBar.dismiss()
     }.show()
 }
+
+fun String.createMultipartFormData(): RequestBody =
+    RequestBody.create(MediaType.parse("multipart/form-data"), this)
