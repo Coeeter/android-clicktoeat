@@ -13,14 +13,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.databinding.FragmentFavoritesBinding
-import musicpractice.com.coeeter.clicktoeat.models.RestaurantModel
+import musicpractice.com.coeeter.clicktoeat.data.models.RestaurantModel
 import musicpractice.com.coeeter.clicktoeat.ui.adapters.RestaurantCardAdapter
 import musicpractice.com.coeeter.clicktoeat.utils.InjectorUtils
 import musicpractice.com.coeeter.clicktoeat.utils.hideKeyboard
 import musicpractice.com.coeeter.clicktoeat.utils.isVisible
-import musicpractice.com.coeeter.clicktoeat.viewmodels.CommentViewModel
-import musicpractice.com.coeeter.clicktoeat.viewmodels.FavoriteViewModel
-import musicpractice.com.coeeter.clicktoeat.viewmodels.RestaurantViewModel
+import musicpractice.com.coeeter.clicktoeat.data.viewmodels.CommentViewModel
+import musicpractice.com.coeeter.clicktoeat.data.viewmodels.FavoriteViewModel
+import musicpractice.com.coeeter.clicktoeat.data.viewmodels.RestaurantViewModel
 
 class FragmentFavorites : Fragment() {
     private lateinit var restaurantCardAdapter: RestaurantCardAdapter

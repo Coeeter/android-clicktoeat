@@ -13,12 +13,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.databinding.ActivityRestaurantBinding
-import musicpractice.com.coeeter.clicktoeat.models.RestaurantModel
+import musicpractice.com.coeeter.clicktoeat.data.models.RestaurantModel
 import musicpractice.com.coeeter.clicktoeat.ui.fragments.FragmentRestaurantDetails
 import musicpractice.com.coeeter.clicktoeat.ui.fragments.FragmentRestaurantReviews
 import musicpractice.com.coeeter.clicktoeat.utils.InjectorUtils
-import musicpractice.com.coeeter.clicktoeat.viewmodels.FavoriteViewModel
-import musicpractice.com.coeeter.clicktoeat.viewmodels.RestaurantViewModel
+import musicpractice.com.coeeter.clicktoeat.data.viewmodels.FavoriteViewModel
+import musicpractice.com.coeeter.clicktoeat.data.viewmodels.RestaurantViewModel
 
 class RestaurantActivity : AppCompatActivity() {
     private lateinit var restaurant: RestaurantModel

@@ -17,9 +17,9 @@ import musicpractice.com.coeeter.clicktoeat.ui.adapters.RestaurantCardAdapter
 import musicpractice.com.coeeter.clicktoeat.utils.InjectorUtils
 import musicpractice.com.coeeter.clicktoeat.utils.hideKeyboard
 import musicpractice.com.coeeter.clicktoeat.utils.isVisible
-import musicpractice.com.coeeter.clicktoeat.viewmodels.CommentViewModel
-import musicpractice.com.coeeter.clicktoeat.viewmodels.FavoriteViewModel
-import musicpractice.com.coeeter.clicktoeat.viewmodels.RestaurantViewModel
+import musicpractice.com.coeeter.clicktoeat.data.viewmodels.CommentViewModel
+import musicpractice.com.coeeter.clicktoeat.data.viewmodels.FavoriteViewModel
+import musicpractice.com.coeeter.clicktoeat.data.viewmodels.RestaurantViewModel
 
 class FragmentHome : Fragment() {
     private lateinit var restaurantCardAdapter: RestaurantCardAdapter

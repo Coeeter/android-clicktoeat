@@ -22,13 +22,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.databinding.RestaurantCardBinding
-import musicpractice.com.coeeter.clicktoeat.models.CommentModel
-import musicpractice.com.coeeter.clicktoeat.models.FavoriteModel
-import musicpractice.com.coeeter.clicktoeat.models.RestaurantModel
+import musicpractice.com.coeeter.clicktoeat.data.models.CommentModel
+import musicpractice.com.coeeter.clicktoeat.data.models.FavoriteModel
+import musicpractice.com.coeeter.clicktoeat.data.models.RestaurantModel
 import musicpractice.com.coeeter.clicktoeat.ui.activities.RestaurantActivity
 import musicpractice.com.coeeter.clicktoeat.utils.InjectorUtils
 import musicpractice.com.coeeter.clicktoeat.utils.isVisible
-import musicpractice.com.coeeter.clicktoeat.viewmodels.FavoriteViewModel
+import musicpractice.com.coeeter.clicktoeat.data.viewmodels.FavoriteViewModel
 
 class RestaurantCardAdapter(
     private val context: Context,

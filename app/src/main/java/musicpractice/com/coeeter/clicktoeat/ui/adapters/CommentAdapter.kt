@@ -20,13 +20,13 @@ import com.squareup.picasso.Picasso
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.databinding.CommentLayoutBinding
 import musicpractice.com.coeeter.clicktoeat.databinding.UpdateCommentDialogBinding
-import musicpractice.com.coeeter.clicktoeat.models.CommentModel
-import musicpractice.com.coeeter.clicktoeat.models.LikesAndDislikesModel
-import musicpractice.com.coeeter.clicktoeat.models.RestaurantModel
-import musicpractice.com.coeeter.clicktoeat.models.UserModel
+import musicpractice.com.coeeter.clicktoeat.data.models.CommentModel
+import musicpractice.com.coeeter.clicktoeat.data.models.LikesAndDislikesModel
+import musicpractice.com.coeeter.clicktoeat.data.models.RestaurantModel
+import musicpractice.com.coeeter.clicktoeat.data.models.UserModel
 import musicpractice.com.coeeter.clicktoeat.utils.InjectorUtils
 import musicpractice.com.coeeter.clicktoeat.utils.isVisible
-import musicpractice.com.coeeter.clicktoeat.viewmodels.CommentViewModel
+import musicpractice.com.coeeter.clicktoeat.data.viewmodels.CommentViewModel
 
 class CommentAdapter(
     private val context: Context,

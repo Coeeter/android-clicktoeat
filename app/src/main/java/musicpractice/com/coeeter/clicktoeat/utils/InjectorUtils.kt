@@ -1,14 +1,14 @@
 package musicpractice.com.coeeter.clicktoeat.utils
 
-import musicpractice.com.coeeter.clicktoeat.database.Database
-import musicpractice.com.coeeter.clicktoeat.factories.CommentViewModelFactory
-import musicpractice.com.coeeter.clicktoeat.factories.FavoriteViewModelFactory
-import musicpractice.com.coeeter.clicktoeat.factories.RestaurantViewModelFactory
-import musicpractice.com.coeeter.clicktoeat.factories.UserViewModelFactory
-import musicpractice.com.coeeter.clicktoeat.repositories.CommentRepository
-import musicpractice.com.coeeter.clicktoeat.repositories.FavoriteRepository
-import musicpractice.com.coeeter.clicktoeat.repositories.RestaurantRepository
-import musicpractice.com.coeeter.clicktoeat.repositories.UserRepository
+import musicpractice.com.coeeter.clicktoeat.data.database.Database
+import musicpractice.com.coeeter.clicktoeat.data.factories.CommentViewModelFactory
+import musicpractice.com.coeeter.clicktoeat.data.factories.FavoriteViewModelFactory
+import musicpractice.com.coeeter.clicktoeat.data.factories.RestaurantViewModelFactory
+import musicpractice.com.coeeter.clicktoeat.data.factories.UserViewModelFactory
+import musicpractice.com.coeeter.clicktoeat.data.repositories.CommentRepository
+import musicpractice.com.coeeter.clicktoeat.data.repositories.FavoriteRepository
+import musicpractice.com.coeeter.clicktoeat.data.repositories.RestaurantRepository
+import musicpractice.com.coeeter.clicktoeat.data.repositories.UserRepository
 
 object InjectorUtils {
 

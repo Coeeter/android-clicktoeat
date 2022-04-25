@@ -11,7 +11,7 @@ import com.google.gson.Gson
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.databinding.ActivitySplashScreenBinding
 import musicpractice.com.coeeter.clicktoeat.utils.InjectorUtils
-import musicpractice.com.coeeter.clicktoeat.viewmodels.UserViewModel
+import musicpractice.com.coeeter.clicktoeat.data.viewmodels.UserViewModel
 
 class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -11,7 +11,7 @@ import musicpractice.com.coeeter.clicktoeat.databinding.ActivityForgetPasswordBi
 import musicpractice.com.coeeter.clicktoeat.utils.InjectorUtils
 import musicpractice.com.coeeter.clicktoeat.utils.createSnackBar
 import musicpractice.com.coeeter.clicktoeat.utils.hideKeyboard
-import musicpractice.com.coeeter.clicktoeat.viewmodels.UserViewModel
+import musicpractice.com.coeeter.clicktoeat.data.viewmodels.UserViewModel
 import android.util.Pair as UtilPair
 
 class ForgetPasswordActivity : AppCompatActivity() {

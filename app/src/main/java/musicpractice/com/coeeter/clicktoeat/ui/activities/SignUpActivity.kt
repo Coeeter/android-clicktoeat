@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.databinding.ActivitySignUpBinding
 import musicpractice.com.coeeter.clicktoeat.utils.*
-import musicpractice.com.coeeter.clicktoeat.viewmodels.UserViewModel
+import musicpractice.com.coeeter.clicktoeat.data.viewmodels.UserViewModel
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

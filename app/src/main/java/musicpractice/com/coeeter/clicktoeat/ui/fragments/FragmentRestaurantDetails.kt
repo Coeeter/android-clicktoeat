@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.databinding.FragmentRestaurantDetailsBinding
-import musicpractice.com.coeeter.clicktoeat.models.RestaurantModel
+import musicpractice.com.coeeter.clicktoeat.data.models.RestaurantModel
 import musicpractice.com.coeeter.clicktoeat.ui.activities.MapActivity
 import musicpractice.com.coeeter.clicktoeat.ui.adapters.TagAdapter
 import musicpractice.com.coeeter.clicktoeat.utils.isVisible

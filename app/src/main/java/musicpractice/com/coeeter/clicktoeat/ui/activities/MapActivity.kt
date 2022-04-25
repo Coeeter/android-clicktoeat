@@ -20,10 +20,10 @@ import com.google.android.gms.maps.model.MarkerOptions
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.databinding.ActivityMapBinding
 import musicpractice.com.coeeter.clicktoeat.databinding.RestaurantInfoWindowBinding
-import musicpractice.com.coeeter.clicktoeat.models.RestaurantModel
+import musicpractice.com.coeeter.clicktoeat.data.models.RestaurantModel
 import musicpractice.com.coeeter.clicktoeat.utils.InjectorUtils
 import musicpractice.com.coeeter.clicktoeat.utils.isVisible
-import musicpractice.com.coeeter.clicktoeat.viewmodels.RestaurantViewModel
+import musicpractice.com.coeeter.clicktoeat.data.viewmodels.RestaurantViewModel
 
 class MapActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMapBinding
