@@ -74,6 +74,7 @@
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/restaurant_infowindow.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/tag_layout.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/update_comment_dialog.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/menu/dropdown_comment.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/menu/menu.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/menu/restaurant_details_menu.xml" value="0.3009833262077811" />
@@ -84,7 +85,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -1,21 +1,10 @@
 package musicpractice.com.coeeter.clicktoeat.data.repositories
 
-import musicpractice.com.coeeter.clicktoeat.data.daos.RestaurantDao
+import musicpractice.com.coeeter.clicktoeat.data.network.services.RestaurantService
 
-class RestaurantRepository private constructor(private val restaurantDao: RestaurantDao) {
+class RestaurantRepository(private val restaurantService: RestaurantService) {
 
-    fun getAllRestaurants() {
-        restaurantDao.getAllRestaurants()
-    }
+    suspend fun getRestaurantList() =
+        restaurantService.getRestaurants()
 
-    fun getRestaurantList() = restaurantDao.getRestaurantList()
-
-    companion object {
-        @Volatile
-        private var instance: RestaurantRepository? = null
-
-        fun getInstance(restaurantDao: RestaurantDao) = instance ?: synchronized(this) {
-            instance ?: RestaurantRepository(restaurantDao).also { instance = it }
-        }
-    }
 }

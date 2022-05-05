@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/parent"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:background="@drawable/card_bg"
-    android:clickable="true"
-    android:elevation="10dp"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+    xmlns:tools="http://schemas.android.com/tools">
+    <data />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/card_bg"
+        android:clickable="true"
+        android:elevation="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
     <ImageView
         android:id="@+id/brandImage"
@@ -23,127 +26,124 @@
         app:layout_constraintStart_toStartOf="@+id/parent"
         app:layout_constraintTop_toTopOf="@+id/parent" />
 
-    <LinearLayout
-        android:id="@+id/details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/parent"
-        app:layout_constraintStart_toStartOf="@+id/parent"
-        app:layout_constraintTop_toBottomOf="@+id/brandImage">
-
         <LinearLayout
+            android:id="@+id/details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|top"
-            android:weightSum="5">
-
-            <TextView
-                android:id="@+id/restaurantTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_marginEnd="2dp"
-                android:layout_weight="4"
-                android:ellipsize="end"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:maxLines="1"
-                android:paddingVertical="5dp"
-                android:text="Restaurant Title"
-                android:textColor="?attr/textFillColor"
-                android:textSize="20sp" />
-
-            <ImageView
-                android:id="@+id/addToFavs"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:background="?attr/colorOnPrimaryContainer"
-                android:src="@drawable/ic_favorite_border"
-                android:tag="notFav" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bottom_border"
-            android:orientation="horizontal"
-            android:paddingBottom="5dp">
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/parent"
+            app:layout_constraintStart_toStartOf="@+id/parent"
+            app:layout_constraintTop_toBottomOf="@+id/brandImage">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_gravity="start|top"
+                android:weightSum="5">
 
-                <ImageView
+                <TextView
+                    android:id="@+id/restaurantTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginEnd="2dp"
+                    android:layout_weight="4"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:maxLines="1"
+                    android:paddingVertical="5dp"
+                    android:textColor="?attr/textFillColor"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/addToFavs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/ic_star" />
-
-                <TextView
-                    android:id="@+id/avgRating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="sans-serif-black"
-                    android:paddingVertical="2dp"
-                    android:text="4"
-                    android:textColor="?attr/textFillColor"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="sans-serif"
-                    android:paddingVertical="2dp"
-                    android:text="/5"
-                    android:textColor="?attr/textFillColor"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/totalRating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="sans-serif"
-                    android:paddingVertical="2dp"
-                    android:text="(4)"
-                    android:textColor="?attr/textFillColor"
-                    android:textSize="16sp" />
-
+                    android:background="?attr/colorOnPrimaryContainer"
+                    android:tag="notFav" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/distance"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-condensed"
-                android:paddingVertical="2dp"
-                android:text="1.5km"
-                android:textAlignment="textEnd"
-                android:textColor="?attr/textFillColor"
-                android:textSize="16sp" />
+                android:background="@drawable/bottom_border"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_star" />
+
+                    <TextView
+                        android:id="@+id/avgRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@{}"
+                        android:fontFamily="sans-serif-black"
+                        android:paddingVertical="2dp"
+                        android:textColor="?attr/textFillColor"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="sans-serif"
+                        android:paddingVertical="2dp"
+                        android:text="/5"
+                        android:textColor="?attr/textFillColor"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/totalRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="sans-serif"
+                        android:paddingVertical="2dp"
+                        android:textColor="?attr/textFillColor"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/distance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingVertical="2dp"
+                    android:textAlignment="textEnd"
+                    android:textColor="?attr/textFillColor"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:paddingHorizontal="10dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/tags"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:overScrollMode="never"
-        android:paddingHorizontal="10dp"
-        android:paddingBottom="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/details" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

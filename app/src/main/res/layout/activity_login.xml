@@ -1,118 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parent"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/colorOnBackground"
-    android:clickable="true"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    tools:context=".ui.activities.LoginActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/brand"
+    <data>
+
+        <variable
+            name="authViewModel"
+            type="musicpractice.com.coeeter.clicktoeat.ui.auth.AuthViewModel" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/form"
-        android:layout_marginBottom="30sp"
-        android:text="@string/app_name"
-        android:textAlignment="center"
-        android:textColor="@color/orange"
-        android:textSize="50sp"
-        android:transitionName="brand" />
+        android:layout_height="match_parent"
+        android:background="?attr/colorOnBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tools:context=".ui.auth.LoginActivity">
 
-    <LinearLayout
-        android:id="@+id/form"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginHorizontal="10sp"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/username"
+        <ProgressBar
+            android:id="@+id/progress"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:autofillHints="username"
-            android:background="@drawable/custom_input"
-            android:drawableStart="@drawable/custom_username_icon"
-            android:drawablePadding="12dp"
-            android:hint="Username"
-            android:inputType="textAutoComplete"
-            android:maxLength="30"
-            android:padding="20sp"
-            android:textSize="24sp"
-            android:transitionName="field" />
+            android:layout_centerInParent="true"
+            android:layout_margin="150dp"
+            android:elevation="10dp"
+            android:visibility="gone" />
 
-        <EditText
-            android:id="@+id/password"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10sp"
-            android:autofillHints="password"
-            android:background="@drawable/custom_input"
-            android:drawableStart="@drawable/custom_password_icon"
-            android:drawablePadding="12dp"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:nextFocusDown="@id/submitBtn"
-            android:padding="20sp"
-            android:textSize="24sp" />
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/form"
+            android:layout_marginBottom="30sp"
+            android:text="@string/app_name"
+            android:textAlignment="center"
+            android:textColor="@color/orange"
+            android:textSize="50sp" />
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="10sp"
+            android:orientation="vertical">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="username"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/custom_username_icon"
+                android:drawablePadding="12dp"
+                android:hint="Username"
+                android:inputType="textAutoComplete"
+                android:maxLength="30"
+                android:padding="20sp"
+                android:text="@={authViewModel.username}"
+                android:textSize="24sp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10sp"
+                android:autofillHints="password"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/custom_password_icon"
+                android:drawablePadding="12dp"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:nextFocusDown="@id/submitBtn"
+                android:padding="20sp"
+                android:text="@={authViewModel.password}"
+                android:textSize="24sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="15sp"
+                    android:layout_marginBottom="15sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{authViewModel::goToForgetPassword}"
+                    android:text="Forget Password?"
+                    android:textColor="@color/orange"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/submitBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{authViewModel::onLoginButtonClicked}"
+                android:padding="15sp"
+                android:text="Log In"
+                android:textAllCaps="false"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5sp"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/forgetPass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="15sp"
-                android:layout_marginBottom="15sp"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="Forget Password?"
+                android:text="Don't have an account?"
+                android:textColor="?attr/textFillColor"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{authViewModel::goToSignUpPage}"
+                android:text=" Sign up here"
                 android:textColor="@color/orange"
                 android:textSize="20sp" />
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/submitBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15sp"
-            android:text="Log In"
-            android:textAllCaps="false"
-            android:textSize="20sp"
-            android:transitionName="button" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="5sp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Don't have an account?"
-            android:textColor="?attr/textFillColor"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/signup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Sign up here"
-            android:textColor="@color/orange"
-            android:textSize="20sp" />
-    </LinearLayout>
+        </LinearLayout>
 
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</layout>

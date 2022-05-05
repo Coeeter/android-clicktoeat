@@ -1,26 +1,17 @@
-package musicpractice.com.coeeter.clicktoeat.ui.fragments
+package musicpractice.com.coeeter.clicktoeat.ui.favorite
 
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.databinding.FragmentFavoritesBinding
 import musicpractice.com.coeeter.clicktoeat.data.models.RestaurantModel
 import musicpractice.com.coeeter.clicktoeat.ui.adapters.RestaurantCardAdapter
-import musicpractice.com.coeeter.clicktoeat.utils.InjectorUtils
 import musicpractice.com.coeeter.clicktoeat.utils.hideKeyboard
-import musicpractice.com.coeeter.clicktoeat.utils.isVisible
-import musicpractice.com.coeeter.clicktoeat.data.viewmodels.CommentViewModel
-import musicpractice.com.coeeter.clicktoeat.data.viewmodels.FavoriteViewModel
-import musicpractice.com.coeeter.clicktoeat.data.viewmodels.RestaurantViewModel
 
 class FragmentFavorites : Fragment() {
     private lateinit var restaurantCardAdapter: RestaurantCardAdapter
@@ -40,56 +31,56 @@ class FragmentFavorites : Fragment() {
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         recyclerView = binding.homeLayout
 
-        restaurantCardAdapter = RestaurantCardAdapter(
-            activity as Context,
-            binding.nothingDisplay,
-            token,
-            RestaurantCardAdapter.FAVORITE_PAGE
-        )
+//        restaurantCardAdapter = RestaurantCardAdapter(
+//            activity as Context,
+//            binding.nothingDisplay,
+//            token,
+//            RestaurantCardAdapter.FAVORITE_PAGE
+//        )
 
-        val restaurantViewModel = ViewModelProvider(
-            this,
-            InjectorUtils.provideRestaurantViewModelFactory()
-        )[RestaurantViewModel::class.java]
-        val commentViewModel = ViewModelProvider(
-            this,
-            InjectorUtils.provideCommentViewModelFactory()
-        )[CommentViewModel::class.java]
-        val favoriteViewModel = ViewModelProvider(
-            this,
-            InjectorUtils.provideFavoriteViewModelFactory()
-        )[FavoriteViewModel::class.java]
-
-        restaurantViewModel.getRestaurantList().observe(viewLifecycleOwner, Observer {
-            restaurantCardAdapter.setRestaurantList(it)
-            binding.progress.isVisible(false)
-        })
-        restaurantViewModel.getAllRestaurants()
-
-        commentViewModel.getCommentList().observe(viewLifecycleOwner, Observer {
-            restaurantCardAdapter.setCommentList(it)
-        })
-        commentViewModel.getAllComments()
-
-        favoriteViewModel.getFavoriteList().observe(viewLifecycleOwner, Observer {
-            restaurantCardAdapter.setFavoriteList(it)
-            searchable = true
-            if (it.size == 0) {
-                restaurantCardAdapter.setRestaurantList(ArrayList())
-                binding.noFavs.isVisible(true)
-                searchable = false
-            }
-        })
-        favoriteViewModel.getAllFavorites(token)
-
-        recyclerView.apply {
-            adapter = restaurantCardAdapter
-            layoutManager = GridLayoutManager(context, 2)
-            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
-                layoutManager = GridLayoutManager(context, 4)
-            setHasFixedSize(true)
-            setItemViewCacheSize(10)
-        }
+//        val restaurantViewModel = ViewModelProvider(
+//            this,
+//            InjectorUtils.provideRestaurantViewModelFactory()
+//        )[RestaurantViewModel::class.java]
+//        val commentViewModel = ViewModelProvider(
+//            this,
+//            InjectorUtils.provideCommentViewModelFactory()
+//        )[CommentViewModel::class.java]
+//        val favoriteViewModel = ViewModelProvider(
+//            this,
+//            InjectorUtils.provideFavoriteViewModelFactory()
+//        )[FavoriteViewModel::class.java]
+//
+//        restaurantViewModel.getRestaurantList().observe(viewLifecycleOwner, Observer {
+//            restaurantCardAdapter.setRestaurantList(it)
+//            binding.progress.isVisible(false)
+//        })
+//        restaurantViewModel.getAllRestaurants()
+//
+//        commentViewModel.getCommentList().observe(viewLifecycleOwner, Observer {
+//            restaurantCardAdapter.setCommentList(it)
+//        })
+//        commentViewModel.getAllComments()
+//
+//        favoriteViewModel.getFavoriteList().observe(viewLifecycleOwner, Observer {
+//            restaurantCardAdapter.setFavoriteList(it)
+//            searchable = true
+//            if (it.size == 0) {
+//                restaurantCardAdapter.setRestaurantList(ArrayList())
+//                binding.noFavs.isVisible(true)
+//                searchable = false
+//            }
+//        })
+//        favoriteViewModel.getAllFavorites(token)
+//
+//        recyclerView.apply {
+//            adapter = restaurantCardAdapter
+//            layoutManager = GridLayoutManager(context, 2)
+//            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+//                layoutManager = GridLayoutManager(context, 4)
+//            setHasFixedSize(true)
+//            setItemViewCacheSize(10)
+//        }
         return binding.root
     }
 
@@ -104,7 +95,7 @@ class FragmentFavorites : Fragment() {
         searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                 val searchView = item!!.actionView as SearchView
-                searchView.queryHint = "Search for restaurants"
+                searchView.queryHint = getString(R.string.search_for_restaurants)
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         if (!searchable) return false
@@ -115,7 +106,7 @@ class FragmentFavorites : Fragment() {
 
                     override fun onQueryTextChange(newText: String?): Boolean {
                         if (!searchable) return false
-                        restaurantCardAdapter.filter.filter(newText)
+                        restaurantCardAdapter.searchRestaurants(newText)
                         return true
                     }
                 })

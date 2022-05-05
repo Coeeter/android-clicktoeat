@@ -1,6 +1,11 @@
 package musicpractice.com.coeeter.clicktoeat.data.models
 
+import android.location.Location
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import com.google.gson.annotations.SerializedName
+import com.squareup.picasso.Picasso
+import musicpractice.com.coeeter.clicktoeat.R
 import kotlin.math.*
 
 data class RestaurantModel(
@@ -31,7 +36,7 @@ data class RestaurantModel(
     val tags: List<String>,
     val address: String
 ) {
-    fun getAvgRatingAndCount(commentList: ArrayList<CommentModel>): HashMap<String, String> {
+    fun getAvgRatingAndCount(commentList: ArrayList<CommentModel>): AverageRatingAndCount {
         var totalRating = 0.0
         var reviewCount = 0.0
         for (comment in commentList) {
@@ -44,21 +49,23 @@ data class RestaurantModel(
         if (reviewCount > 0) {
             averageRating += totalRating / reviewCount
         }
-        val hashMap = HashMap<String, String>()
-        if (averageRating.toString().substring(averageRating.toString().length - 2) == ".0") {
-            hashMap["average"] = averageRating.toInt().toString()
-        } else {
-            hashMap["average"] = ((averageRating * 100).roundToInt() / 100.0).toString()
-        }
-        hashMap["count"] = "(${reviewCount.toInt()})"
-        return hashMap
+        val average =
+            if (averageRating.toString().substring(averageRating.toString().length - 2) == ".0") {
+                averageRating.toInt().toString()
+            } else {
+                ((averageRating * 100).roundToInt() / 100.0).toString()
+            }
+        val count = "(${reviewCount.toInt()})"
+        return AverageRatingAndCount(average, count)
     }
 
+    inner class AverageRatingAndCount(val averageRating: String, var count: String)
+
     fun getDistance(
-        userLocation: HashMap<String, Double?>?
+        location: Location?
     ): String? {
-        val userLongitude = userLocation?.get("longitude")
-        val userLatitude = userLocation?.get("latitude")
+        val userLongitude = location?.longitude
+        val userLatitude = location?.latitude
         if (userLongitude == null || userLatitude == null) return null
 
         val differenceInLatitude =
@@ -71,66 +78,36 @@ data class RestaurantModel(
                 cos(userLatitude * (Math.PI / 180)) *
                 sin(differenceInLongitude / 2).pow(2.0)
         val c = 2 * asin(sqrt(a))
-        var distance = (c * 6371 * 1000).roundToInt() / 1000.0
-        if (distance < 1) {
-            distance *= 1000
-            return distance.toInt().toString() + "m"
-        }
-        distance = (distance * 100).roundToInt() / 100.0
-        return distance.toString() + "km"
+        val distance = (c * 6371 * 1000).roundToInt() / 1000.0
+        return if (distance < 1) (distance * 1000).toInt().toString() + "m"
+        else ((distance * 100).roundToInt() / 100.0).toString() + "km"
     }
 
     fun getOpeningAndClosingHours(): ArrayList<String> {
         val openingAndClosingHours = ArrayList<String>()
-        openingAndClosingHours.add(
-            "${formatTime(mondayOpeningHours)} to ${
-                formatTime(
-                    mondayClosingHours
-                )
-            }"
+        val openingHours = arrayOf(
+            mondayOpeningHours,
+            tuesdayOpeningHours,
+            wednesdayOpeningHours,
+            thursdayOpeningHours,
+            fridayOpeningHours,
+            saturdayOpeningHours,
+            sundayOpeningHours
         )
-        openingAndClosingHours.add(
-            "${formatTime(tuesdayOpeningHours)} to ${
-                formatTime(
-                    tuesdayClosingHours
-                )
-            }"
+        val closingHours = arrayOf(
+            mondayClosingHours,
+            tuesdayClosingHours,
+            wednesdayClosingHours,
+            thursdayClosingHours,
+            fridayClosingHours,
+            saturdayClosingHours,
+            sundayClosingHours
         )
-        openingAndClosingHours.add(
-            "${formatTime(wednesdayOpeningHours)} to ${
-                formatTime(
-                    wednesdayClosingHours
-                )
-            }"
-        )
-        openingAndClosingHours.add(
-            "${formatTime(thursdayOpeningHours)} to ${
-                formatTime(
-                    thursdayClosingHours
-                )
-            }"
-        )
-        openingAndClosingHours.add(
-            "${formatTime(fridayOpeningHours)} to ${
-                formatTime(
-                    fridayClosingHours
-                )
-            }"
-        )
-        openingAndClosingHours.add(
-            "${formatTime(saturdayOpeningHours)} to ${
-                formatTime(
-                    saturdayClosingHours
-                )
-            }"
-        )
-        openingAndClosingHours.add(
-            "${formatTime(sundayOpeningHours)} to ${
-                formatTime(
-                    sundayClosingHours
-                )
-            }"
-        )
+        openingHours.forEachIndexed { i, openingHour ->
+            openingAndClosingHours.add(
+                "${formatTime(openingHour)} to ${formatTime(closingHours[i])}"
+            )
+        }
         return openingAndClosingHours
     }
 

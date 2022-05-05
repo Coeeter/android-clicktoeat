@@ -1,204 +1,254 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parent"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/colorOnBackground"
-    tools:context=".ui.activities.SignUpActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <variable
+            name="authViewModel"
+            type="musicpractice.com.coeeter.clicktoeat.ui.auth.AuthViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:layout_height="match_parent"
+        android:background="?attr/colorOnBackground"
+        tools:context=".ui.auth.SignUpActivity">
 
-        <TextView
-            android:id="@+id/brand"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textAlignment="center"
-            android:textColor="@color/orange"
-            android:textSize="50sp"
-            android:transitionName="brand"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/profileContainer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginHorizontal="100dp"
-            app:cardCornerRadius="999dp"
-            app:layout_constraintDimensionRatio="H,1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/brand">
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:elevation="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_margin="100dp"
+                android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/profileImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_person" />
-        </androidx.cardview.widget.CardView>
-
-        <LinearLayout
-            android:id="@+id/form"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10sp"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            android:transitionName="field"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profileContainer">
-
-            <EditText
-                android:id="@+id/name"
+            <TextView
+                android:id="@+id/brand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10sp"
-                android:autofillHints="name"
-                android:background="@drawable/custom_input"
-                android:drawableStart="@drawable/custom_name_icon"
-                android:drawablePadding="12dp"
-                android:hint="Name"
-                android:inputType="textAutoComplete"
-                android:maxLength="100"
-                android:padding="20sp"
-                android:textSize="24sp" />
+                android:text="@string/app_name"
+                android:textAlignment="center"
+                android:textColor="@color/orange"
+                android:textSize="50sp"
+                android:transitionName="brand"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/username"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10sp"
-                android:autofillHints="username"
-                android:background="@drawable/custom_input"
-                android:drawableStart="@drawable/custom_username_icon"
-                android:drawablePadding="12dp"
-                android:hint="Username"
-                android:inputType="textAutoComplete"
-                android:maxLength="30"
-                android:padding="20sp"
-                android:textSize="24sp" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/profileContainer"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="100dp"
+                app:cardCornerRadius="999dp"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/brand">
 
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10sp"
-                android:autofillHints="password"
-                android:background="@drawable/custom_input"
-                android:drawableStart="@drawable/custom_password_icon"
-                android:drawablePadding="12dp"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:maxLength="30"
-                android:padding="20sp"
-                android:textSize="24sp" />
+                <ImageView
+                    android:id="@+id/profileImage"
+                    android:onClick="@{authViewModel::getImage}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_person" />
+            </androidx.cardview.widget.CardView>
 
-            <EditText
-                android:id="@+id/confirmPassword"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10sp"
-                android:autofillHints="password"
-                android:background="@drawable/custom_input"
-                android:drawableStart="@drawable/custom_confirm_password_icon"
-                android:drawablePadding="12dp"
-                android:hint="Confirm Password"
-                android:inputType="textPassword"
-                android:maxLength="30"
-                android:padding="20sp"
-                android:textSize="24sp" />
-
-            <EditText
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10sp"
-                android:autofillHints="password"
-                android:background="@drawable/custom_input"
-                android:drawableStart="@drawable/custom_email_icon"
-                android:drawablePadding="12dp"
-                android:hint="Email"
-                android:inputType="textEmailAddress"
-                android:maxLength="30"
-                android:padding="20sp"
-                android:textSize="24sp" />
-
-            <EditText
-                android:id="@+id/phoneNum"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10sp"
-                android:autofillHints="password"
-                android:background="@drawable/custom_input"
-                android:drawableStart="@drawable/custom_phone_icon"
-                android:drawablePadding="12dp"
-                android:hint="Phone Number"
-                android:inputType="phone"
-                android:maxLength="30"
-                android:padding="20sp"
-                android:textSize="24sp" />
-
-            <EditText
-                android:id="@+id/address"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10sp"
-                android:autofillHints="postalAddress"
-                android:background="@drawable/custom_input"
-                android:drawableStart="@drawable/custom_address_icon"
-                android:drawablePadding="12dp"
-                android:hint="Address"
-                android:inputType="textAutoComplete"
-                android:maxLength="30"
-                android:padding="20sp"
-                android:textSize="24sp" />
-
-            <RadioGroup
-                android:id="@+id/gender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <RadioButton
-                    android:id="@+id/male"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="Male"
-                    android:textSize="24sp" />
-
-                <RadioButton
-                    android:id="@+id/female"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="Female"
-                    android:textSize="24sp" />
-            </RadioGroup>
-
-            <Button
-                android:id="@+id/submitBtn"
+            <LinearLayout
+                android:id="@+id/form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15sp"
-                android:padding="15sp"
-                android:text="Register"
-                android:textAllCaps="false"
-                android:textSize="20sp"
-                android:transitionName="button" />
+                android:layout_marginHorizontal="10sp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:transitionName="field"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profileContainer">
 
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
 
-</ScrollView>
+                    <EditText
+                        android:id="@+id/firstName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:autofillHints="name"
+                        android:background="@drawable/custom_input"
+                        android:hint="First Name"
+                        android:inputType="textAutoComplete"
+                        android:maxLength="100"
+                        android:padding="20sp"
+                        android:text="@={authViewModel.firstName}"
+                        android:textSize="24sp" />
+
+                    <EditText
+                        android:id="@+id/lastName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:autofillHints="name"
+                        android:background="@drawable/custom_input"
+                        android:hint="Last Name"
+                        android:inputType="textAutoComplete"
+                        android:maxLength="100"
+                        android:padding="20sp"
+                        android:text="@={authViewModel.lastName}"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10sp"
+                    android:autofillHints="username"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/custom_username_icon"
+                    android:drawablePadding="12dp"
+                    android:hint="Username"
+                    android:inputType="textAutoComplete"
+                    android:maxLength="30"
+                    android:padding="20sp"
+                    android:text="@={authViewModel.username}"
+                    android:textSize="24sp" />
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10sp"
+                    android:autofillHints="password"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/custom_password_icon"
+                    android:drawablePadding="12dp"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:maxLength="30"
+                    android:padding="20sp"
+                    android:text="@={authViewModel.password}"
+                    android:textSize="24sp" />
+
+                <EditText
+                    android:id="@+id/confirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10sp"
+                    android:autofillHints="password"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/custom_confirm_password_icon"
+                    android:drawablePadding="12dp"
+                    android:hint="Confirm Password"
+                    android:inputType="textPassword"
+                    android:maxLength="30"
+                    android:padding="20sp"
+                    android:text="@={authViewModel.confirmPassword}"
+                    android:textSize="24sp" />
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10sp"
+                    android:autofillHints="emailAddress"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/custom_email_icon"
+                    android:drawablePadding="12dp"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="30"
+                    android:padding="20sp"
+                    android:text="@={authViewModel.email}"
+                    android:textSize="24sp" />
+
+                <EditText
+                    android:id="@+id/phoneNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10sp"
+                    android:autofillHints="phone"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/custom_phone_icon"
+                    android:drawablePadding="12dp"
+                    android:hint="Phone Number"
+                    android:inputType="phone"
+                    android:maxLength="30"
+                    android:padding="20sp"
+                    android:text="@={authViewModel.phoneNum}"
+                    android:textSize="24sp" />
+
+                <EditText
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10sp"
+                    android:autofillHints="postalAddress"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/custom_address_icon"
+                    android:drawablePadding="12dp"
+                    android:hint="Address"
+                    android:inputType="textAutoComplete"
+                    android:maxLength="30"
+                    android:padding="20sp"
+                    android:text="@={authViewModel.address}"
+                    android:textSize="24sp" />
+
+                <RadioGroup
+                    android:id="@+id/gender"
+                    android:layout_width="match_parent"
+                    android:onCheckedChanged="@{authViewModel::onGenderClicked}"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="Male"
+                        android:textSize="24sp" />
+
+                    <RadioButton
+                        android:id="@+id/female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="Female"
+                        android:textSize="24sp" />
+                </RadioGroup>
+
+                <Button
+                    android:id="@+id/submitBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{authViewModel::onSignUpButtonClicked}"
+                    android:layout_marginTop="15sp"
+                    android:padding="15sp"
+                    android:text="Register"
+                    android:textAllCaps="false"
+                    android:textSize="20sp"
+                    android:transitionName="button" />
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

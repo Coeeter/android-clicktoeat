@@ -19,26 +19,26 @@
         android:theme="@style/Theme.ClickToEat"
         android:usesCleartextTraffic="true">
         <activity
-            android:name="musicpractice.com.coeeter.clicktoeat.ui.activities.MapActivity"
+            android:name="musicpractice.com.coeeter.clicktoeat.ui.map.MapActivity"
             android:exported="false" />
         <activity
-            android:name="musicpractice.com.coeeter.clicktoeat.ui.activities.RestaurantActivity"
+            android:name="musicpractice.com.coeeter.clicktoeat.ui.restaurant.RestaurantActivity"
             android:exported="false" />
         <activity
-            android:name="musicpractice.com.coeeter.clicktoeat.ui.activities.SignUpActivity"
+            android:name="musicpractice.com.coeeter.clicktoeat.ui.auth.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name="musicpractice.com.coeeter.clicktoeat.ui.activities.ForgetPasswordActivity"
+            android:name="musicpractice.com.coeeter.clicktoeat.ui.auth.ForgetPasswordActivity"
             android:exported="false" />
         <activity
-            android:name="musicpractice.com.coeeter.clicktoeat.ui.activities.LoginActivity"
+            android:name="musicpractice.com.coeeter.clicktoeat.ui.auth.LoginActivity"
             android:exported="false" />
         <activity
-            android:name="musicpractice.com.coeeter.clicktoeat.ui.activities.MainActivity"
+            android:name="musicpractice.com.coeeter.clicktoeat.ui.home.MainActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="musicpractice.com.coeeter.clicktoeat.ui.activities.SplashScreenActivity"
+            android:name="musicpractice.com.coeeter.clicktoeat.ui.splashscreen.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -37,16 +37,15 @@ fun Activity.hideKeyboard() {
     }
 }
 
-fun View.isVisible(isVisible: Boolean) {
-    this.visibility = if (isVisible) View.VISIBLE else View.GONE
+fun View.isVisible(isVisible: Boolean, falseValue: Int = View.GONE) {
+    this.visibility = if (isVisible) View.VISIBLE else falseValue
 }
 
-fun View.createSnackBar(message: String) {
-    val snackBar = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
-    snackBar.setAction("okay") {
-        snackBar.dismiss()
-    }.show()
-}
+fun View.createSnackBar(message: String) = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
+    .run {
+        setAction("okay") { dismiss() }
+        show()
+    }
 
 fun String.createMultipartFormData(): RequestBody =
     RequestBody.create(MediaType.parse("multipart/form-data"), this)

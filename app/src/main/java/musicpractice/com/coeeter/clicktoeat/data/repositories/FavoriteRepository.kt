@@ -1,31 +1,16 @@
 package musicpractice.com.coeeter.clicktoeat.data.repositories
 
-import musicpractice.com.coeeter.clicktoeat.data.daos.FavoriteDao
+import musicpractice.com.coeeter.clicktoeat.data.network.services.FavoriteService
 
-class FavoriteRepository private constructor(private val favoriteDao: FavoriteDao) {
+class FavoriteRepository(private val favoriteService: FavoriteService) {
 
-    fun getAllFavorites(token: String) {
-        favoriteDao.getAllFavorites(token)
-    }
+    suspend fun getUserFavorites(token: String) =
+        favoriteService.getUserFavorites(token)
 
-    fun addFavorite(token: String, restaurantId: Int) {
-        favoriteDao.addFavorite(token, restaurantId)
-    }
+    suspend fun createFavorites(token: String, restaurantId: Int) =
+        favoriteService.createFavorites(token, restaurantId)
 
-    fun removeFavorite(token: String, favoriteId: Int) {
-        favoriteDao.removeFavorite(token, favoriteId)
-    }
+    suspend fun deleteFavorites(token: String, favoriteId: Int) =
+        favoriteService.deleteFavorites(token, favoriteId)
 
-    fun getFavoriteList() = favoriteDao.getFavoriteList()
-    fun getCreateFavoriteResult() = favoriteDao.getCreateFavoriteResult()
-    fun getDeleteFavoriteResult() = favoriteDao.getDeleteFavoriteResult()
-
-    companion object {
-        @Volatile
-        private var instance: FavoriteRepository? = null
-
-        fun getInstance(favoriteDao: FavoriteDao) = instance ?: synchronized(this) {
-            instance ?: FavoriteRepository(favoriteDao).also { instance = it }
-        }
-    }
 }

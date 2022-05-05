@@ -1,4 +1,4 @@
-package musicpractice.com.coeeter.clicktoeat.ui.fragments
+package musicpractice.com.coeeter.clicktoeat.ui.restaurant
 
 import android.content.Intent
 import android.net.Uri
@@ -12,8 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.databinding.FragmentRestaurantDetailsBinding
 import musicpractice.com.coeeter.clicktoeat.data.models.RestaurantModel
-import musicpractice.com.coeeter.clicktoeat.ui.activities.MapActivity
+import musicpractice.com.coeeter.clicktoeat.ui.adapters.RestaurantCardAdapter
 import musicpractice.com.coeeter.clicktoeat.ui.adapters.TagAdapter
+import musicpractice.com.coeeter.clicktoeat.ui.map.MapActivity
 import musicpractice.com.coeeter.clicktoeat.utils.isVisible
 
 
