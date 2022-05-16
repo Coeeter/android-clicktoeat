@@ -3,7 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     tools:context=".ui.settings.FragmentSettings">
+=======
+    tools:context=".ui.fragments.FragmentSettings">
+>>>>>>> master
 
     <TextView
         android:layout_width="wrap_content"

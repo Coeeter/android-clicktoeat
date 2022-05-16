@@ -6,7 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorOnBackground"
+<<<<<<< HEAD
     tools:context=".ui.auth.SignUpActivity">
+=======
+    tools:context=".ui.activities.SignUpActivity">
+>>>>>>> master
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

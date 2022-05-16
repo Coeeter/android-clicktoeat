@@ -20,6 +20,7 @@
         android:theme="@style/Theme.ClickToEat"
         android:usesCleartextTraffic="true">
         <activity
+<<<<<<< HEAD
             android:name=".ui.restaurant.MapActivity"
             android:exported="false" />
         <activity
@@ -40,6 +41,28 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.auth.SplashScreenActivity"
+=======
+            android:name="musicpractice.com.coeeter.clicktoeat.ui.activities.MapActivity"
+            android:exported="false" />
+        <activity
+            android:name="musicpractice.com.coeeter.clicktoeat.ui.activities.RestaurantActivity"
+            android:exported="false" />
+        <activity
+            android:name="musicpractice.com.coeeter.clicktoeat.ui.activities.SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name="musicpractice.com.coeeter.clicktoeat.ui.activities.ForgetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name="musicpractice.com.coeeter.clicktoeat.ui.activities.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name="musicpractice.com.coeeter.clicktoeat.ui.activities.MainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="musicpractice.com.coeeter.clicktoeat.ui.activities.SplashScreenActivity"
+>>>>>>> master
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,81 +1,78 @@
 package musicpractice.com.coeeter.clicktoeat.ui.adapters
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
-import android.location.Location
+import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
+import android.widget.Filter
+import android.widget.Filterable
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import musicpractice.com.coeeter.clicktoeat.R
-import musicpractice.com.coeeter.clicktoeat.data.models.Comment
-import musicpractice.com.coeeter.clicktoeat.data.models.Favorite
-import musicpractice.com.coeeter.clicktoeat.data.models.Restaurant
 import musicpractice.com.coeeter.clicktoeat.databinding.RestaurantCardBinding
-import musicpractice.com.coeeter.clicktoeat.ui.restaurant.RestaurantActivity
+import musicpractice.com.coeeter.clicktoeat.data.models.CommentModel
+import musicpractice.com.coeeter.clicktoeat.data.models.FavoriteModel
+import musicpractice.com.coeeter.clicktoeat.data.models.RestaurantModel
+import musicpractice.com.coeeter.clicktoeat.ui.activities.RestaurantActivity
+import musicpractice.com.coeeter.clicktoeat.utils.InjectorUtils
 import musicpractice.com.coeeter.clicktoeat.utils.isVisible
-import musicpractice.com.coeeter.clicktoeat.utils.nextActivity
+import musicpractice.com.coeeter.clicktoeat.data.viewmodels.FavoriteViewModel
 
 class RestaurantCardAdapter(
     private val context: Context,
+    private val nothingToDisplayView: LinearLayout,
+    private val token: String,
     private val layoutMode: Int
-) : RecyclerView.Adapter<RestaurantCardAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<RestaurantCardAdapter.ViewHolder>(), Filterable {
 
     companion object {
         const val HOME_PAGE = 0
         const val FAVORITE_PAGE = 1
     }
 
-    private val restaurantList = ArrayList<Restaurant>()
-    private val commentList = ArrayList<Comment>()
-    private val favoriteList = ArrayList<Favorite>()
-    private val originalRestaurantList = ArrayList<Restaurant>()
-    private var recyclerView: RecyclerView? = null
-    var dataSetListener: OnDataSetChangedListener? = null
+    private var restaurantList = ArrayList<RestaurantModel>()
+    private var commentList = ArrayList<CommentModel>()
+    private var favoriteList = ArrayList<FavoriteModel>()
 
-    fun setRestaurantList(restaurantList: ArrayList<Restaurant>) {
-        val filteredRestaurantArray = ArrayList<Restaurant>()
+    private var originalRestaurantList = restaurantList
+
+    fun setRestaurantList(restaurantList: ArrayList<RestaurantModel>) {
+        val filteredRestaurantArray = ArrayList<RestaurantModel>()
         filteredRestaurantArray.addAll(restaurantList)
         if (layoutMode == FAVORITE_PAGE) {
             filteredRestaurantArray.clear()
-            val favIdList = favoriteList.map { it.restaurantID }
-            filteredRestaurantArray.addAll(restaurantList.filter { it._id in favIdList })
+            for (restaurant in restaurantList) {
+                for (favorite in favoriteList) {
+                    if (favorite.restaurantID == restaurant._id) {
+                        filteredRestaurantArray.add(restaurant)
+                    }
+                }
+            }
         }
-        this.restaurantList.apply {
-            clear()
-            addAll(filteredRestaurantArray)
-        }
-        this.originalRestaurantList.apply {
-            clear()
-            addAll(this@RestaurantCardAdapter.restaurantList)
-        }
+        this.restaurantList = filteredRestaurantArray
+        this.originalRestaurantList = this.restaurantList
         notifyDataSetChanged()
     }
 
-    fun setCommentList(commentList: ArrayList<Comment>) {
-        this.commentList.apply {
-            clear()
-            addAll(commentList)
-        }
+    fun setCommentList(commentList: ArrayList<CommentModel>) {
+        this.commentList = commentList
         notifyDataSetChanged()
     }
 
-    fun setFavoriteList(favoriteList: ArrayList<Favorite>) {
-        this.favoriteList.apply {
-            clear()
-            addAll(favoriteList)
-        }
+    fun setFavoriteList(favoriteList: ArrayList<FavoriteModel>) {
+        this.favoriteList = favoriteList
         setRestaurantList(this.restaurantList)
         notifyDataSetChanged()
     }
@@ -83,17 +80,13 @@ class RestaurantCardAdapter(
     class ViewHolder(val binding: RestaurantCardBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            RestaurantCardBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+        val binding =
+            RestaurantCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val restaurant = restaurantList[position]
+        val restaurant: RestaurantModel = restaurantList[position]
 
         holder.binding.restaurantTitle.text = restaurant.name
 
@@ -105,40 +98,40 @@ class RestaurantCardAdapter(
         holder.binding.avgRating.text = commentMap["average"]
         holder.binding.totalRating.text = commentMap["count"]
 
-        val favoriteId = favoriteList.find { it.restaurantID == restaurant._id }?._id ?: -1
+        val favIndex = getFavoriteIndex(restaurant)
         var isFav = false
         holder.binding.addToFavs.setImageResource(R.drawable.ic_favorite_border)
-        if (favoriteId != -1) {
+        if (favIndex != -1) {
             holder.binding.addToFavs.setImageResource(R.drawable.ic_favorite)
             isFav = true
         }
 
+        val viewModel = ViewModelProvider(
+            (context as AppCompatActivity),
+            InjectorUtils.provideFavoriteViewModelFactory()
+        )[FavoriteViewModel::class.java]
         holder.binding.addToFavs.setOnClickListener {
             if (!isFav) {
-                dataSetListener?.addToFav(restaurant._id)
-                holder.binding.addToFavs.setImageResource(R.drawable.ic_favorite)
-                val animation = AnimationUtils.loadAnimation(context, R.anim.heart_animation)
-                holder.binding.addToFavs.startAnimation(animation)
+                viewModel.getCreateFavoriteResult()
+                    .observe(context, Observer {
+                        if (it.affectedRows != 1) return@Observer
+                        viewModel.getAllFavorites(token)
+                    })
+                viewModel.addFavorite(token, restaurant._id)
                 return@setOnClickListener
             }
-            dataSetListener?.removeFav(favoriteId)
-            holder.binding.addToFavs.setImageResource(R.drawable.ic_favorite_border)
+            viewModel.getDeleteFavoriteResult().observe(context, Observer {
+                if (it.affectedRows != 1) return@Observer
+                viewModel.getAllFavorites(token)
+            })
+            viewModel.removeFavorite(token, favIndex)
         }
 
-        holder.binding.progress.isVisible(true)
-        getLocation().observe((context as LifecycleOwner), Observer {
-            holder.binding.progress.isVisible(true)
-            val distance = restaurant.getDistance(it)
-                ?: return@Observer run {
-                    holder.binding.distance.isVisible(false)
-                    holder.binding.progress.isVisible(false)
-                }
-            holder.binding.distance.apply {
-                holder.binding.progress.isVisible(false)
-                text = distance
-                isVisible(true)
-            }
-        })
+        val location = getLocation()
+        val distance = restaurant.getDistance(location)
+        holder.binding.distance.text = distance
+        holder.binding.distance.isVisible(true)
+        if (distance == null) holder.binding.distance.isVisible(false)
 
         holder.binding.tags.apply {
             adapter = TagAdapter(restaurant.tags)
@@ -151,84 +144,96 @@ class RestaurantCardAdapter(
             holder.binding.restaurantTitle,
             holder.binding.parent
         )) {
-            view.setOnClickListener {
-                (context as AppCompatActivity).apply {
-                    nextActivity(
-                        Intent(
-                            context,
-                            RestaurantActivity::class.java
-                        ).apply {
-                            putExtra("position", restaurant._id)
-                        }
-                    )
-                }
+            view.setOnClickListener(View.OnClickListener {
+                val intent = Intent(context, RestaurantActivity::class.java)
+                intent.putExtra("position", restaurant._id)
+                context.startActivity(intent)
+                context.overridePendingTransition(
+                    R.anim.slide_in_right,
+                    R.anim.stay_still
+                )
+            })
+        }
+    }
+
+    override fun getItemCount(): Int = restaurantList.size
+
+    private fun getFavoriteIndex(restaurant: RestaurantModel): Int {
+        for (fav in favoriteList) {
+            if (fav.restaurantID == restaurant._id) {
+                return fav._id
             }
         }
+        return -1
     }
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        this.recyclerView = recyclerView.apply {
-            layoutManager =
-                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
-                    GridLayoutManager(context, 2)
-                else GridLayoutManager(context, 4)
-            setHasFixedSize(true)
-            setItemViewCacheSize(20)
-        }
-    }
-
-    override fun getItemCount() = restaurantList.size
 
     @SuppressLint("MissingPermission")
-    private fun getLocation(): LiveData<Location?> {
-        val locationLiveData = MutableLiveData<Location?>()
+    private fun getLocation(): HashMap<String, Double?>? {
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                context as Activity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                101
+            )
+        }
         try {
             val userLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            locationLiveData.postValue(userLocation)
+            var longitude = userLocation?.longitude
+            var latitude = userLocation?.latitude
             locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
                 2000,
                 10F
-            ) { locationLiveData.postValue(it) }
+            ) { location ->
+                longitude = location.longitude
+                latitude = location.latitude
+            }
+            val hashMap = HashMap<String, Double?>()
+            hashMap["longitude"] = longitude
+            hashMap["latitude"] = latitude
+            return hashMap
         } catch (error: Exception) {
             error.printStackTrace()
-            locationLiveData.postValue(null)
         }
-        return locationLiveData
+        return null
     }
 
-    fun searchRestaurants(searchTerm: String?) {
-        val filteredRestaurants = ArrayList<Restaurant>()
-        filteredRestaurants.addAll(originalRestaurantList)
-        if (!searchTerm.isNullOrEmpty()) {
-            filteredRestaurants.clear()
-            filteredRestaurants.addAll(originalRestaurantList.filter {
-                it.name.lowercase().contains(searchTerm.lowercase().trim())
-            })
-        }
-        for (i in filteredRestaurants.indices) {
-            if (filteredRestaurants[i] !in restaurantList) {
-                restaurantList.add(i, filteredRestaurants[i])
-                notifyItemInserted(i)
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val filterResults = FilterResults()
+                if (constraint != null && constraint.isEmpty()) {
+                    filterResults.values = originalRestaurantList
+                    return filterResults
+                }
+                val searchTerm = constraint.toString().lowercase()
+                val filteredRestaurants = ArrayList<RestaurantModel>()
+                for (i in 0 until originalRestaurantList.size) {
+                    if (originalRestaurantList[i].name
+                            .lowercase().contains(searchTerm)
+                    ) {
+                        filteredRestaurants.add(originalRestaurantList[i])
+                    }
+                }
+                filterResults.values = filteredRestaurants
+                return filterResults
             }
-        }
-        for (i in restaurantList.indices.reversed()) {
-            if (restaurantList[i] !in filteredRestaurants) {
-                restaurantList.removeAt(i)
-                notifyItemRemoved(i)
-            }
-        }
-        recyclerView?.scrollToPosition(0)
-        if (filteredRestaurants.size == 0) return run { dataSetListener?.onEmpty() }
-        dataSetListener?.onNotEmpty()
-    }
 
-    interface OnDataSetChangedListener {
-        fun onEmpty()
-        fun onNotEmpty()
-        fun addToFav(restaurantId: Int)
-        fun removeFav(favoriteId: Int)
+            override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+                restaurantList = results.values as ArrayList<RestaurantModel>
+                nothingToDisplayView.isVisible(false)
+                if (restaurantList.size == 0) nothingToDisplayView.isVisible(true)
+                notifyDataSetChanged()
+            }
+
+        }
     }
 }

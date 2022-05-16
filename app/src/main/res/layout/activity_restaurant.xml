@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     tools:context=".ui.restaurant.RestaurantActivity">
+=======
+    tools:context=".ui.activities.RestaurantActivity">
+>>>>>>> master
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarContainer"
