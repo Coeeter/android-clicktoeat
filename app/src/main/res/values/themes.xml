@@ -13,7 +13,7 @@
         <item name="colorAccent">@color/orange</item>
 
         <!--for background of screen-->
-        <item name="colorOnBackground">@color/grey</item>
+        <item name="colorOnBackground">@color/white</item>
 
         <!--for edit text bg-->
         <item name="colorOnPrimaryContainer">@color/white</item>

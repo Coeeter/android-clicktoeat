@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/miHome">
+
+    <fragment
+        android:id="@+id/miHome"
+        android:name="musicpractice.com.coeeter.clicktoeat.ui.main.FragmentHome"
+        android:label="Home"
+        tools:layout="@layout/fragment_home"></fragment>
+    <fragment
+        android:id="@+id/miFavorites"
+        android:name="musicpractice.com.coeeter.clicktoeat.ui.main.FragmentFavorites"
+        android:label="Favorites"
+        tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/miSettings"
+        android:name="musicpractice.com.coeeter.clicktoeat.ui.settings.FragmentSettings"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

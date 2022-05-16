@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">ClickToEat</string>
-    <string name="base_url">http://192.168.2.248:8080</string>
+    <string name="base_url">http://10.0.2.2:8080</string>
+    <string name="sharedPrefName">memory</string>
+    <string name="sharedPrefToken">token</string>
+    <string name="sharedPrefProfile">profile</string>
     <string name="missingValues1">We could not find any matches for your searched term</string>
     <string name="missingValues2">Please double check your search for any spelling mistakes or you could try again with a different search item.</string>
     <string name="noFav1">There are no favorite restaurants to display here</string>
@@ -25,4 +28,5 @@
     <string name="edit_comment">Edit Comment</string>
     <string name="view_the_map">View the map</string>
     <string name="create_comment">Create Comment</string>
+    <string name="search_for_restaurants">Search for restaurants</string>
 </resources>

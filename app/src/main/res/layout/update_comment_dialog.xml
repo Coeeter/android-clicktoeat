@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/custom_input"
-        android:drawableStart="@drawable/ic_edit"
+        android:drawableStart="@drawable/custom_name_icon"
         android:drawablePadding="10dp"
         android:hint="@string/edit_comment"
         android:padding="15dp"
