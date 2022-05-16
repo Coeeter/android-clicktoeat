@@ -1,8 +1,4 @@
-<<<<<<< HEAD:app/src/main/java/musicpractice/com/coeeter/clicktoeat/ui/restaurant/MapActivity.kt
 package musicpractice.com.coeeter.clicktoeat.ui.restaurant
-=======
-package musicpractice.com.coeeter.clicktoeat.ui.activities
->>>>>>> master:app/src/main/java/musicpractice/com/coeeter/clicktoeat/ui/activities/MapActivity.kt
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,11 +8,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-<<<<<<< HEAD:app/src/main/java/musicpractice/com/coeeter/clicktoeat/ui/restaurant/MapActivity.kt
-=======
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
->>>>>>> master:app/src/main/java/musicpractice/com/coeeter/clicktoeat/ui/activities/MapActivity.kt
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -30,22 +21,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.databinding.ActivityMapBinding
 import musicpractice.com.coeeter.clicktoeat.databinding.RestaurantInfoWindowBinding
-<<<<<<< HEAD:app/src/main/java/musicpractice/com/coeeter/clicktoeat/ui/restaurant/MapActivity.kt
 import musicpractice.com.coeeter.clicktoeat.utils.isVisible
-=======
-import musicpractice.com.coeeter.clicktoeat.data.models.RestaurantModel
-import musicpractice.com.coeeter.clicktoeat.utils.InjectorUtils
-import musicpractice.com.coeeter.clicktoeat.utils.isVisible
-import musicpractice.com.coeeter.clicktoeat.data.viewmodels.RestaurantViewModel
->>>>>>> master:app/src/main/java/musicpractice/com/coeeter/clicktoeat/ui/activities/MapActivity.kt
 
 @AndroidEntryPoint
 class MapActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMapBinding
-<<<<<<< HEAD:app/src/main/java/musicpractice/com/coeeter/clicktoeat/ui/restaurant/MapActivity.kt
     private val restaurantViewModel: RestaurantViewModel by viewModels()
-=======
->>>>>>> master:app/src/main/java/musicpractice/com/coeeter/clicktoeat/ui/activities/MapActivity.kt
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,37 +36,13 @@ class MapActivity : AppCompatActivity() {
         val restaurantId = intent.getIntExtra("restaurant", -1)
         if (restaurantId == -1) finish()
 
-<<<<<<< HEAD:app/src/main/java/musicpractice/com/coeeter/clicktoeat/ui/restaurant/MapActivity.kt
         binding.toolbar.setNavigationOnClickListener { finish() }
-=======
-        val toolbar = binding.toolbar
-        toolbar.setNavigationOnClickListener { finish() }
-
-        val factory = InjectorUtils.provideRestaurantViewModelFactory()
-        val viewModel = ViewModelProvider(this, factory)[RestaurantViewModel::class.java]
-
-        viewModel.getRestaurantList().observe(this, Observer {
-            var restaurant: RestaurantModel? = null
-            for (res in it) {
-                if (res._id == restaurantId) {
-                    restaurant = res
-                    break
-                }
-            }
-            if (restaurant == null) return@Observer
-            val resultCode = GoogleApiAvailability.getInstance()
-                .isGooglePlayServicesAvailable(this)
-
-            val webMap = binding.mapWebView
-            val nativeMap = binding.mapFragment
->>>>>>> master:app/src/main/java/musicpractice/com/coeeter/clicktoeat/ui/activities/MapActivity.kt
 
         restaurantViewModel.restaurantList.observe(this) {
             val restaurant = it.filter { restaurant -> restaurant._id == restaurantId }[0]
             val resultCode = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
             val location = getLocation()
             if (resultCode == ConnectionResult.SUCCESS) {
-<<<<<<< HEAD:app/src/main/java/musicpractice/com/coeeter/clicktoeat/ui/restaurant/MapActivity.kt
                 binding.mapWebView.isVisible(false)
                 binding.mapFragment.isVisible(true)
                 val mapFragment =
@@ -96,25 +53,11 @@ class MapActivity : AppCompatActivity() {
                         LatLng(lat, location.longitude)
                     }
                     map.addMarker(
-=======
-                webMap.isVisible(false)
-                nativeMap.isVisible(true)
-
-                val mapFragment = supportFragmentManager
-                    .findFragmentById(R.id.mapFragment) as SupportMapFragment
-
-                mapFragment.getMapAsync { gMap ->
-                    val restaurantLocation = LatLng(restaurant.latitude, restaurant.longitude)
-                    val userLocation = LatLng(location?.get("latitude")!!, location["longitude"]!!)
-
-                    gMap.addMarker(
->>>>>>> master:app/src/main/java/musicpractice/com/coeeter/clicktoeat/ui/activities/MapActivity.kt
                         MarkerOptions().position(restaurantLocation)
                             .title(restaurant.name)
                             .snippet(restaurant.address)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant_icon))
                     )
-<<<<<<< HEAD:app/src/main/java/musicpractice/com/coeeter/clicktoeat/ui/restaurant/MapActivity.kt
                     map.moveCamera(CameraUpdateFactory.zoomTo(16f))
                     if (userLocation != null) {
                         map.addMarker(MarkerOptions().position(userLocation).title("Your location"))
@@ -134,29 +77,6 @@ class MapActivity : AppCompatActivity() {
 
                         override fun getInfoWindow(p0: Marker): View {
                             val restaurantInfoWindowBinding = RestaurantInfoWindowBinding.inflate(layoutInflater)
-=======
-
-                    gMap.addMarker(
-                        MarkerOptions().position(userLocation)
-                            .title("Your Location")
-                    )
-
-                    gMap.moveCamera(CameraUpdateFactory.zoomTo(16f))
-                    gMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation))
-                    gMap.setOnMapLoadedCallback {
-                        gMap.animateCamera(
-                            CameraUpdateFactory.newLatLng(restaurantLocation),
-                            1000,
-                            null
-                        )
-                    }
-
-                    gMap.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
-                        override fun getInfoContents(p0: Marker): View? = null
-                        override fun getInfoWindow(p0: Marker): View? {
-                            val restaurantInfoWindowBinding = RestaurantInfoWindowBinding
-                                .inflate(layoutInflater)
->>>>>>> master:app/src/main/java/musicpractice/com/coeeter/clicktoeat/ui/activities/MapActivity.kt
                             val title = restaurantInfoWindowBinding.restaurantTitle
                             val description = restaurantInfoWindowBinding.description
 
@@ -167,11 +87,11 @@ class MapActivity : AppCompatActivity() {
                             }
                             return restaurantInfoWindowBinding.root
                         }
+
                     })
                 }
                 return@observe
             }
-<<<<<<< HEAD:app/src/main/java/musicpractice/com/coeeter/clicktoeat/ui/restaurant/MapActivity.kt
             binding.mapWebView.isVisible(true)
             binding.mapFragment.isVisible(false)
             val query = restaurant.name.replace(" ", "%20").replace("&", "%zy81")
@@ -181,16 +101,6 @@ class MapActivity : AppCompatActivity() {
                         "map?r=$query" +
                         "&lat=${location.latitude}" +
                         "&lon=${location.longitude}"
-=======
-            webMap.isVisible(true)
-            nativeMap.isVisible(false)
-            val query = restaurant.name.replace(" ", "%20").replace("&", "%zy81")
-            webMap.loadUrl(
-                "${getString(R.string.base_url)}/restaurants/" +
-                        "map?r=$query" +
-                        "&lat=${location?.get("latitude")}" +
-                        "&lon=${location?.get("longitude")}"
->>>>>>> master:app/src/main/java/musicpractice/com/coeeter/clicktoeat/ui/activities/MapActivity.kt
             )
             binding.mapWebView.settings.javaScriptEnabled = true
         }

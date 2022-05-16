@@ -1,16 +1,8 @@
-<<<<<<< HEAD:app/src/main/java/musicpractice/com/coeeter/clicktoeat/data/api/CommentService.kt
 package musicpractice.com.coeeter.clicktoeat.data.api
 
 import musicpractice.com.coeeter.clicktoeat.data.models.Comment
 import musicpractice.com.coeeter.clicktoeat.data.models.DefaultResponse
 import retrofit2.Response
-=======
-package musicpractice.com.coeeter.clicktoeat.data.network.services
-
-import musicpractice.com.coeeter.clicktoeat.data.models.CommentModel
-import musicpractice.com.coeeter.clicktoeat.data.models.DefaultResponseModel
-import retrofit2.Call
->>>>>>> master:app/src/main/java/musicpractice/com/coeeter/clicktoeat/data/network/services/CommentService.kt
 import retrofit2.http.*
 
 interface CommentService {

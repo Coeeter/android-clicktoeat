@@ -8,11 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
-<<<<<<< HEAD
     tools:context=".ui.auth.LoginActivity">
-=======
-    tools:context=".ui.activities.LoginActivity">
->>>>>>> master
 
     <TextView
         android:id="@+id/brand"

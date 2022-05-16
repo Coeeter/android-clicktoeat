@@ -1,16 +1,8 @@
-<<<<<<< HEAD:app/src/main/java/musicpractice/com/coeeter/clicktoeat/data/api/FavoriteService.kt
 package musicpractice.com.coeeter.clicktoeat.data.api
 
 import musicpractice.com.coeeter.clicktoeat.data.models.DefaultResponse
 import musicpractice.com.coeeter.clicktoeat.data.models.Favorite
 import retrofit2.Response
-=======
-package musicpractice.com.coeeter.clicktoeat.data.network.services
-
-import musicpractice.com.coeeter.clicktoeat.data.models.DefaultResponseModel
-import musicpractice.com.coeeter.clicktoeat.data.models.FavoriteModel
-import retrofit2.Call
->>>>>>> master:app/src/main/java/musicpractice/com/coeeter/clicktoeat/data/network/services/FavoriteService.kt
 import retrofit2.http.*
 
 interface FavoriteService {

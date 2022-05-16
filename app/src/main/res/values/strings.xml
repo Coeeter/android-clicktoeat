@@ -1,17 +1,16 @@
 <resources>
     <string name="app_name">ClickToEat</string>
     <string name="base_url">http://10.0.2.2:8080</string>
-<<<<<<< HEAD
     <string name="sharedPrefName">memory</string>
     <string name="sharedPrefToken">token</string>
     <string name="sharedPrefProfile">profile</string>
-=======
->>>>>>> master
     <string name="missingValues1">We could not find any matches for your searched term</string>
     <string name="missingValues2">Please double check your search for any spelling mistakes or you could try again with a different search item.</string>
     <string name="noFav1">There are no favorite restaurants to display here</string>
     <string name="noFav2">Try adding a restaurant to favorites in the home page.</string>
     <string name="add_to_favorites">Add to Favorites</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="daysString">Monday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\nSunday</string>
     <string name="opening_hours">Opening Hours</string>
     <string name="description">Description</string>

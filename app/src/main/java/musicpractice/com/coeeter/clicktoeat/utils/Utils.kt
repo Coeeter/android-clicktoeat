@@ -10,11 +10,8 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.google.android.material.snackbar.Snackbar
-<<<<<<< HEAD
 import com.google.gson.Gson
 import musicpractice.com.coeeter.clicktoeat.R
-=======
->>>>>>> master
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import java.io.File
@@ -31,7 +28,9 @@ fun Uri.getFile(contentResolver: ContentResolver): File {
 
 }
 
-fun Uri.getFileType(contentResolver: ContentResolver) = contentResolver.getType(this)!!
+fun Uri.getFileType(contentResolver: ContentResolver): String {
+    return contentResolver.getType(this)!!
+}
 
 fun Activity.hideKeyboard() {
     try {
@@ -43,7 +42,6 @@ fun Activity.hideKeyboard() {
     }
 }
 
-<<<<<<< HEAD
 fun Activity.showKeyboard() {
     val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.showSoftInput(this.currentFocus, InputMethodManager.SHOW_FORCED)
@@ -86,10 +84,6 @@ fun Activity.getStringFromSharedPref(sharedPrefName: String, key: String) =
 
 fun View.isVisible(isVisible: Boolean, invisible: Int = View.GONE) {
     this.visibility = if (isVisible) View.VISIBLE else invisible
-=======
-fun View.isVisible(isVisible: Boolean) {
-    this.visibility = if (isVisible) View.VISIBLE else View.GONE
->>>>>>> master
 }
 
 fun View.createSnackBar(message: String) {
@@ -99,11 +93,6 @@ fun View.createSnackBar(message: String) {
     }.show()
 }
 
-<<<<<<< HEAD
 fun String.createFormData(): RequestBody {
     return RequestBody.create(MediaType.parse("multipart/form-data"), this)
 }
-=======
-fun String.createMultipartFormData(): RequestBody =
-    RequestBody.create(MediaType.parse("multipart/form-data"), this)
->>>>>>> master

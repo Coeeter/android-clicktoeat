@@ -1,14 +1,7 @@
-<<<<<<< HEAD:app/src/main/java/musicpractice/com/coeeter/clicktoeat/data/api/UserService.kt
 package musicpractice.com.coeeter.clicktoeat.data.api
 
 import musicpractice.com.coeeter.clicktoeat.data.models.DefaultResponse
 import musicpractice.com.coeeter.clicktoeat.data.models.User
-=======
-package musicpractice.com.coeeter.clicktoeat.data.network.services
-
-import musicpractice.com.coeeter.clicktoeat.data.models.DefaultResponseModel
-import musicpractice.com.coeeter.clicktoeat.data.models.UserModel
->>>>>>> master:app/src/main/java/musicpractice/com/coeeter/clicktoeat/data/network/services/UserService.kt
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
