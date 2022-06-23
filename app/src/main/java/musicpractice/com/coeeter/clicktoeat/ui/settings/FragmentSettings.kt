@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.databinding.FragmentSettingsBinding
 import musicpractice.com.coeeter.clicktoeat.ui.auth.LoginActivity
+import musicpractice.com.coeeter.clicktoeat.utils.nextActivity
 import musicpractice.com.coeeter.clicktoeat.utils.removeItemFromSharedPref
 
 class FragmentSettings : Fragment() {
@@ -17,8 +18,20 @@ class FragmentSettings : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
+
+        binding.editProfile.setOnClickListener {
+            goToEditProfileActivity("Edit Profile")
+        }
+
+        binding.changePassword.setOnClickListener {
+            goToEditProfileActivity("Change Password")
+        }
+
+        binding.deleteAccount.setOnClickListener {
+            goToEditProfileActivity("Delete Account")
+        }
 
         binding.logout.setOnClickListener {
             requireActivity().apply {
@@ -27,12 +40,18 @@ class FragmentSettings : Fragment() {
                     getString(R.string.sharedPrefToken),
                     getString(R.string.sharedPrefProfile)
                 )
-                startActivity(Intent(this, LoginActivity::class.java))
-                overridePendingTransition(0, 0)
+                requireActivity().nextActivity(Intent(requireContext(), LoginActivity::class.java))
                 finish()
             }
         }
         return binding.root
+    }
+
+    private fun goToEditProfileActivity(formType: String) {
+        Intent(requireContext(), EditProfileActivity::class.java).apply {
+            putExtra("form", formType)
+            requireActivity().nextActivity(this)
+        }
     }
 
 }

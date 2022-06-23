@@ -32,8 +32,9 @@ interface UserService {
     ): Response<DefaultResponse>
 
     //update user
+    @JvmSuppressWildcards
     @Multipart
-    @POST("updateUsers/{token}")
+    @POST("users/updateUsers/{token}")
     suspend fun updateUser(
         @Path("token") token: String,
         @PartMap updateParts: Map<String, RequestBody>,
@@ -48,6 +49,14 @@ interface UserService {
     @POST("users/login")
     suspend fun login(
         @Field("username") username: String,
+        @Field("password") password: String
+    ): Response<DefaultResponse>
+
+    // login user with token
+    @FormUrlEncoded
+    @POST("users/login")
+    suspend fun loginWithToken(
+        @Field("token") token: String,
         @Field("password") password: String
     ): Response<DefaultResponse>
 

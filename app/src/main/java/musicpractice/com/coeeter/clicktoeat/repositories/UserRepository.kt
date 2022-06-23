@@ -12,7 +12,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRepository @Inject constructor(private val userService: UserService) {
+class UserRepository @Inject constructor(
+    private val userService: UserService
+) {
 
     private val _userList = MutableLiveData<ArrayList<User>>()
     val userList: LiveData<ArrayList<User>>
@@ -69,6 +71,9 @@ class UserRepository @Inject constructor(private val userService: UserService) {
 
     suspend fun login(username: String, password: String) =
         withContext(Dispatchers.IO) { userService.login(username, password) }
+
+    suspend fun loginWithToken(token: String, password: String) =
+        withContext(Dispatchers.IO) { userService.loginWithToken(token, password) }
 
     suspend fun forgotPassword(email: String) =
         withContext(Dispatchers.IO) { userService.forgotPassword(email) }

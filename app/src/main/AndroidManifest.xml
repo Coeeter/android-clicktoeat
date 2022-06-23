@@ -20,6 +20,9 @@
         android:theme="@style/Theme.ClickToEat"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.settings.EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.restaurant.MapActivity"
             android:exported="false" />
         <activity
