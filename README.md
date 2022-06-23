@@ -22,7 +22,7 @@ ClickToEat is a restaurant review native android application which is a Native A
 - Google Play Services for Google Maps and for location services
 
 ## Installation
-If you want to use this app, download the zip from its <a href="https://github.com/Coeeter/Android_ClickToEat">github repository</a> or clone the repository. To use the app ensure you add this line to the `local.properties` file using your own Google Maps API key.
+If you want to use this app, download the zip from its <a href="https://github.com/Coeeter/Android_ClickToEat">github repository</a> or clone the repository using https://github.com/Coeeter/Android_ClickToEat.git. To use the app ensure you add this line to the `local.properties` file using your own Google Maps API key.
 ```properties
 GOOGLE_MAPS_API_KEY=YOUR_GOOGLE_MAPS_API_KEY
 ```
