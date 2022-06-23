@@ -89,10 +89,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="200dp"
         android:orientation="horizontal"
-        android:weightSum="5"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/likeContainer"
         app:layout_constraintStart_toEndOf="@id/profileContainer"
         app:layout_constraintTop_toBottomOf="@id/review">
 
@@ -137,5 +135,64 @@
             android:src="@drawable/ic_star_outline" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/likeContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        app:layout_constraintEnd_toEndOf="@id/guide"
+        app:layout_constraintStart_toEndOf="@id/starContainer"
+        app:layout_constraintTop_toTopOf="@id/starContainer">
+
+        <ImageView
+            android:id="@+id/likeBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_thumb_up_empty" />
+
+        <TextView
+            android:id="@+id/likeCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:text="1" />
+
+        <ImageView
+            android:id="@+id/dislikeBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_thumb_down_empty" />
+
+
+        <TextView
+            android:id="@+id/dislikeCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:text="1" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

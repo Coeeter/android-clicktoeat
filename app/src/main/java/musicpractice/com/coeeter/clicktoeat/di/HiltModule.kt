@@ -1,6 +1,9 @@
 package musicpractice.com.coeeter.clicktoeat.di
 
 import android.content.Context
+import android.content.SharedPreferences
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,32 +30,36 @@ object HiltModule {
 
     @Singleton
     @Provides
-    fun providesCommentService(
-        retrofit: Retrofit
-    ): CommentService = retrofit.create(CommentService::class.java)
+    fun providesCommentService(retrofit: Retrofit): CommentService =
+        retrofit.create(CommentService::class.java)
 
     @Singleton
     @Provides
-    fun providesFavoriteService(
-        retrofit: Retrofit
-    ): FavoriteService = retrofit.create(FavoriteService::class.java)
+    fun providesFavoriteService(retrofit: Retrofit): FavoriteService =
+        retrofit.create(FavoriteService::class.java)
 
     @Singleton
     @Provides
-    fun providesLikeService(
-        retrofit: Retrofit
-    ): LikeService = retrofit.create(LikeService::class.java)
+    fun providesLikeService(retrofit: Retrofit): LikeService =
+        retrofit.create(LikeService::class.java)
 
     @Singleton
     @Provides
-    fun providesRestaurantService(
-        retrofit: Retrofit
-    ): RestaurantService = retrofit.create(RestaurantService::class.java)
+    fun providesRestaurantService(retrofit: Retrofit): RestaurantService =
+        retrofit.create(RestaurantService::class.java)
 
     @Singleton
     @Provides
-    fun providesUserService(
-        retrofit: Retrofit
-    ): UserService = retrofit.create(UserService::class.java)
+    fun providesUserService(retrofit: Retrofit): UserService =
+        retrofit.create(UserService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesSharedPreferences(
+        @ApplicationContext context: Context
+    ): SharedPreferences = context.getSharedPreferences(
+        context.getString(R.string.sharedPrefName),
+        Context.MODE_PRIVATE
+    )
 
 }

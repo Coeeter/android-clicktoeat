@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.location.Location
 import android.location.LocationManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -22,8 +23,9 @@ import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.data.models.Comment
 import musicpractice.com.coeeter.clicktoeat.data.models.Favorite
 import musicpractice.com.coeeter.clicktoeat.data.models.Restaurant
-import musicpractice.com.coeeter.clicktoeat.databinding.RestaurantCardBinding
+import musicpractice.com.coeeter.clicktoeat.databinding.RecyclerRestaurantItemBinding
 import musicpractice.com.coeeter.clicktoeat.ui.restaurant.RestaurantActivity
+import musicpractice.com.coeeter.clicktoeat.utils.every
 import musicpractice.com.coeeter.clicktoeat.utils.isVisible
 import musicpractice.com.coeeter.clicktoeat.utils.nextActivity
 
@@ -80,11 +82,12 @@ class RestaurantCardAdapter(
         notifyDataSetChanged()
     }
 
-    class ViewHolder(val binding: RestaurantCardBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: RecyclerRestaurantItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            RestaurantCardBinding.inflate(
+            RecyclerRestaurantItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -98,7 +101,7 @@ class RestaurantCardAdapter(
         holder.binding.restaurantTitle.text = restaurant.name
 
         val imageUrl =
-            "${context.getString(R.string.base_url)}/public/${restaurant.image}"
+            "${context.getString(R.string.base_url)}public/${restaurant.image}"
         Picasso.with(context).load(imageUrl).into(holder.binding.brandImage)
 
         val commentMap = restaurant.getAvgRatingAndCount(commentList)
@@ -199,30 +202,24 @@ class RestaurantCardAdapter(
         return locationLiveData
     }
 
-    fun searchRestaurants(searchTerm: String?) {
-        val filteredRestaurants = ArrayList<Restaurant>()
-        filteredRestaurants.addAll(originalRestaurantList)
-        if (!searchTerm.isNullOrEmpty()) {
-            filteredRestaurants.clear()
-            filteredRestaurants.addAll(originalRestaurantList.filter {
-                it.name.lowercase().contains(searchTerm.lowercase().trim())
-            })
-        }
+    fun filterRestaurants(filteredRestaurants: ArrayList<Restaurant>) {
         for (i in filteredRestaurants.indices) {
-            if (filteredRestaurants[i] !in restaurantList) {
-                restaurantList.add(i, filteredRestaurants[i])
-                notifyItemInserted(i)
-            }
+            restaurantList.find { it._id == filteredRestaurants[i]._id }
+                ?: run {
+                    restaurantList.add(i, filteredRestaurants[i])
+                    notifyItemInserted(i)
+                }
         }
         for (i in restaurantList.indices.reversed()) {
-            if (restaurantList[i] !in filteredRestaurants) {
-                restaurantList.removeAt(i)
-                notifyItemRemoved(i)
-            }
+            filteredRestaurants.find { it._id == restaurantList[i]._id }
+                ?: run {
+                    restaurantList.removeAt(i)
+                    notifyItemRemoved(i)
+                }
         }
         recyclerView?.scrollToPosition(0)
-        if (filteredRestaurants.size == 0) return run { dataSetListener?.onEmpty() }
-        dataSetListener?.onNotEmpty()
+        if (filteredRestaurants.size == 0) return dataSetListener!!.onEmpty()
+        dataSetListener!!.onNotEmpty()
     }
 
     interface OnDataSetChangedListener {

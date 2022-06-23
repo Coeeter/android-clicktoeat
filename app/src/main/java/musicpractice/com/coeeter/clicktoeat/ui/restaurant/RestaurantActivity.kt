@@ -54,7 +54,7 @@ class RestaurantActivity : AppCompatActivity() {
                 restaurant = it.find { restaurant -> restaurant._id == restaurantId }!!
                 binding.apply {
                     Picasso.with(this@RestaurantActivity)
-                        .load("${getString(R.string.base_url)}/public/${restaurant.image}")
+                        .load("${getString(R.string.base_url)}public/${restaurant.image}")
                         .into(restaurantBrand)
                     viewPager.adapter = ViewPagerAdapter(supportFragmentManager)
                         .apply {

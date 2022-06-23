@@ -21,6 +21,7 @@
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/custom_phone_icon.xml" value="0.148" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/custom_review_icon.xml" value="0.262" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/custom_username_icon.xml" value="0.143" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.1705" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.143" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_baseline_lock_24_focused.xml" value="0.143" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.1945" />
@@ -36,11 +37,16 @@
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_filter_off.xml" value="0.163" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_home.xml" value="0.143" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_location_focused.xml" value="0.216" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_person_focused.xml" value="0.1695" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_phone_focused.xml" value="0.148" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_review_focused.xml" value="0.262" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_search.xml" value="0.168" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_star.xml" value="0.164" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_star_outline.xml" value="0.1945" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_thumb_down_empty.xml" value="0.241" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_thumb_down_filled.xml" value="0.241" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_thumb_up_empty.xml" value="0.241" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_thumb_up_filled.xml" value="0.241" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/ic_twitter.xml" value="0.1795" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/image_view_background.xml" value="0.165" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/drawable/nav_menu_btn_bg.xml" value="0.164" />
@@ -61,6 +67,9 @@
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/activity_sign_up.xml" value="0.33" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/activity_splash_screen.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/comment_layout.xml" value="0.25" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/dialog_update_comment_form.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/dialog_user_list.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/example_layout.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/fragment_1.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/fragment_2.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/fragment_favorites.xml" value="0.3009833262077811" />
@@ -73,8 +82,13 @@
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/fragment_settings.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/fragment_sign_up.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/map_dialog.xml" value="0.20863616930312098" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/navigation_view_layout.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/recycler_comment_item.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/recycler_tag_filter_item.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/recycler_user_list.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/restaurant_card.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/restaurant_card_layout.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/restaurant_info_window.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/restaurant_infowindow.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/tag_layout.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/nasru/Desktop/AndStudio/ClickToEat/app/src/main/res/layout/update_comment_dialog.xml" value="0.3009833262077811" />

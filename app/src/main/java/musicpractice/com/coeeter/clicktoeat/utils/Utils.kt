@@ -96,3 +96,9 @@ fun View.createSnackBar(message: String) {
 fun String.createFormData(): RequestBody {
     return RequestBody.create(MediaType.parse("multipart/form-data"), this)
 }
+
+fun<T> Iterable<T>.every(lambda: (item: T) -> Boolean): Boolean {
+    for (item in this)
+        if (!lambda(item)) return false
+    return true
+}

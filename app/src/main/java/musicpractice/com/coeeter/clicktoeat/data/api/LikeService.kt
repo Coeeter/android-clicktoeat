@@ -18,10 +18,9 @@ interface LikeService {
         @Field("isDisliked") isDisliked: Int
     ): Response<DefaultResponse>
 
-    @FormUrlEncoded
-    @HTTP(method = "DElETE", path = "likeOrDislike/{token}", hasBody = true)
+    @DELETE("likeOrDislike/{token}?d=mobile")
     suspend fun deleteLikesAndDislikes(
         @Path("token") token: String,
-        @Field("id") likesAndDislikesId: Int
+        @Query("id") likesAndDislikesId: Int
     ): Response<DefaultResponse>
 }

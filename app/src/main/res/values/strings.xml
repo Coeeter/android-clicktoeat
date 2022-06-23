@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ClickToEat</string>
-    <string name="base_url">http://10.0.2.2:8080</string>
+    <string name="base_url">http://10.0.2.2:8080/</string>
     <string name="sharedPrefName">memory</string>
     <string name="sharedPrefToken">token</string>
     <string name="sharedPrefProfile">profile</string>
@@ -9,8 +9,6 @@
     <string name="noFav1">There are no favorite restaurants to display here</string>
     <string name="noFav2">Try adding a restaurant to favorites in the home page.</string>
     <string name="add_to_favorites">Add to Favorites</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="daysString">Monday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\nSunday</string>
     <string name="opening_hours">Opening Hours</string>
     <string name="description">Description</string>
@@ -29,4 +27,16 @@
     <string name="view_the_map">View the map</string>
     <string name="create_comment">Create Comment</string>
     <string name="search_for_restaurants">Search for restaurants</string>
+    <string name="no_like">No one liked this comment</string>
+    <string name="no_dislike">No one disliked this comment</string>
+    <string name="fusion_cuisine">Fusion Cuisine</string>
+    <string name="asian_cuisine">Asian Cuisine</string>
+    <string name="western_cuisine">Western Cuisine</string>
+    <string name="fine_dining">Fine Dining</string>
+    <string name="fast_food">Fast Food</string>
+    <string name="halal">Halal</string>
+    <string name="filter_restaurants_by">Filter restaurants by</string>
+    <string name="apply">apply</string>
+    <string name="reset">reset</string>
+    <string name="category">Category</string>
 </resources>

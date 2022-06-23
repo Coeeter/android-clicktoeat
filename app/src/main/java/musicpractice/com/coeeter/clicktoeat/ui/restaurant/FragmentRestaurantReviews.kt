@@ -2,6 +2,7 @@ package musicpractice.com.coeeter.clicktoeat.ui.restaurant
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import musicpractice.com.coeeter.clicktoeat.R
 import musicpractice.com.coeeter.clicktoeat.data.models.Comment
+import musicpractice.com.coeeter.clicktoeat.data.models.LikeOrDislike
 import musicpractice.com.coeeter.clicktoeat.data.models.Restaurant
 import musicpractice.com.coeeter.clicktoeat.databinding.FragmentRestaurantReviewsBinding
 import musicpractice.com.coeeter.clicktoeat.ui.adapters.CommentAdapter
@@ -24,7 +26,7 @@ import musicpractice.com.coeeter.clicktoeat.utils.isVisible
 class FragmentRestaurantReviews(
     private val restaurant: Restaurant
 ) : Fragment(),
-    CommentAdapter.CommentDataToChangeListener {
+    CommentAdapter.DataToChangeListener {
     private lateinit var binding: FragmentRestaurantReviewsBinding
     private lateinit var token: String
     private val restaurantViewModel: RestaurantViewModel by viewModels()
@@ -34,8 +36,8 @@ class FragmentRestaurantReviews(
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRestaurantReviewsBinding.inflate(inflater, container, false)
-        initVariables()
         setUpListeners()
+        initVariables()
         return binding.root
     }
 
@@ -50,6 +52,11 @@ class FragmentRestaurantReviews(
                 restaurant
             ).apply { dataSetChangeListener = this@FragmentRestaurantReviews }
             layoutManager = LinearLayoutManager(context)
+        }
+        restaurantViewModel.apply {
+            getComments()
+            getUsers()
+            getLikes()
         }
     }
 
@@ -72,11 +79,12 @@ class FragmentRestaurantReviews(
                     comments.isVisible(true)
                 }
             }
-            getComments()
             userList.observe(viewLifecycleOwner) {
                 (binding.comments.adapter as CommentAdapter).setUserList(it)
             }
-            getUsers()
+            likeList.observe(viewLifecycleOwner) {
+                (binding.comments.adapter as CommentAdapter).setLikesAndDislikesList(it)
+            }
             error.observe(viewLifecycleOwner) { binding.root.createSnackBar(it) }
         }
 
@@ -143,5 +151,11 @@ class FragmentRestaurantReviews(
 
     override fun deleteComment(commentId: Int) =
         restaurantViewModel.deleteComment(token, commentId)
+
+    override fun addLike(likeOrDislike: LikeOrDislike) =
+        restaurantViewModel.addLike(token, likeOrDislike)
+
+    override fun removeLike(likeId: Int) =
+        restaurantViewModel.removeLike(token, likeId)
 
 }

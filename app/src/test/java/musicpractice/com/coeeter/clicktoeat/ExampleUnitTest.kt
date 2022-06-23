@@ -1,5 +1,6 @@
 package musicpractice.com.coeeter.clicktoeat
 
+import musicpractice.com.coeeter.clicktoeat.utils.every
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
