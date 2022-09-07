@@ -1,4 +1,4 @@
-# Android_ClickToEat
+# ClickToEat - Android Client
 <img src="https://github.com/Coeeter/ClickToEat/blob/master/Static/images/favicon/Red%20Fork%20Restaurant%20Logo-modified.png?raw=true" align="left" width="200">
 ClickToEat is a restaurant review native android application which is a Native Android Client of <a href="https://github.com/Coeeter/ClickToEat">ClickToEat</a> which is built using the mvvm architecture with kotlin as the frontend language. This application is created in order for me to learn the basics of android development using kotlin.
 <br clear="left">
